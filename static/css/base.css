@@ -10,17 +10,27 @@ body {
     color: #333;
     line-height: 1.6;
     list-style: none;
-    text-decoration: none;
 }
 
 header {
     background-color: #8e9b90;
 }
 
-.brand {}
+.brand {
+    color: #d4cdab;
+}
 
 nav {
     text-align: center;
+}
+
+nav li {
+    flex-direction: column;
+}
+
+nav li a {
+    text-decoration: none;
+    color: #d4cdab;
 }
 
 main {
