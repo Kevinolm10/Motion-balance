@@ -17,9 +17,18 @@ header {
     background-color: #8e9b90;
 }
 
+.brand {}
 
+nav {
+    text-align: center;
+}
 
 main {
     min-height: 100vh;
 
+}
+
+footer {
+    background-color: #8e9b90;
+    text-align: center;
 }
