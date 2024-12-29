@@ -22,7 +22,10 @@ body {
 header {
     background-color: #8e9b90;
     padding: 0.5rem 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15),
+        0 6px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease-in-out;
 }
 
 main {
