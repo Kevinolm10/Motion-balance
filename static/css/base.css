@@ -29,6 +29,11 @@ main {
     min-height: 100vh;
 }
 
+span {
+    color: #BF4F51;
+    font-weight: 200;
+}
+
 .branding {
     text-align: center;
     margin-bottom: 1rem;
