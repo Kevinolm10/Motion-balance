@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     {% endblock %}
 
@@ -28,7 +28,6 @@
 
     <!-- JS -->
     {% block corejs %}
-    <script src="https://kit.fontawesome.com/e9c73d7092.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
     </script>
@@ -65,26 +64,47 @@
                     <!-- Navigation Links (center) -->
                     <nav>
                         <ul class="nav-list">
-                            <li><a href="/home">Home</a></li>
-                            <li><a href="/about">Products</a></li>
-                            <li><a href="/services">FAQ</a></li>
-                            <li><a href="/contact">Sign up</a></li>
+                            <li>
+                                <a class="nav-link {% if request.path == '/' %}active{% endif %}"
+                                    href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li>
+                                <a class="nav-link {% if request.path == '/products/' %}active{% endif %}"
+                                    href="">Products</a>
+                            </li>
+                            <li>
+                                <a class="nav-link {% if request.path == '/sale/' %}active{% endif %}" href="">Sale</a>
+                            </li>
+                            <li>
+                                <a class="nav-link {% if request.path == '/faq/' %}active{% endif %}" href="">FAQ</a>
+                            </li>
+                            <li>
+                                <a class="nav-link {% if request.path == '/signup/' %}active{% endif %}" href="">Sign
+                                    up</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-sm">
                     <!-- Shopping Cart (right) -->
-                    <div class="shopping-cart">
+                    <div class="profileicons">
                         <a href="#">
                             <button>
-                                <i class="fa-solid fa-cart-shopping"></i> <!-- This is the shopping cart icon -->
+                                <i class="fa-solid fa-user"></i>
+                            </button>
+                        </a>
+                    </div>
+                    <div class="profileicons">
+                        <a href="#">
+                            <button>
+                                <i class="fa-solid fa-cart-shopping"></i>
                             </button>
                         </a>
                     </div>
                 </div>
             </div>
-        </div>
     </header>
+
 
     {% if messages %}
     <div class="message-container"></div>
