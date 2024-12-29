@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     {% endblock %}
 
     {% block extra_css %}
@@ -45,7 +47,44 @@
 </head>
 
 <body>
-    <header class="container-fluid fixed-top"></header>
+    <header>
+        <div class="container">
+            <div class="branding">
+                <a href="/" class="brand">Motion & balance</a>
+            </div>
+            <div class="row g-4">
+                <!-- Use Bootstrap gutter class for spacing -->
+                <div class="col-sm">
+                    <!-- Search Bar (left) -->
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search for products..." />
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <!-- Navigation Links (center) -->
+                    <nav>
+                        <ul class="nav-list">
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="/about">Products</a></li>
+                            <li><a href="/services">FAQ</a></li>
+                            <li><a href="/contact">Sign up</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-sm">
+                    <!-- Shopping Cart (right) -->
+                    <div class="shopping-cart">
+                        <a href="#">
+                            <button>
+                                <i class="fa-solid fa-cart-shopping"></i> <!-- This is the shopping cart icon -->
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
     {% if messages %}
     <div class="message-container"></div>
@@ -55,25 +94,6 @@
     <h1>hello</h1>
     {% endblock %}
 
-    <header>
-        <div class="container">
-            <div class="branding">
-                <a href="/" class="brand">Motion & balance</a>
-            </div>
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/services">Services</a></li>
-                    <li><a href="/contact">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="search-bar">
-                <input type="text" placeholder="Search..." />
-                <button type="submit"><i class="fas fa-search"></i></button>
-            </div>
-        </div>
-    </header>
     <main>
 
     </main>
