@@ -88,7 +88,24 @@ main {
 
 .nav-list li a:hover {
     color: #fff;
+    font-size: large;
     text-shadow: 0 0 5px #d4cdab;
+}
+
+.nav-link.active {
+    color: #fff !important;
+    text-shadow: 0 0 5px #d4cdab;
+    font-size: large;
+    font-weight: bold;
+    text-decoration: underline;
+    text-shadow: none;
+}
+
+/* Ensure active link styles apply even when hovering */
+.nav-item.active:hover .nav-link {
+    text-decoration: underline;
+    text-shadow: none;
+    font-weight: bold;
 }
 
 /* Ensuring navigation is properly aligned vertically */
@@ -143,29 +160,30 @@ nav {
 }
 
 /* Shopping Cart Button Styling */
-.shopping-cart button {
+.profileicons button {
     background-color: #d4cdab;
     border: none;
-    font-size: 2.5rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
+    margin: 0.5rem;
     color: #8e9b90;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    height: 3rem;
-    width: 3rem;
+    height: 2rem;
+    width: 2rem;
     border-radius: 50%;
 }
 
-.shopping-cart button:hover {
-    background-color: #8e9b90;
-    color: #d4cdab;
+.profileicons button:hover {
+    background-color: #fff !important;
+    color: black;
     box-shadow: 0 0 5px #d4cdab;
 }
 
-.shopping-cart a {
+.profileicons a {
     text-decoration: none;
 }
 
