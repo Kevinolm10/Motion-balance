@@ -49,7 +49,7 @@
     <header>
         <div class="container">
             <div class="branding">
-                <a href="/" class="brand">Motion & balance</a>
+                <a href="/" class="brand"><img class="logo" src="media/motion.png" alt="Motion & Balance"></a>
             </div>
             <div class="row g-4">
                 <!-- Use Bootstrap gutter class for spacing -->
@@ -79,15 +79,12 @@
                             <li>
                                 <a class="nav-link {% if request.path == '/faq/' %}active{% endif %}" href="">FAQ</a>
                             </li>
-                            <li>
-                                <a class="nav-link {% if request.path == '/signup/' %}active{% endif %}" href="">Sign
-                                    up</a>
-                            </li>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-sm">
                     <!-- Shopping Cart (right) -->
+                    {% if user.is_authenticated %}
                     <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
                         <a href="#">
                             <button>
@@ -95,6 +92,15 @@
                             </button>
                         </a>
                     </div>
+                    {% else %}
+                    <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
+                        <a href="#">
+                            <button>
+                                <i class="fas fa-sign-in-alt"></i>
+                            </button>
+                        </a>
+                    </div>
+                    {% endif %}
                     <div class="profileicons user {% if request.path == '/basket/' %}active{% endif %}">
                         <a href="#">
                             <button>
