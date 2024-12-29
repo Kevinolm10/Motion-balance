@@ -12,19 +12,16 @@ body {
     line-height: 1.6;
 }
 
+/* Container and Header Styling */
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-/* Header */
 header {
     background-color: #8e9b90;
-    padding: 1.5rem 0;
+    padding: 0.5rem 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -43,29 +40,41 @@ main {
     color: #d4cdab;
     text-transform: uppercase;
     letter-spacing: 2px;
+    text-decoration: none;
 }
 
-.nav-search {
+.brand:hover {
+    color: #fff;
+    text-shadow: 0 0 5px #d4cdab;
+}
+
+/* Navigation and Layout */
+.row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1000px;
-    gap: 1.5rem;
-    margin-top: 1rem;
+    /* Space between the columns */
 }
 
-/* Navigation */
-nav {
-    flex: 1;
+.col-sm {
     display: flex;
     justify-content: center;
+    /* Centers the content in the column */
+    flex: 1;
+    /* Ensures the columns are equal width */
 }
 
+/* Navigation List Styling */
 .nav-list {
     display: flex;
     gap: 2rem;
     list-style: none;
+    justify-content: center;
+    flex-wrap: nowrap;
+    /* Prevents wrapping of links */
+}
+
+.nav-list li {
+    display: inline-block;
 }
 
 .nav-list li a {
@@ -73,6 +82,8 @@ nav {
     color: #d4cdab;
     font-size: 1.1rem;
     transition: color 0.3s ease-in-out;
+    white-space: nowrap;
+    /* Prevents text from wrapping */
 }
 
 .nav-list li a:hover {
@@ -80,7 +91,17 @@ nav {
     text-shadow: 0 0 5px #d4cdab;
 }
 
-/* Search Bar */
+/* Ensuring navigation is properly aligned vertically */
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Vertically center the nav items */
+    height: 100%;
+    /* Ensure it fills the height of the container */
+}
+
+/* Search Bar Styling */
 .search-bar {
     display: flex;
     align-items: center;
@@ -88,8 +109,9 @@ nav {
     border-radius: 30px;
     overflow: hidden;
     border: 1px solid #d4cdab;
-    width: 300px;
     height: 2.5em;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .search-bar input {
@@ -103,19 +125,50 @@ nav {
 .search-bar button {
     background-color: #d4cdab;
     border: none;
-    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
     color: #8e9b90;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    border-left: 1px solid #d4cdab;
     height: 100%;
+    width: 3rem;
 }
 
 .search-bar button:hover {
-    background-color: #fff;
-    color: #8e9b90;
+    background-color: #8e9b90;
+    color: #d4cdab;
     box-shadow: 0 0 5px #d4cdab;
 }
+
+/* Shopping Cart Button Styling */
+.shopping-cart button {
+    background-color: #d4cdab;
+    border: none;
+    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    color: #8e9b90;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+}
+
+.shopping-cart button:hover {
+    background-color: #8e9b90;
+    color: #d4cdab;
+    box-shadow: 0 0 5px #d4cdab;
+}
+
+.shopping-cart a {
+    text-decoration: none;
+}
+
 
 /* Footer */
 .footer {
