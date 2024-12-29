@@ -31,7 +31,16 @@ main {
 
 span {
     color: #BF4F51;
-    font-weight: 200;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect for "Sale" */
+span:hover {
+    color: #FF6347;
+    text-shadow: 2px 2px 10px #FF4500;
+    transform: scale(1.9);
 }
 
 .branding {
@@ -111,6 +120,17 @@ span {
     text-decoration: underline;
     text-shadow: none;
     font-weight: bold;
+}
+
+.user.active {
+    color: black;
+    background-color: #fff;
+    font-size: large;
+}
+
+.user.active:hover .user {
+    text-shadow: none;
+    font-size: large;
 }
 
 /* Ensuring navigation is properly aligned vertically */
