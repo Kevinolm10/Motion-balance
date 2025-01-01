@@ -9,6 +9,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+        content="Shop the best gym clothing, fitness apparel, and accessories. High-quality gym wear for men and women to boost performance and comfort.">
+    <meta name="keywords"
+        content="gym clothing, fitness apparel, workout gear, gym accessories, men's gym wear, women's fitness wear, athletic wear, sportswear">
+
     {% endblock %}
 
     {% block extra_meta %}
@@ -99,26 +104,52 @@
                 <div class="col-sm">
                     <!-- Profile Icons -->
                     {% if user.is_authenticated %}
+                    {% if request.user.is_superuser %}
+                    <!-- Product Management for Superuser -->
+                    <div class="{% if request.path == '/profile/' %}active{% endif %}">
+                        <a href="#">
+                            <button class="mgnmt">Product Management</button>
+                        </a>
+                    </div>
+                    {% else %}
+                    <!-- Profile Icon for Normal Authenticated User -->
                     <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
                         <a href="#">
                             <button><i class="fa-solid fa-user"></i></button>
                         </a>
                     </div>
-                    {% else %}
+                    {% endif %}
+
+                    <!-- Log Out Icon for Authenticated Users -->
                     <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
-                        <a href="#">
+                        <a href="{% url 'account_logout' %}">
+                            <button title="Log Out"><i class="fa-solid fa-sign-out-alt"></i></button>
+                        </a>
+                    </div>
+                    {% else %}
+                    <!-- Log In Icon for Non-Authenticated Users -->
+                    <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
+                        <a href="{% url 'account_login' %}">
                             <button><i class="fas fa-sign-in-alt"></i></button>
                         </a>
                     </div>
+
+                    <!-- Sign Up Icon for Non-Authenticated Users -->
+                    <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
+                        <a href="{% url 'account_signup' %}">
+                            <button><i class="fas fa-user-plus"></i></button>
+                        </a>
+                    </div>
                     {% endif %}
+
+                    <!-- Shopping Cart Icon for All Users -->
                     <div class="profileicons user {% if request.path == '/basket/' %}active{% endif %}">
                         <a href="#">
                             <button><i class="fa-solid fa-cart-shopping"></i></button>
                         </a>
                     </div>
                 </div>
-            </div>
-        </div>
+
     </header>
 
 
