@@ -361,7 +361,12 @@ nav {
 
     .hamburger {
         display: flex;
-        /* Show the hamburger on small screens */
+        position: absolute;
+        top: 270px;
+        left: 110px;
+        /* Move to left if needed */
+        z-index: 100;
+        width: 0%;
     }
 
     .nav-list {
