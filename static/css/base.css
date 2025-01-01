@@ -251,3 +251,142 @@ nav {
 .footer-links a:hover {
     color: #fff;
 }
+
+/* Initially make the menu visible on large screens */
+.menu {
+    display: flex;
+    flex-direction: row;
+    /* Horizontal layout by default */
+    gap: 15px;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    z-index: 10;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+.hamburger .bar {
+    width: 25px;
+    height: 3px;
+    background: #333;
+    transition: 0.3s;
+}
+
+/* Media Queries */
+
+/* Small devices (phones, 576px and below) */
+@media (max-width: 576px) {
+    .container {
+        width: 95%;
+    }
+
+    .logo {
+        height: 150px;
+        width: 150px;
+    }
+
+    .branding .brand {
+        font-size: 1.5rem;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer p {
+        font-size: 0.8rem;
+    }
+
+    .footer-links a {
+        font-size: 0.8rem;
+    }
+
+    .search-bar {
+        max-width: 300px;
+    }
+}
+
+/* Medium devices (tablets, 768px and below) */
+@media (max-width: 768px) {
+    .menu {
+        display: none;
+        /* Hide the menu by default on mobile */
+        flex-direction: column;
+        /* Stack the menu items vertically */
+        gap: 15px;
+        padding: 15px;
+        background-color: #8e9b90;
+    }
+
+    /* Show the menu when it's active (after clicking the hamburger) */
+    .menu.active {
+        display: flex;
+        /* Display menu when the hamburger is clicked */
+    }
+
+    .hamburger {
+        display: flex;
+        /* Show the hamburger on small screens */
+    }
+
+    .nav-list {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Large devices (desktops, 992px and below) */
+@media (max-width: 992px) {
+    .container {
+        width: 90%;
+    }
+
+    .logo {
+        height: 180px;
+        width: 180px;
+    }
+
+    .branding .brand {
+        font-size: 1.8rem;
+    }
+
+    .search-bar {
+        max-width: 350px;
+    }
+}
+
+/* Extra-large devices (large desktops, 1200px and below) */
+@media (max-width: 1200px) {
+    .nav-list {
+        gap: 1.5rem;
+    }
+
+    .row {
+        gap: 20px;
+    }
+
+    .footer-links a {
+        font-size: 0.9rem;
+    }
+}
