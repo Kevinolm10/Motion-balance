@@ -37,6 +37,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
+    <script src="{% static 'js/index.js' %}"></script>
     {% endblock %}
 
     {% block extra_js %}
@@ -48,20 +49,32 @@
 <body>
     <header>
         <div class="container">
+            <!-- Branding -->
             <div class="branding">
-                <a href="/" class="brand"><img class="logo" src="media/motion.png" alt="Motion & Balance"></a>
+                <a href="/" class="brand">
+                    <img class="logo" src="media/motion.png" alt="Motion & Balance">
+                </a>
             </div>
-            <div class="row g-4">
-                <!-- Use Bootstrap gutter class for spacing -->
+
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <!-- Navigation and other elements -->
+            <div class="row g-4 menu" id="menu">
                 <div class="col-sm">
-                    <!-- Search Bar (left) -->
+                    <!-- Search Bar -->
                     <div class="search-bar">
                         <input type="text" placeholder="Search for products..." />
                         <button type="submit"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
+
                 <div class="col-sm">
-                    <!-- Navigation Links (center) -->
+                    <!-- Navigation Links -->
                     <nav>
                         <ul class="nav-list">
                             <li>
@@ -82,34 +95,30 @@
                         </ul>
                     </nav>
                 </div>
+
                 <div class="col-sm">
-                    <!-- Shopping Cart (right) -->
+                    <!-- Profile Icons -->
                     {% if user.is_authenticated %}
                     <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
                         <a href="#">
-                            <button>
-                                <i class="fa-solid fa-user"></i>
-                            </button>
+                            <button><i class="fa-solid fa-user"></i></button>
                         </a>
                     </div>
                     {% else %}
                     <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
                         <a href="#">
-                            <button>
-                                <i class="fas fa-sign-in-alt"></i>
-                            </button>
+                            <button><i class="fas fa-sign-in-alt"></i></button>
                         </a>
                     </div>
                     {% endif %}
                     <div class="profileicons user {% if request.path == '/basket/' %}active{% endif %}">
                         <a href="#">
-                            <button>
-                                <i class="fa-solid fa-cart-shopping"></i>
-                            </button>
+                            <button><i class="fa-solid fa-cart-shopping"></i></button>
                         </a>
                     </div>
                 </div>
             </div>
+        </div>
     </header>
 
 
