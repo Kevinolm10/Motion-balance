@@ -61,14 +61,11 @@
                 </a>
             </div>
 
-            <!-- Hamburger Menu Button -->
-            <a class="hamburger" id="hamburger">
-                <i class="fas fa-bars"></i>
-            </a>
+            <!-- Include Mobile Nav -->
+            {% include 'includes/mobile-top-header.html' %}
 
             <!-- Navigation and Other Elements -->
             <div class="row g-4">
-
                 <!-- Search Bar (Always Visible) -->
                 <div class="col-sm">
                     <form method="GET" action="">
@@ -79,24 +76,10 @@
                     </form>
                 </div>
 
-                <div class="col-sm menu" id="menu">
-                    <nav>
-                        <ul class="nav-list">
-                            <li><a class="nav-link {% if request.path == '/products/' %}active{% endif %}"
-                                    href="">Products</a></li>
-                            <li><a class="nav-link {% if request.path == '/accessories/' %}active{% endif %}"
-                                    href="">Accessories</a>
-                            </li>
-                            <li><a class="nav-link {% if request.path == '/sale/' %}active{% endif %}"
-                                    href=""><span>Sale</span></a>
-                            </li>
-                            <li><a class="nav-link {% if request.path == '/faq/' %}active{% endif %}" href="">FAQ</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+                <!-- Include Main Nav -->
+                {% include 'includes/main-nav.html' %}
 
-                <!-- Profile Icons (Always Visible Outside the Hamburger Menu) -->
+                <!-- Profile Icons -->
                 <div class="col-sm">
                     {% if user.is_authenticated %}
                     {% if request.user.is_superuser %}
@@ -130,15 +113,23 @@
                     </div>
                     {% endif %}
                     <div class="profileicons user {% if request.path == '/basket/' %}active{% endif %}">
-                        <a href="#">
+                        <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %}"
+                            href="#">
                             <button><i class="fa-solid fa-cart-shopping"></i></button>
                         </a>
+                        <p class="my-0">
+                            {% if grand_total %}
+                            ${{ grand_total|floatformat:2 }}
+                            {% else %}
+                            $0.00
+                            {% endif %}
+                        </p>
                     </div>
                 </div>
-
-                <!-- Navigation Links (Inside the Hamburger Menu) -->
-
+            </div>
+        </div>
     </header>
+
 
 
 
