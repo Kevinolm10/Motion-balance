@@ -10,6 +10,9 @@ body {
     background-color: #f4f4f4;
     color: #333;
     line-height: 1.6;
+    background: url('/media/hero.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: calc(100vh - 164px);
 }
 
 /* Container and Header Styling */
@@ -71,6 +74,8 @@ a:hover {
     color: #fff;
     text-shadow: 0 0 5px #d4cdab;
 }
+
+/* Main styling */
 
 /* Navigation and Layout */
 .row {
