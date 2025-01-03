@@ -130,7 +130,7 @@
         </div>
         <div id="delivery-banner" class="row text-center">
             <div class="col text-white">
-                <h4 class="logo-font my-1">Free shipping, when you over ${{ free_shipping_threshold }}!</h4>
+                <h4 class="logo-font my-1">Free shipping, when you order over ${{ free_shipping_threshold }}!</h4>
             </div>
         </div>
     </header>
@@ -156,14 +156,50 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Motion & Balance. All rights reserved.</p>
-            <ul class="footer-links">
-                <li><a href="/privacy">Privacy Policy</a></li>
-                <li><a href="/terms">Terms of Service</a></li>
-                <li><a href="/contact">Contact Us</a></li>
-            </ul>
+            <div class="row">
+                <!-- Store Information Section -->
+                <div class="col-md-4 footer-store-info">
+                    <h4>Our Store</h4>
+                    <p>Visit us at:</p>
+                    <p>123 Store Street, Shopping City, Country</p>
+                    <p>Email: <a href="mailto:info@motionandbalance.com">info@motionandbalance.com</a></p>
+                    <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
+                </div>
+
+                <!-- Google Map Placeholder -->
+                <div class="col-md-4 footer-map">
+                    <h4>Find Us Here</h4>
+                    <div id="map-placeholder">
+                        Google Map will be displayed here
+                    </div>
+                </div>
+
+                <!-- Links Section -->
+                <div class="col-md-4 social-links">
+                    <h4>Socials</h4>
+                    <ul>
+                        <li><a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><i
+                                    class="fab fa-facebook-f social-icons"></i></a></li>
+                        <li><a href="https://www.instagram.com" target="_blank" aria-label="Instagram"><i
+                                    class="fab fa-instagram social-icons"></i></a></li>
+                        <li><a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i
+                                    class="fab fa-linkedin-in social-icons"></i></a></li>
+                        <li><a href="https://www.twitter.com" target="_blank" aria-label="X"><i
+                                    class="fab fa-twitter social-icons"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright Section -->
+            <div class="row">
+                <div class="col text-center mt-3">
+                    <p>&copy; 2024 Motion & Balance. All rights reserved.</p>
+                </div>
+            </div>
         </div>
     </footer>
+
+
 
     {% block postloadjs %}
     {% endblock %}
