@@ -276,6 +276,10 @@ nav {
     line-height: 200px;
 }
 
+footer h4 {
+    color: #d4cdab;
+}
+
 .footer-store-info a {
     color: white;
 }
@@ -289,7 +293,7 @@ nav {
 }
 
 .social-icons {
-    color: #d4cdab;
+    color: black;
     font-size: 1.5rem;
 }
 
