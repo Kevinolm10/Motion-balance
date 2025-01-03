@@ -411,6 +411,21 @@ footer h4 {
         flex-direction: column;
         gap: 10px;
     }
+
+    .footer-map {
+        display: none;
+    }
+
+    .social-links ul {
+        display: flex !important;
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .social-links ul li {
+        display: inline-block;
+    }
 }
 
 /* Large devices (desktops, 992px and below) */
