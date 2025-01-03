@@ -1,0 +1,13 @@
+<!-- includes/main_nav.html -->
+<div class="col-sm menu" id="menu">
+    <nav>
+        <ul class="nav-list">
+            <li><a class="nav-link {% if request.path == '/products/' %}active{% endif %}" href="">Products</a></li>
+            <li><a class="nav-link {% if request.path == '/accessories/' %}active{% endif %}" href="">Accessories</a>
+            </li>
+            <li><a class="nav-link {% if request.path == '/sale/' %}active{% endif %}" href=""><span>Sale</span></a>
+            </li>
+            <li><a class="nav-link {% if request.path == '/faq/' %}active{% endif %}" href="">FAQ</a></li>
+        </ul>
+    </nav>
+</div>
