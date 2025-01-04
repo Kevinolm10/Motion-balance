@@ -2,5 +2,6 @@ asgiref==3.8.1
 cloudinary==1.41.0
 Django==5.1.4
 django-allauth==65.3.0
+django-cloudinary-storage==0.3.0
 gunicorn==23.0.0
 sqlparse==0.5.3
