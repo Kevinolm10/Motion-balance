@@ -1,1 +1,1 @@
-web: gunicorn motion-balance.wsgi
+web: gunicorn motion_balance.wsgi

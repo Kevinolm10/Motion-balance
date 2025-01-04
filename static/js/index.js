@@ -14,11 +14,4 @@ document.addEventListener('DOMContentLoaded', function () {
             ctaOverlay.classList.remove('menu-open');
         }
     });
-
-    document.addEventListener("click", (e) => {
-        if (!menu.contains(e.target) && e.target !== hamburger) {
-            menu.classList.add("hidden");
-            ctaOverlay.classList.remove("menu-open");
-        }
-    });
 });
