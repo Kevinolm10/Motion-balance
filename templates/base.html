@@ -146,12 +146,13 @@
     <h1>hello</h1>
     {% endblock %}
 
-    <main>
 
+    <main>
+        {% block content %}
+
+        {% endblock %}
     </main>
 
-    {% block content %}
-    {% endblock %}
 
     <!-- Footer -->
     <footer class="footer">
