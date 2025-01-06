@@ -342,6 +342,11 @@ footer h4 {
     color: white;
 }
 
+#map {
+    height: 300px;
+    width: 100%;
+}
+
 .social-links ul {
     list-style: none;
     flex-direction: column;
