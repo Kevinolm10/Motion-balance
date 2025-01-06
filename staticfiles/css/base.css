@@ -10,7 +10,6 @@ body {
     background-color: #f4f4f4;
     color: #333;
     line-height: 1.6;
-
 }
 
 /* Container and Header Styling */
@@ -76,17 +75,24 @@ a:hover {
 /* Main styling */
 
 .bgimg {
-    background-image: url("{% static 'images/hero.png' %}");
+    background-image: url('../images/hero.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
     background-size: cover;
-    height: calc(100vh - 164px);
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+.bgimg>.content {
+    position: relative;
+    z-index: 1;
 }
 
 .cta-overlay {
     position: absolute;
-    top: 75%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
@@ -312,6 +318,7 @@ nav {
     padding: 1.5rem 0;
     margin-top: 2rem;
     box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 0;
 }
 
 .footer p {
