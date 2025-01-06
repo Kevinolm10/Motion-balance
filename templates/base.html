@@ -57,7 +57,7 @@
             <!-- Branding -->
             <div class="branding">
                 <a href="{% url 'home' %}" class="brand {% if request.path == '/' %}active{% endif %}">
-                    <img class="logo" src="media/motion.png" alt="Motion & Balance">
+                    <img class="logo" src="{% static 'images/motion.png' %}" alt="Motion & Balance">
                 </a>
             </div>
 
