@@ -48,6 +48,10 @@
 
     {% block extra_js %}
     {% endblock %}
+
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap" async defer>
+    </script>
     <!-- Title -->
     <title>Motion & Balance {% block extra_title %}{% endblock %}</title>
 </head>
@@ -171,7 +175,7 @@
                 <!-- Google Map Placeholder -->
                 <div class="col-md-4 footer-map">
                     <h4>Find Us Here</h4>
-                    <div id="map-placeholder">
+                    <div id="map">
                         Google Map will be displayed here
                     </div>
                 </div>
