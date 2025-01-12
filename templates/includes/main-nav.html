@@ -2,12 +2,51 @@
 <div class="col-sm menu" id="menu">
     <nav>
         <ul class="nav-list">
-            <li><a class="nav-link {% if request.path == '/products/' %}active{% endif %}" href="">Products</a></li>
-            <li><a class="nav-link {% if request.path == '/accessories/' %}active{% endif %}" href="">Accessories</a>
+            <!-- Products Dropdown Link -->
+            <li class="nav-item dropdown">
+                <a class="nav-link {% if request.path == '/products/' %}active{% endif %} font-weight-bold text-black"
+                    href="#" id="all-products-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Products
+                </a>
+                <div class="dropdown-menu border-0" aria-labelledby="products-link">
+                    <a href="" class="dropdown-item">Placeholder</a>
+                    <a href="" class="dropdown-item">Placeholder</a>
+                    <a href="" class="dropdown-item">Placeholder</a>
+                    <a href="" class="dropdown-item">Placeholder</a>
+                </div>
             </li>
-            <li><a class="nav-link {% if request.path == '/sale/' %}active{% endif %}" href=""><span>Sale</span></a>
+
+            <!-- Accessories Dropdown link -->
+            <li class="nav-item dropdown">
+                <a class="nav-link {% if request.path == '/sale/' %}active{% endif %} font-weight-bold text-black"
+                    href="#" id="accessories-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Accessories
+                </a>
+                <div class="dropdown-menu border-0" aria-labelledby="sale-link">
+                    <a href="" class="dropdown-item">Placeholder</a>
+                    <a href="" class="dropdown-item">Placeholder</a>
+                    <a href="" class="dropdown-item">Placeholder</a>
+                    <a href="" class="dropdown-item">Placeholder</a>
+                </div>
             </li>
-            <li><a class="nav-link {% if request.path == '/faq/' %}active{% endif %}" href="">FAQ</a></li>
+
+            <!-- Sale Dropdown Link with Span for Styling -->
+            <li class="nav-item dropdown">
+                <a class="nav-link {% if request.path == '/sale/' %}active{% endif %} font-weight-bold text-black"
+                    href="#" id="sale-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span>Sale</span>
+                </a>
+                <div class="dropdown-menu border-0" aria-labelledby="sale-link">
+                    <a href="" class="dropdown-item">Placeholder</a>
+                    <a href="" class="dropdown-item">Placeholder</a>
+                    <a href="" class="dropdown-item">Placeholder</a>
+                    <a href="" class="dropdown-item">Placeholder</a>
+                </div>
+            </li>
+
+            <!-- FAQ Regular Link -->
+            <li><a class="nav-link {% if request.path == '/faq/' %}active{% endif %} font-weight-bold text-black"
+                    href="/faq/">FAQ</a></li>
         </ul>
     </nav>
 </div>
