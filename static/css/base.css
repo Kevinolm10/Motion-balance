@@ -199,6 +199,21 @@ a:hover {
     font-weight: bold;
 }
 
+/* Show the submenu when hovering over the parent item */
+/* Ensures dropdown submenus only show on hover or click */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.nav-item .dropdown-menu {
+    display: none;
+}
+
+.nav-item.open .dropdown-menu {
+    display: block;
+}
+
+
 .user.active {
     color: black;
     background-color: #fff;
