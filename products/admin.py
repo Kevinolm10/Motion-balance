@@ -1,8 +1,8 @@
 from django.contrib import admin
+from .models import Category, Product, Order, OrderItem, UserProfile, ProductFeedback, Wishlist
 
 # Register your models here.
-from django.contrib import admin
-from .models import Category, Product, Order, OrderItem, UserProfile, ProductFeedback, Wishlist
+
 
 
 @admin.register(Category)
