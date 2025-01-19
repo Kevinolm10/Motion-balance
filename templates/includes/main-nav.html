@@ -9,51 +9,43 @@
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="products-link">
                     <a href="{% url 'all_products' %}" class="dropdown-item">All Products</a>
-                    <a href="{% url 'product_category' category_slug='electronics' %}"
-                        class="dropdown-item">Electronics</a>
-                    <a href="{% url 'product_category' category_slug='clothing' %}" class="dropdown-item">Clothing</a>
-                    <a href="{% url 'product_category' category_slug='accessories' %}"
-                        class="dropdown-item">Accessories</a>
+                    {% for category in product_categories %}
+                    <a href="{% url 'product_category' category_slug=category.slug %}" class="dropdown-item">
+                        {{ category.name }}
+                    </a>
+                    {% endfor %}
                 </div>
             </li>
 
-            <!-- Accessories Dropdown link -->
+            <!-- Accessories Dropdown Link -->
             <li class="nav-item dropdown">
                 <a class="nav-link {% if request.path == '/accessories/' %}active{% endif %} font-weight-bold text-black"
                     href="#" id="accessories-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Accessories
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="accessories-link">
-                    <a href="{% url 'product_category' category_slug='accessories' %}" class="dropdown-item">Accessories
-                        1</a>
-                    <a href="{% url 'product_category' category_slug='accessories2' %}"
-                        class="dropdown-item">Accessories 2</a>
-                    <a href="{% url 'product_category' category_slug='accessories3' %}"
-                        class="dropdown-item">Accessories 3</a>
-                    <a href="{% url 'product_category' category_slug='accessories4' %}"
-                        class="dropdown-item">Accessories 4</a>
+                    {% for category in accessory_categories %}
+                    <a href="{% url 'product_category' category_slug=category.slug %}" class="dropdown-item">
+                        {{ category.name }}
+                    </a>
+                    {% endfor %}
                 </div>
             </li>
 
-            <!-- Sale Dropdown Link with Span for Styling -->
+            <!-- Sale Dropdown Link -->
             <li class="nav-item dropdown">
                 <a class="nav-link {% if request.path == '/sale/' %}active{% endif %} font-weight-bold text-black"
                     href="#" id="sale-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span>Sale</span>
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="sale-link">
-                    <a href="{% url 'sale_products' %}" class="dropdown-item">Sale Products</a>
-                    <a href="{% url 'sale_category' category_slug='electronics' %}" class="dropdown-item">Sale
-                        Electronics</a>
-                    <a href="{% url 'sale_category' category_slug='clothing' %}" class="dropdown-item">Sale Clothing</a>
-                    <a href="{% url 'sale_category' category_slug='accessories' %}" class="dropdown-item">Sale
-                        Accessories</a>
+                    {% for category in sale_categories %}
+                    <a href="{% url 'product_category' category_slug=category.slug %}" class="dropdown-item">
+                        {{ category.name }}
+                    </a>
+                    {% endfor %}
                 </div>
             </li>
-
-            <!-- FAQ Regular Link -->
-            <li><a class="nav-link {% if request.path == '/faq/' %}active{% endif %} font-weight-bold text-black"
-                    href="{% url 'faq' %}">FAQ</a></li>
         </ul>
     </nav>
 </div>
