@@ -5,11 +5,24 @@ from django.db.models import Avg
 
 # Create your models here.
 
+from django.db import models
+
 class Category(models.Model):
+    PARENT_CATEGORY = [
+        ('products', 'Products'),
+        ('accessories', 'Accessories'),
+        ('sale', 'Sale'),
+    ]
+
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
     parent = models.ForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True, related_name='subcategories'
+    )
+    nav_element = models.CharField(
+        max_length=20,
+        choices=PARENT_CATEGORY,
+        default='products'
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -20,6 +33,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
 
 
 class Product(models.Model):
