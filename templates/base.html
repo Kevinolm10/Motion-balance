@@ -14,7 +14,6 @@
     <meta name="keywords"
         content="gym clothing, fitness apparel, workout gear, gym accessories, men's gym wear, women's fitness wear, athletic wear, sportswear">
     <meta name="author" content="Kevin Ölmheden">
-
     {% endblock %}
 
     {% block extra_meta %}
@@ -26,7 +25,6 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
     {% endblock %}
 
     {% block extra_css %}
@@ -52,17 +50,18 @@
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap" async defer>
     </script>
+
     <!-- Title -->
     <title>Motion & Balance {% block extra_title %}{% endblock %}</title>
 </head>
 
 <body>
-    <header>
+    <header role="banner">
         <div class="container">
             <!-- Branding -->
             <div class="branding">
                 <a href="{% url 'home' %}" class="brand {% if request.path == '/' %}active{% endif %}">
-                    <img class="logo" src="{% static 'images/motion.png' %}" alt="Motion & Balance">
+                    <img class="logo" src="{% static 'images/motion.png' %}" alt="Motion & Balance logo">
                 </a>
             </div>
 
@@ -70,69 +69,73 @@
             {% include 'includes/mobile-top-header.html' %}
 
             <!-- Navigation and Other Elements -->
-            <div class="row g-4">
-                <!-- Search Bar (Always Visible) -->
-                <div class="col-sm">
-                    <form method="GET" action="">
-                        <div class="search-bar">
-                            <input type="search" placeholder="Search for products..." name="q" />
-                            <button type="submit"><i class="fas fa-search"></i></button>
+            <nav aria-label="Main navigation">
+                <div class="row g-4">
+                    <!-- Search Bar -->
+                    <div class="col-sm">
+                        <form method="GET" action="" role="search" aria-label="Search for products">
+                            <div class="search-bar">
+                                <label for="search-input" class="sr-only">Search</label>
+                                <input id="search-input" type="search" placeholder="Search for products..." name="q" />
+                                <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Include Main Nav -->
+                    {% include 'includes/main-nav.html' %}
+
+                    <!-- Profile Icons -->
+                    <div class="col-sm">
+                        {% if user.is_authenticated %}
+                        {% if request.user.is_superuser %}
+                        <div class="{% if request.path == '/profile/' %}active{% endif %}">
+                            <a href="#" aria-label="Product Management">
+                                <button class="mgnmt">Product Management</button>
+                            </a>
                         </div>
-                    </form>
-                </div>
-
-                <!-- Include Main Nav -->
-                {% include 'includes/main-nav.html' %}
-
-                <!-- Profile Icons -->
-                <div class="col-sm">
-                    {% if user.is_authenticated %}
-                    {% if request.user.is_superuser %}
-                    <div class="{% if request.path == '/profile/' %}active{% endif %}">
-                        <a href="#">
-                            <button class="mgnmt">Product Management</button>
-                        </a>
-                    </div>
-                    {% else %}
-                    <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
-                        <a href="#">
-                            <button><i class="fa-solid fa-user"></i></button>
-                        </a>
-                    </div>
-                    {% endif %}
-                    <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
-                        <a href="{% url 'account_logout' %}">
-                            <button title="Log Out"><i class="fa-solid fa-sign-out-alt"></i></button>
-                        </a>
-                    </div>
-                    {% else %}
-                    <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
-                        <a href="{% url 'account_login' %}">
-                            <button><i class="fas fa-sign-in-alt"></i></button>
-                        </a>
-                    </div>
-                    <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
-                        <a href="{% url 'account_signup' %}">
-                            <button><i class="fas fa-user-plus"></i></button>
-                        </a>
-                    </div>
-                    {% endif %}
-                    <div class="profileicons user {% if request.path == '/basket/' %}active{% endif %}">
-                        <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %}"
-                            href="#">
-                            <button><i class="fa-solid fa-cart-shopping"></i></button>
-                        </a>
-                        <p class="my-0">
-                            {% if grand_total %}
-                            ${{ grand_total|floatformat:2 }}
-                            {% else %}
-                            $0.00
-                            {% endif %}
-                        </p>
+                        {% else %}
+                        <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
+                            <a href="#" aria-label="User Profile">
+                                <button><i class="fa-solid fa-user"></i></button>
+                            </a>
+                        </div>
+                        {% endif %}
+                        <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
+                            <a href="{% url 'account_logout' %}" aria-label="Log Out">
+                                <button><i class="fa-solid fa-sign-out-alt"></i></button>
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
+                            <a href="{% url 'account_login' %}" aria-label="Log In">
+                                <button><i class="fas fa-sign-in-alt"></i></button>
+                            </a>
+                        </div>
+                        <div class="profileicons user {% if request.path == '/profile/' %}active{% endif %}">
+                            <a href="{% url 'account_signup' %}" aria-label="Sign Up">
+                                <button><i class="fas fa-user-plus"></i></button>
+                            </a>
+                        </div>
+                        {% endif %}
+                        <div class="profileicons user {% if request.path == '/basket/' %}active{% endif %}">
+                            <a class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %}"
+                                href="#" aria-label="View Basket">
+                                <button><i class="fa-solid fa-cart-shopping"></i></button>
+                            </a>
+                            <p class="my-0" aria-live="polite">
+                                {% if grand_total %}
+                                ${{ grand_total|floatformat:2 }}
+                                {% else %}
+                                $0.00
+                                {% endif %}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </nav>
         </div>
+
         <div id="delivery-banner" class="row text-center">
             <div class="col text-white">
                 <h4 class="logo-font my-1">Free shipping, when you order over ${{ free_shipping_threshold }}!</h4>
@@ -140,42 +143,37 @@
         </div>
     </header>
 
-
-
-
     {% if messages %}
-    <div class="message-container"></div>
+    <div class="message-container" aria-live="polite"></div>
     {% endif %}
 
     {% block page_header %}
     <h1>hello</h1>
     {% endblock %}
 
-
-    <main>
+    <main role="main">
         {% block content %}
-
         {% endblock %}
     </main>
 
-
-    <!-- Footer -->
-    <footer class="footer">
+    <footer role="contentinfo" class="footer">
         <div class="container">
             <div class="row">
                 <!-- Store Information Section -->
                 <div class="col-md-4 footer-store-info">
                     <h4>Our Store</h4>
-                    <p>Visit us at:</p>
-                    <p>123 Store Street, Shopping City, Country</p>
-                    <p>Email: <a href="mailto:info@motionandbalance.com">info@motionandbalance.com</a></p>
-                    <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
+                    <address>
+                        Visit us at:<br>
+                        123 Store Street, Shopping City, Country<br>
+                        Email: <a href="mailto:info@motionandbalance.com">info@motionandbalance.com</a><br>
+                        Phone: <a href="tel:+1234567890">+1 (234) 567-890</a>
+                    </address>
                 </div>
 
                 <!-- Google Map Placeholder -->
                 <div class="col-md-4 footer-map">
                     <h4>Find Us Here</h4>
-                    <div id="map">
+                    <div id="map" role="region" aria-label="Google Map">
                         Google Map will be displayed here
                     </div>
                 </div>
@@ -190,7 +188,7 @@
                                     class="fab fa-instagram social-icons"></i></a></li>
                         <li><a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i
                                     class="fab fa-linkedin-in social-icons"></i></a></li>
-                        <li><a href="https://www.twitter.com" target="_blank" aria-label="X"><i
+                        <li><a href="https://www.twitter.com" target="_blank" aria-label="Twitter"><i
                                     class="fab fa-twitter social-icons"></i></a></li>
                     </ul>
                 </div>
@@ -205,12 +203,8 @@
         </div>
     </footer>
 
-
-
     {% block postloadjs %}
     {% endblock %}
-
-
 </body>
 
 </html>
