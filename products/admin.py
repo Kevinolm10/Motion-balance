@@ -15,10 +15,15 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'discount_price', 'created_at', 'updated_at')
-    list_filter = ('created_at', 'updated_at')
+    list_display = ('name', 'price', 'discount_percentage', 'discount_price', 'average_rating')
+    list_filter = ('name',)
     search_fields = ('name', 'description')
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('discount_price',)  # Make discount_price read-only
+
+
+    def average_rating(self, obj):
+        return obj.average_rating()
+    average_rating.short_description = 'Average Rating'
 
 
 @admin.register(Order)
