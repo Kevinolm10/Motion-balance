@@ -7,11 +7,9 @@ from .models import Category, Product, Order, OrderItem, UserProfile, ProductFee
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'parent', 'created_at', 'updated_at')
-    list_filter = ('created_at', 'updated_at', 'parent')
+    list_display = ('name', 'slug', 'nav_element', 'parent')
+    list_filter = ('nav_element', 'parent')
     search_fields = ('name', 'slug')
-    prepopulated_fields = {'slug': ('name',)}
-
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
