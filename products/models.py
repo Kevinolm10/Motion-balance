@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Avg
 
 
 # Create your models here.
@@ -26,10 +27,20 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    discount_price = models.FloatField(null=True, blank=True)
+    discount_percentage = models.FloatField(null=True, blank=True)  # Discount percentage (e.g., 20)
+    discount_price = models.FloatField(null=True, blank=True)  # Final price after discount
     product_image = models.ImageField(upload_to='products/')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        """Override save method to calculate discount price when saving the product."""
+        if self.discount_percentage:
+            self.discount_price = self.price * (1 - self.discount_percentage / 100)
+        super().save(*args, **kwargs)
+
+    def average_rating(self):
+        from django.db.models import Avg
+        avg_rating = self.productfeedback_set.aggregate(Avg('rating'))['rating__avg']
+        return round(avg_rating, 2) if avg_rating else None
 
     def __str__(self):
         return self.name
@@ -52,6 +63,10 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.id} - {self.status}"
+
+    def calculate_total_price(self):
+        self.total_price = sum(item.total_price for item in self.order_items.all())
+        self.save()
 
 
 class OrderItem(models.Model):
