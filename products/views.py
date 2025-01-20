@@ -3,15 +3,16 @@ from .models import Product
 
 # Create your views here.
 def all_products(request):
-    """ A view to return the products, sorting and search """
-
-    product = Product.objects.all()
+    """ A view to return the products, sorting, and search """
+    products = Product.objects.all()
 
     context = {
-        'products' : products,
+        'products': products,
     }
 
     return render(request, 'products/products.html', context)
+
+
 
 def product_category(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
