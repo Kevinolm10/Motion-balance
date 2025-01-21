@@ -6,6 +6,21 @@
 {% endblock %}
 
 {% block content %}
-
+<section>
+    <div class="product-container">
+        {% for product in products %}
+        <div class="product-item">
+            <h1>{{ product.name }}</h1>
+            <p>{{ product.description }}</p>
+            <p>Price: ${{ product.price }}</p>
+            {% if product.discount_percentage %}
+            <p>Discount: {{ product.discount_percentage }}%</p>
+            <p>Discounted Price: ${{ product.discount_price }}</p>
+            {% endif %}
+            <img src="{{ product.product_image.url }}" alt="{{ product.name }}">
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
 {% endblock %}
