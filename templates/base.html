@@ -59,7 +59,7 @@
     <header role="banner">
         <div class="container">
             <!-- Branding -->
-            <div class="branding">
+            <div class="logo-brand">
                 <a href="{% url 'home' %}" class="brand {% if request.path == '/' %}active{% endif %}"
                     aria-label="Go to home page">
                     <!-- Improve page speed by lazy-loading image -->
@@ -92,29 +92,33 @@
                         {% if request.user.is_superuser %}
                         <a href="#" class="{% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Product Management">
-                            <button class="mgnmt">Product Management</button>
+                            <button class="product-management">Product Management</button>
                         </a>
                         {% else %}
                         <a href="#" class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="User Profile">
                             <button><i class="fa-solid fa-user"></i></button>
+                            <p>Profile</p>
                         </a>
                         {% endif %}
                         <a href="{% url 'account_logout' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Log Out">
                             <button><i class="fa-solid fa-sign-out-alt"></i></button>
+                            <p>Sign Out</p>
                         </a>
                         {% else %}
                         <a href="{% url 'account_login' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Log In">
                             <button><i class="fas fa-sign-in-alt"></i></button>
+                            <p>Sign in</p>
                         </a>
                         <a href="{% url 'account_signup' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Sign Up">
                             <button><i class="fas fa-user-plus"></i></button>
+                            <p>Sign up</p>
                         </a>
                         {% endif %}
                         <div class="profileicons user {% if request.path == '/basket/' %}active{% endif %}">
