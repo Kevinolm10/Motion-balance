@@ -14,6 +14,25 @@ document.addEventListener('DOMContentLoaded', function () {
             ctaOverlay.classList.remove('menu-open');
         }
     });
+
+    // Add event listeners to each dropdown for mobile
+    const dropdownItems = document.querySelectorAll('.nav-item.dropdown');
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', function (e) {
+            // Prevent click event from bubbling up to parent elements
+            e.stopPropagation();
+
+            // Toggle the 'open' class on the clicked dropdown item
+            item.classList.toggle('open');
+
+            // Optionally, close other open dropdowns
+            dropdownItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('open');
+                }
+            });
+        });
+    });
 });
 
 function initMap() {
