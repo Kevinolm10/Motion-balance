@@ -592,4 +592,8 @@ footer h4 {
     .footer-links a {
         font-size: 0.9rem;
     }
+
+    .search-bar {
+        margin: 0;
+    }
 }
