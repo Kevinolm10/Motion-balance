@@ -525,10 +525,6 @@ footer h4 {
         gap: 15px;
     }
 
-    .nav-item .dropdown-menu {
-        display: none;
-    }
-
     /* Show the dropdown when the parent is clicked (for mobile) */
     .nav-item.open .dropdown-menu {
         display: block;
