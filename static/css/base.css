@@ -119,9 +119,12 @@ a:hover {
     text-align: center;
     padding: 20px;
     max-width: 80%;
-    background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     backdrop-filter: blur(7px);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .cta-title {
