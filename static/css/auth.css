@@ -1,10 +1,38 @@
 /* Base Styles: Center the section on the page */
+:root {
+    --primary-color: #8e9b90;
+    --secondary-color: #d4cdab;
+    --accent-color: #BF4F51;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --hover-accent: #FF6347;
+    --hover-bg: #fff;
+    --font-family: 'Arial', sans-serif;
+    --transition-speed: 0.3s ease-in-out;
+}
+
+main {
+    background: linear-gradient(to right, #fff, #d4cdab);
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+a {
+    font-size: 20px;
+}
+
+p {
+    font-size: 20px;
+}
+
 .main-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f5f5f5;
+    background-color: transparent;
+    /* Ensure the gradient is visible */
     margin: 0;
 }
 
@@ -12,9 +40,9 @@
 .auth-container {
     max-width: 400px;
     width: 100%;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 70px;
+    background: var(--primary-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     text-align: center;
 }
@@ -24,7 +52,7 @@
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: var(--accent-color);
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -34,7 +62,7 @@
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: var(--secondary-color);
 }
 
 /* Style for the sign-up link */
@@ -43,7 +71,7 @@
 }
 
 .sign-up-link a {
-    color: #007bff;
+    color: var(--secondary-color);
     text-decoration: none;
 }
 
