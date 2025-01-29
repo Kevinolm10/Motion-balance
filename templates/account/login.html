@@ -21,10 +21,6 @@
             <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
         </form>
 
-        <p class="forgot-password-link">
-            <a href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-        </p>
-
         <p class="sign-up-link">
             {% trans "Don't have an account?" %}
             <a href="{% url 'account_signup' %}">{% trans "Sign up" %}</a>
