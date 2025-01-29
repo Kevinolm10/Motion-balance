@@ -20,31 +20,71 @@ main {
 
 a {
     font-size: 20px;
+    color: var(--background-color);
+}
+
+a:hover {
+    color: #d4cdab;
+}
+
+h1 {
+    padding: 5px;
+    font-size: 30px;
 }
 
 p {
-    font-size: 20px;
+    font-size: 18px;
+    padding: 7px;
 }
 
 .main-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     background-color: transparent;
-    /* Ensure the gradient is visible */
-    margin: 0;
+    margin: 10px;
+    padding-top: 50px;
 }
 
 /* Style for the auth-container */
 .auth-container {
-    max-width: 400px;
+    max-width: 500px;
     width: 100%;
-    padding: 70px;
+    padding: 50px;
     background: var(--primary-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     text-align: center;
+}
+
+/* Modern Input Styling */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    border: 1px solid var(--secondary-color);
+    border-radius: 3px;
+    color: var(--text-color);
+    transition: var(--transition-speed);
+}
+
+/* Input Focus Effect */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: var(--text-color);
+    box-shadow: 0 0 5px rgba(--secondary-color);
+}
+
+/* Placeholder Styling */
+input::placeholder {
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+/* Labels */
+label {
+    font-weight: bold;
+    color: var(--text-color);
 }
 
 /* Style for buttons */
@@ -71,7 +111,6 @@ p {
 }
 
 .sign-up-link a {
-    color: var(--secondary-color);
     text-decoration: none;
 }
 
@@ -81,11 +120,12 @@ p {
 
 /* Media Queries */
 
-/* Small screens (phones) */
+/* Small screens (phones, up to 480px) */
 @media (max-width: 480px) {
     .auth-container {
-        padding: 15px;
+        padding: 350px;
         max-width: 90%;
+        margin: 10px;
     }
 
     .btn-primary {
@@ -97,51 +137,67 @@ p {
     }
 }
 
-/* Medium screens (tablets) */
+/* Medium screens (tablets, up to 768px) */
 @media (max-width: 768px) {
     .auth-container {
-        max-width: 60%;
-        padding: 50px;
-    }
-
-    .btn-primary {
-        padding: 22px;
-        font-size: 18px;
-    }
-
-    .sign-up-link {
-        font-size: 24px;
-    }
-}
-
-/* Large screens (desktops, 1024px and below) */
-@media (max-width: 1024px) {
-    .auth-container {
-        max-width: 400px;
-        padding: 40px;
-    }
-
-    .btn-primary {
-        padding: 16px;
-        /* A balanced button padding */
-        font-size: 16px;
-    }
-
-    .sign-up-link {
-        font-size: 18px;
-    }
-}
-
-/* Extra-large screens (large desktops, 1200px and below) */
-@media (max-width: 1200px) {
-    .auth-container {
-        max-width: 500px;
-        padding: 60px;
+        max-width: 80%;
+        padding: 30px;
     }
 
     .btn-primary {
         padding: 18px;
+        font-size: 16px;
+    }
+
+    .sign-up-link {
         font-size: 20px;
+    }
+}
+
+/* Large screens (desktops, up to 1024px) */
+@media (max-width: 1024px) {
+    .auth-container {
+        max-width: 60%;
+        padding: 40px;
+    }
+
+    .btn-primary {
+        padding: 18px;
+        font-size: 18px;
+    }
+
+    .sign-up-link {
+        font-size: 22px;
+    }
+}
+
+/* Extra-large screens (large desktops, up to 1200px) */
+@media (max-width: 1200px) {
+    .auth-container {
+        max-width: 500px;
+        padding: 50px;
+    }
+
+    .btn-primary {
+        padding: 20px;
+        font-size: 20px;
+    }
+
+    .sign-up-link {
+        font-size: 26px;
+    }
+}
+
+/* Ultra-wide screens (for very large screens, 1400px+) */
+@media (max-width: 1400px) {
+    .auth-container {
+        max-width: 550px;
+        padding: 60px;
+    }
+
+    .btn-primary {
+        padding: 22px;
+        font-size: 22px;
     }
 
     .sign-up-link {
