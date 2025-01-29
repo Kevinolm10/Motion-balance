@@ -169,3 +169,7 @@ try:
     from .env import GOOGLE_MAPS_API_KEY
 except ImportError:
     GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', None)
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
