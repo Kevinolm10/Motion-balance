@@ -117,13 +117,13 @@ a:hover {
 
 .cta-content {
     text-align: center;
-    padding: 20px;
     max-width: 80%;
+    padding: 50px;
     border-radius: 10px;
     backdrop-filter: blur(7px);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
-    padding: 20px;
+    padding: 80px;
     border-radius: 10px;
 }
 
@@ -131,18 +131,18 @@ a:hover {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 10px;
-    color: var(--primary-color);
+    color: var(--background-color);
 }
 
 .cta-subtitle {
     font-size: 1.2rem;
     margin-bottom: 20px;
-    color: var(--secondary-color);
+    color: var(--background-color);
 }
 
 .cta-button {
     padding: 15px 30px;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: var(--hover-bg);
     font-size: 1.2rem;
     border: none;
@@ -154,7 +154,7 @@ a:hover {
 }
 
 .cta-button:hover {
-    background-color: var(--hover-bg);
+    background-color: var(--secondary-color);
     color: black;
     box-shadow: 0 0 5px var(--secondary-color);
 }
