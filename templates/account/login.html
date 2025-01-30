@@ -14,12 +14,53 @@
     <div class="auth-container">
         <h1>{% trans "Welcome back! Sign in to your profile." %}</h1>
 
-        <form method="post" action="{% url 'account_login' %}">
+        <form method="post" action="{% url 'account_login' %}" aria-labelledby="login-heading" class="auth-form">
             {% csrf_token %}
-            {{ form.as_p }}
-            {{ redirect_field }}
-            <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+
+            <fieldset class="auth-fieldset">
+                <legend id="login-heading" class="auth-legend">{% trans "Sign In to Your Account" %}</legend>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="{{ form.login.id_for_label }}" class="form-label">
+                        {% trans "Username:" %}
+                    </label>
+                    {{ form.login }}
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="{{ form.password.id_for_label }}" class="form-label">
+                        {% trans "Password:" %}
+                    </label>
+                    {{ form.password }}
+                </div>
+
+                <!-- Forgot Password Link -->
+                <p class="forgot-password">
+                    <a href="{% url 'account_reset_password' %}" class="forgot-password-link">
+                        {% trans "Forgot Password?" %}
+                    </a>
+                </p>
+
+                <!-- Remember Me Checkbox -->
+                <div class="form-group form-check">
+                    <label for="{{ form.remember.id_for_label }}" class="form-check-label">
+                        {{ form.remember }} {% trans "Remember Me" %}
+                    </label>
+                </div>
+
+                <!-- Hidden Redirect Field -->
+                {{ redirect_field }}
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">
+                    {% trans "Sign In" %}
+                </button>
+            </fieldset>
         </form>
+
+
 
         <p class="sign-up-link">
             {% trans "Don't have an account?" %}
