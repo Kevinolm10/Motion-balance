@@ -42,13 +42,14 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     discount_percentage = models.FloatField(null=True, blank=True)  # Discount percentage (e.g., 20)
-    discount_price = models.FloatField(null=True, blank=True)  # Final price after discount
+    discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # Final price after discount
     product_image = models.ImageField(upload_to='products/')
 
     def save(self, *args, **kwargs):
         """Override save method to calculate discount price when saving the product."""
-        if self.discount_percentage:
-            self.discount_price = self.price * (1 - self.discount_percentage / 100)
+        if self.discount_percentage is not None:
+            discount_decimal = Decimal(str(self.discount_percentage)) / Decimal('100')
+            self.discount_price = self.price * (Decimal('1') - discount_decimal)
         super().save(*args, **kwargs)
 
     def average_rating(self):
