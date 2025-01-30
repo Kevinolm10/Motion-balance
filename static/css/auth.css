@@ -48,6 +48,7 @@ p {
 
 /* Style for the auth-container */
 .auth-container {
+    top: 75%;
     max-width: 500px;
     width: 100%;
     padding: 50px;
@@ -87,6 +88,10 @@ label {
     color: var(--text-color);
 }
 
+.helptext {
+    display: none;
+}
+
 /* Style for buttons */
 .btn-primary {
     display: block;
@@ -121,7 +126,7 @@ label {
 /* Media Queries */
 
 /* Small screens (phones, up to 480px) */
-@media (max-width: 480px) {
+@media (max-width: 576px) {
     .auth-container {
         padding: 350px;
         max-width: 90%;
@@ -155,7 +160,7 @@ label {
 }
 
 /* Large screens (desktops, up to 1024px) */
-@media (max-width: 1024px) {
+@media (max-width: 992px) {
     .auth-container {
         max-width: 60%;
         padding: 40px;
@@ -167,7 +172,7 @@ label {
     }
 
     .sign-up-link {
-        font-size: 22px;
+        font-size: 20px;
     }
 }
 
@@ -184,15 +189,15 @@ label {
     }
 
     .sign-up-link {
-        font-size: 26px;
+        font-size: 20px;
     }
 }
 
 /* Ultra-wide screens (for very large screens, 1400px+) */
 @media (max-width: 1400px) {
     .auth-container {
-        max-width: 550px;
         padding: 60px;
+        width: 80%;
     }
 
     .btn-primary {
@@ -201,6 +206,6 @@ label {
     }
 
     .sign-up-link {
-        font-size: 28px;
+        font-size: 20px;
     }
 }
