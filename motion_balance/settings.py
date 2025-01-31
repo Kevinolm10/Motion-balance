@@ -1,6 +1,9 @@
 from pathlib import Path
 import cloudinary
+import environ
 import os
+if os.path.exists("env.py"):
+    import env 
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,11 +13,13 @@ env_path = os.path.join(BASE_DIR, 'env.py')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
-if os.path.isfile('env.py'):
-    import env
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+ENVIRONMENT = os.getenv('ENVIRONMENT')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = ENVIRONMENT == 'development'
 
 ALLOWED_HOSTS = [
     '8000-kevinolm10-motionbalanc-vdspn73ey1h.ws.codeinstitute-ide.net',
@@ -87,7 +92,14 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"  # Gmail SMTP server
+EMAIL_PORT = 587  # Use 465 for SSL
+EMAIL_USE_TLS = True  # Required for STARTTLS
+EMAIL_USE_SSL = False  # Must be False if TLS is True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")  # Use environment variables for security
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")  # Use App Password, not your regular password
+DEFAULT_FROM_EMAIL = "motion-balance@info.com"
 
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
