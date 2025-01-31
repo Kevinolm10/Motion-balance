@@ -11,3 +11,4 @@ cloudinary_python.txt
 *.pyc
 .venv
 db.sqlite3
+.env
