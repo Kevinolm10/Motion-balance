@@ -2,26 +2,26 @@ from pathlib import Path
 import cloudinary
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+# Load environment variables from env.py
+env_path = os.path.join(BASE_DIR, 'env.py')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=zemtn3bavqsb802z(*mo4v4msiw52y+u#v@6ofof$^zyifh=n'
+SECRET_KEY = os.environ.get("SECRET_KEY")
+if os.path.isfile('env.py'):
+    import env
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.path.isfile('env.py') else False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '8000-kevinolm10-motionbalanc-vdspn73ey1h.ws.codeinstitute-ide.net',
     '.herokuapp.com',
+    '127.0.0.1',
     ]
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'products',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -51,7 +52,9 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
+
 ROOT_URLCONF = 'motion_balance.urls'
+
 
 TEMPLATES = [
     {
@@ -74,14 +77,18 @@ TEMPLATES = [
     },
 ]
 
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+
 SITE_ID = 1
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
@@ -106,6 +113,7 @@ DATABASES = {
 
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-kevinolm10-motionbalanc-vdspn73ey1h.ws.codeinstitute-ide.net',
+    'http://127.0.0.1:8000',
 ]
 
 
@@ -169,7 +177,4 @@ try:
     from .env import GOOGLE_MAPS_API_KEY
 except ImportError:
     GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', None)
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

@@ -7,3 +7,4 @@ gunicorn==23.0.0
 pillow==11.1.0
 sqlparse==0.5.3
 whitenoise==6.8.2
+psycopg2-binary==2.9.10
