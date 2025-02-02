@@ -1,26 +1,45 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock extra_css %}
+
 {% block page_header %}
 
 {% endblock %}
 
 {% block content %}
-<section>
-    <div class="product-container">
+<div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>Filters</h2>
+        <p>Category</p>
+        <p>Price Range</p>
+        <p>Brand</p>
+    </aside>
+
+    <!-- Products Grid (Django Templating) -->
+    <section class="products">
         {% for product in products %}
-        <div class="product-item">
-            <h1>{{ product.name }}</h1>
+        <div class="product-card">
+            <img src="{{ product.product_image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
             <p>{{ product.description }}</p>
             <p>Price: ${{ product.price }}</p>
+
             {% if product.discount_percentage %}
-            <p>Discount: {{ product.discount_percentage }}%</p>
-            <p>Discounted Price: ${{ product.discount_price }}</p>
+            <p class="discount">Discount: {{ product.discount_percentage }}%</p>
+            <p class="discount">Discounted Price: ${{ product.discount_price }}</p>
             {% endif %}
-            <img src="{{ product.product_image.url }}" alt="{{ product.name }}">
+
+            <button class="btn-primary">Add to Cart</button>
+            <button class="btn-secondary">View Details</button>
+
         </div>
         {% endfor %}
-    </div>
-</section>
+    </section>
+</div>
+
 
 {% endblock %}
