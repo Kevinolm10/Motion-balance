@@ -1,8 +1,28 @@
+:root {
+    --primary-color: #8e9b90;
+    --secondary-color: #d4cdab;
+    --accent-color: #BF4F51;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --hover-accent: #FF6347;
+    --hover-bg: #fff;
+    --font-family: 'Arial', sans-serif;
+    --transition-speed: 0.3s ease-in-out;
+}
+
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+main {
+    background: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    padding: 20px;
 }
 
 /* Create a grid layout with a fixed sidebar and a flexible product grid */
@@ -16,17 +36,23 @@ body {
 
 aside {
     width: 30%;
+    /* Sidebar width */
+    padding: 20px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Sidebar Styling */
 .sidebar {
-    background: #f4f4f4;
     padding: 20px;
     border-radius: 10px;
     height: 100vh;
     /* Full height */
     position: sticky;
     top: 0;
+    border-right: 1px solid #000;
+    width: 80%;
 }
 
 .products {
@@ -55,6 +81,18 @@ aside {
     font-weight: bold;
 }
 
+.cta-button {
+    padding: 15px 30px;
+    background-color: var(--primary-color);
+    color: var(--hover-bg);
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 30px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+    text-decoration: none;
+}
 
 
 /* Adjust for tablets */
@@ -70,6 +108,20 @@ aside {
     .products {
         grid-template-columns: repeat(2, 1fr);
         /* 2 products per row */
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .layout {
+        grid-template-columns: 1fr;
+        /* Products take full width */
+    }
+
+    .product-card {
+        margin: 20px;
+        padding: 30px;
     }
 }
 
