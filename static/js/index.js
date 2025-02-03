@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Get references to the hamburger menu, the menu itself, and the CTA overlay
     const hamburger = document.querySelector('.hamburger');
     const menu = document.querySelector('.menu');
     const ctaOverlay = document.querySelector('.cta-overlay');
@@ -35,17 +36,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// Initialize Google Maps for the footer
 function initMap() {
     var location = {
         lat: 40.7128,
         lng: -74.0060
     }; // Set coordinates for your map location (example: New York)
 
+    // Create a new map centered at the specified location
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12,
         center: location
     });
 
+    // Add a marker at the specified location
     var marker = new google.maps.Marker({
         position: location,
         map: map
