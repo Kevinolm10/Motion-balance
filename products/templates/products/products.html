@@ -15,9 +15,19 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <h2>Filters</h2>
-        <p>Category</p>
-        <p>Price Range</p>
-        <p>Brand</p>
+        <section>
+            <br>
+            <a href="">
+                <p>Category</p>
+            </a>
+            <br>
+            <a href="">
+                <p>Price Range</p>
+            </a>
+            <br>
+            <a href="" <p>Brand</p>
+            </a>
+        </section>
     </aside>
 
     <!-- Products Grid (Django Templating) -->
@@ -34,8 +44,8 @@
             <p class="discount">Discounted Price: ${{ product.discount_price }}</p>
             {% endif %}
 
-            <button class="btn-primary">Add to Cart</button>
-            <button class="btn-secondary">View Details</button>
+            <button class="cta-button">Add to Cart</button>
+            <button class="cta-button">View Details</button>
 
         </div>
         {% endfor %}
