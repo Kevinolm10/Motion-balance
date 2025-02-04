@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
-from .models import Product
+from .models import Product, Category  # <-- Import Category here
 
 # Create your views here.
 def all_products(request):
@@ -28,11 +28,33 @@ def all_products(request):
     return render(request, 'products/products.html', context)
 
 
+def product_by_subcategory(request, subcategory_slug):
+    # Get the subcategory based on the slug
+    subcategory = get_object_or_404(Category, slug=subcategory_slug)
+
+    # Filter products by subcategory
+    products = Product.objects.filter(category=subcategory)
+
+    # Render the products page with the filtered products
+    return render(request, 'products/products.html', {
+        'subcategory': subcategory,
+        'products': products
+    })
+
+
 
 def product_category(request, category_slug):
+    # Get the category based on the slug
     category = get_object_or_404(Category, slug=category_slug)
+
+    # Filter products by category
     products = Product.objects.filter(category=category)
-    return render(request, 'products/category_products.html', {'category': category, 'products': products})
+
+    # Render the same template but with the filtered products
+    return render(request, 'products/products.html', {
+        'category': category,
+        'products': products
+    })
 
 def sale_products(request):
     products = Product.objects.filter(discount_price__isnull=False)
