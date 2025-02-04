@@ -155,7 +155,7 @@ a:hover {
 
 .cta-button:hover {
     background-color: var(--secondary-color);
-    color: black;
+    color: #fff;
     box-shadow: 0 0 5px var(--secondary-color);
 }
 
@@ -344,7 +344,7 @@ nav {
 
 /* Delivery banner */
 #delivery-banner .col {
-    background-color: var(--secondary-color);
+    background-color: var(--accent-color);
 }
 
 
