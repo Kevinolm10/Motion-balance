@@ -74,7 +74,8 @@
             <nav aria-label="Main navigation">
                 <ul class="row g-4">
                     <li class="col-sm">
-                        <form method="GET" action="" role="search" aria-label="Search for products">
+                        <form method="GET" action="{% url 'all_products' %}" role="search"
+                            aria-label="Search for products">
                             <div class="search-bar">
                                 <label for="search-input" class="sr-only">Search</label>
                                 <input id="search-input" type="search" placeholder="Search for products..." name="q" />
