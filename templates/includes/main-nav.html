@@ -3,7 +3,7 @@
         <ul class="nav-list">
             <!-- Products Dropdown -->
             <li class="nav-item dropdown">
-                <a class="nav-link {% if request.path == '/products/' %}active{% endif %} font-weight-bold text-black"
+                <a class="nav-link {% if 'products' in request.path and 'sale' not in request.path and 'accessories' not in request.path %}active{% endif %} font-weight-bold text-black"
                     href="{% url 'all_products' %}" id="all-products-link" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     Products
@@ -20,7 +20,7 @@
 
             <!-- Accessories Dropdown -->
             <li class="nav-item dropdown">
-                <a class="nav-link {% if request.path == '/accessories/' %}active{% endif %} font-weight-bold text-black"
+                <a class="nav-link {% if 'accessories' in request.path %}active{% endif %} font-weight-bold text-black"
                     href="{% url 'all_accessories' %}" id="accessories-link" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     Accessories
@@ -37,7 +37,7 @@
 
             <!-- Sale Dropdown -->
             <li class="nav-item dropdown">
-                <a class="nav-link {% if request.path == '/sale/' %}active{% endif %} font-weight-bold text-black"
+                <a class="nav-link {% if 'sale' in request.path %}active{% endif %} font-weight-bold text-black"
                     href="{% url 'sale_products' %}" id="sale-link" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     <span>Sale</span>
