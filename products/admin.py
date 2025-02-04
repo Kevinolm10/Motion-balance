@@ -11,18 +11,23 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('nav_element', 'parent')
     search_fields = ('name', 'slug')
 
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'discount_percentage', 'discount_price', 'average_rating')
-    list_filter = ('name',)
+    list_display = ('name', 'price', 'discount_percentage', 'discount_price', 'average_rating', 'subcategory_name', 'category')
+    list_filter = ('parent_category', 'category')
     search_fields = ('name', 'description')
     readonly_fields = ('discount_price',)  # Make discount_price read-only
 
-
+    # Since `average_rating` already exists in the `Product` model, we can reference it directly here.
     def average_rating(self, obj):
         return obj.average_rating()
     average_rating.short_description = 'Average Rating'
 
+    # You could also add a custom field for subcategory display, if desired
+    def subcategory_name(self, obj):
+        return obj.category.name if obj.category else 'No subcategory'
+    subcategory_name.short_description = 'Subcategory'
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
