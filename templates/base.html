@@ -56,6 +56,7 @@
 </head>
 
 <body>
+    <!-- Header logo and search bar -->
     <header role="banner">
         <div class="container">
             <!-- Branding -->
@@ -87,7 +88,7 @@
                     <!-- Include Main Nav -->
                     {% include 'includes/main-nav.html' %}
 
-                    <!-- Profile Icons -->
+                    <!-- Management icons -->
                     <li class="col-sm profile-icons">
                         {% if user.is_authenticated %}
                         {% if request.user.is_superuser %}
@@ -141,6 +142,7 @@
             </nav>
         </div>
 
+        <!-- Delivery Banner -->
         <div id="delivery-banner" class="row text-center">
             <div class="col text-white">
                 <h4 class="logo-font my-1">Free shipping, when you order over ${{ free_shipping_threshold }}!</h4>
@@ -161,6 +163,7 @@
         {% endblock %}
     </main>
 
+    <!-- Footer -->
     <footer role="contentinfo" class="footer">
         <div class="container">
             <div class="row">
