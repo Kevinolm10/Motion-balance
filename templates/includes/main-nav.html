@@ -1,7 +1,7 @@
 <div class="col-sm menu" id="menu">
     <nav>
         <ul class="nav-list">
-            <!-- Products Dropdown Link -->
+            <!-- Products Dropdown -->
             <li class="nav-item dropdown">
                 <a class="nav-link {% if request.path == '/products/' %}active{% endif %} font-weight-bold text-black"
                     href="{% url 'all_products' %}" id="all-products-link" data-toggle="dropdown" aria-haspopup="true"
@@ -18,7 +18,7 @@
                 </div>
             </li>
 
-            <!-- Accessories Dropdown Link -->
+            <!-- Accessories Dropdown -->
             <li class="nav-item dropdown">
                 <a class="nav-link {% if request.path == '/accessories/' %}active{% endif %} font-weight-bold text-black"
                     href="#" id="accessories-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -34,7 +34,7 @@
                 </div>
             </li>
 
-            <!-- Sale Dropdown Link -->
+            <!-- Sale Dropdown -->
             <li class="nav-item dropdown">
                 <a class="nav-link {% if request.path == '/sale/' %}active{% endif %} font-weight-bold text-black"
                     href="#" id="sale-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,14 +50,9 @@
                 </div>
             </li>
 
-            <!-- Faq Nav Link -->
+            <!-- FAQ -->
             <li>
-                <a class="nav-link {% if request.path == '/sale/' %}active{% endif %} font-weight-bold text-black"
-                    href="">
-                    FAQ
-                </a>
-
-
+                <a class="nav-link font-weight-bold text-black" href="">FAQ</a>
             </li>
         </ul>
     </nav>
