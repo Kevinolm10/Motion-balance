@@ -1,13 +1,11 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
-from .models import Product, Category  # <-- Import Category here
+from .models import Product, Category
 
-# Create your views here.
+# A view to return all products, sorting, and search
 def all_products(request):
-    """ A view to return the products, sorting, and search """
     products = Product.objects.all()
-
     query = None
 
     if request.GET:
@@ -15,7 +13,7 @@ def all_products(request):
             query = request.GET['q']
             if not query:
                 messages.error(request, "No search results found.")
-                return redirect(reverse('products'))
+                return redirect(reverse('all_products'))
             
             queries = Q(name__icontains=query) | Q(description__icontains=query)
             products = products.filter(queries)
@@ -42,7 +40,6 @@ def product_by_subcategory(request, subcategory_slug):
     })
 
 
-
 def product_category(request, category_slug):
     # Get the category based on the slug
     category = get_object_or_404(Category, slug=category_slug)
@@ -56,16 +53,38 @@ def product_category(request, category_slug):
         'products': products
     })
 
+
 def sale_products(request):
+    # Fetch all products on sale (discount price is not null)
     products = Product.objects.filter(discount_price__isnull=False)
-    return render(request, 'products/sale_products.html', {'products': products})
+
+    # Render the same template with the filtered products
+    return render(request, 'products/products.html', {'products': products})
+
 
 def sale_category(request, category_slug):
+    # Fetch the category based on the slug
     category = get_object_or_404(Category, slug=category_slug)
+    
+    # Fetch all products in the category that are on sale (discount price is not null)
     products = Product.objects.filter(category=category, discount_price__isnull=False)
-    return render(request, 'products/sale_category_products.html', {'category': category, 'products': products})
+
+    # Render the products page with the filtered products
+    return render(request, 'products/products.html', {
+        'category': category,
+        'products': products
+    })
+
 
 def all_accessories(request):
-    # Fetch all products in the "accessories" category
-    accessories = Product.objects.filter(category__slug='accessories')
-    return render(request, 'products/accessories.html', {'accessories': accessories})
+    # Fetch the accessories category
+    accessories_category = get_object_or_404(Category, slug='accessories')
+
+    # Fetch all products in the accessories category
+    products = Product.objects.filter(category=accessories_category)
+
+    # Render the same products page with the filtered products
+    return render(request, 'products/products.html', {
+        'category': accessories_category,
+        'products': products
+    })
