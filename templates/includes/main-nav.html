@@ -21,11 +21,12 @@
             <!-- Accessories Dropdown -->
             <li class="nav-item dropdown">
                 <a class="nav-link {% if request.path == '/accessories/' %}active{% endif %} font-weight-bold text-black"
-                    href="#" id="accessories-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    href="{% url 'all_accessories' %}" id="accessories-link" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
                     Accessories
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="accessories-link">
-                    <a href="{% url 'sale_products' %}" class="dropdown-item">All Accessories</a>
+                    <a href="{% url 'all_accessories' %}" class="dropdown-item">All Accessories</a>
                     {% for category in accessory_categories %}
                     <a href="{% url 'product_category' category_slug=category.slug %}" class="dropdown-item">
                         {{ category.name }}
@@ -37,13 +38,14 @@
             <!-- Sale Dropdown -->
             <li class="nav-item dropdown">
                 <a class="nav-link {% if request.path == '/sale/' %}active{% endif %} font-weight-bold text-black"
-                    href="#" id="sale-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    href="{% url 'sale_products' %}" id="sale-link" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
                     <span>Sale</span>
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="sale-link">
                     <a href="{% url 'sale_products' %}" class="dropdown-item">All Items on sale</a>
                     {% for category in sale_categories %}
-                    <a href="{% url 'product_category' category_slug=category.slug %}" class="dropdown-item">
+                    <a href="{% url 'sale_category' category_slug=category.slug %}" class="dropdown-item">
                         {{ category.name }}
                     </a>
                     {% endfor %}
