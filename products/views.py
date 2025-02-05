@@ -6,20 +6,25 @@ from .models import Product, Category
 # A view to return all products, sorting, and search
 def all_products(request):
     products = Product.objects.all()
+    categories = Category.objects.all()
     query = None
 
     if request.GET:
         if 'q' in request.GET:
             query = request.GET['q']
+            # If the search bar is empty, display an error message
             if not query:
                 messages.error(request, "No search results found.")
                 return redirect(reverse('all_products'))
             
-            queries = Q(name__icontains=query) | Q(description__icontains=query)
-            products = products.filter(queries)
+            product_queries = Q(name__icontains=query) | Q(description__icontains=query) | Q(subcategory_name__icontains=query)
+            category_queries = Q(name__icontains=query)
+            products = products.filter(product_queries)
+            categories = categories.filter(category_queries)
 
     context = {
         'products': products,
+        'categories': categories,
         'search_term': query,
     }
 
