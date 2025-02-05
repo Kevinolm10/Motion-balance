@@ -1,150 +1,142 @@
+.sidebar,
+aside {
+    border-radius: 10px
+}
+
+.layout,
+.products {
+    display: grid;
+    gap: 20px
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box
+}
+
+.layout,
+.sidebar,
+aside,
+main {
+    padding: 20px
 }
 
 main {
     background: var(--background-color);
     color: var(--text-color);
-    font-family: var(--font-family);
-    padding: 20px;
+    font-family: var(--font-family)
 }
 
-/* Create a grid layout with a fixed sidebar and a flexible product grid */
+.product-card,
+aside {
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .1)
+}
+
 .layout {
-    display: grid;
-    grid-template-columns: 250px 1fr;
-    /* Sidebar: 250px | Products take remaining space */
-    gap: 20px;
-    padding: 20px;
+    grid-template-columns: 250px 1fr
 }
 
 aside {
-    width: 30%;
-    /* Sidebar width */
-    padding: 20px;
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    width: 30%
 }
 
-/* Sidebar Styling */
 .sidebar {
-    padding: 20px;
-    border-radius: 10px;
     height: 100vh;
-    /* Full height */
     position: sticky;
     top: 0;
     border-right: 1px solid #000;
-    width: 80%;
+    width: 80%
 }
 
 .products {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr)
 }
 
-/* Product Card */
 .product-card {
-    background: #fff;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: stretch
 }
 
-/* Product Image */
 .product-card img {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 8px
 }
 
 .discount {
     color: red;
-    font-weight: bold;
+    font-weight: 700
 }
 
 .cta-button {
     padding: 15px 30px;
     margin: 10px;
-    font-size: 0.8rem;
+    font-size: .8rem
 }
 
-/* Media query for when not in fullscreen */
-@media (max-width: 1800px) {
+@media (max-width:1800px) {
     .products {
-        grid-template-columns: repeat(3, 1fr);
-        /* 3 products per row */
+        grid-template-columns: repeat(3, 1fr)
     }
 
     .cta-button {
         padding: 10px 20px;
-        margin: 5px;
+        margin: 5px
     }
-
 }
 
-
-/* Adjust for tablets */
-@media (max-width: 1024px) {
+@media (max-width:1024px) {
     .products {
-        grid-template-columns: repeat(2, 1fr);
-        /* 3 products per row */
+        grid-template-columns: repeat(2, 1fr)
     }
 
     .cta-button {
         padding: 10px 20px;
-        margin: 5px;
+        margin: 5px
     }
 }
 
-/* Adjust for mobile screens */
-@media (max-width: 768px) {
+@media (max-width:768px) {
     .products {
-        grid-template-columns: repeat(2, 1fr);
-        /* 2 products per row */
+        grid-template-columns: repeat(2, 1fr)
     }
 
     .sidebar {
-        display: none;
+        display: none
     }
 
     .layout {
-        grid-template-columns: auto 1fr;
-        /* Products take full width */
+        grid-template-columns: auto 1fr
     }
 
     .product-card {
         margin: 20px;
-        padding: 30px;
+        padding: 30px
     }
 
     .cta-button {
         padding: 10px 20px;
-        margin: 5px;
+        margin: 5px
     }
 }
 
-/* Adjust for very small screens */
-@media (max-width: 480px) {
+@media (max-width:480px) {
     .products {
-        grid-template-columns: repeat(1, 1fr);
-        /* 1 product per row */
+        grid-template-columns: repeat(1, 1fr)
     }
 
     h3 {
-        font-size: 1.5rem;
+        font-size: 1.5rem
     }
 
     .cta-button {
         padding: 10px 20px;
-        margin: 5px;
+        margin: 5px
     }
 }

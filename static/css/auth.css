@@ -1,26 +1,26 @@
 main {
     min-height: 100vh;
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif
 }
 
 a {
     font-size: 20px;
-    color: var(--background-color);
+    color: var(--background-color)
 }
 
 a:hover {
-    color: #d4cdab;
+    color: #d4cdab
 }
 
 h1 {
     padding: 5px;
-    font-size: 30px;
+    font-size: 30px
 }
 
 p {
     font-size: 18px;
-    padding: 7px;
+    padding: 7px
 }
 
 .main-container {
@@ -29,156 +29,143 @@ p {
     align-items: center;
     background-color: transparent;
     margin: 10px;
-    padding-top: 50px;
+    padding-top: 50px
 }
 
-/* Style for the auth-container */
 .auth-container {
     top: 75%;
     max-width: 500px;
     width: 100%;
     padding: 50px;
     background: var(--secondary-color);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
     border-radius: 10px;
-    text-align: center;
+    text-align: center
 }
 
-/* Modern Input Styling */
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+input[type=email],
+input[type=password],
+input[type=text] {
     border: 1px solid var(--secondary-color);
     border-radius: 3px;
     color: var(--text-color);
-    transition: var(--transition-speed);
+    transition: var(--transition-speed)
 }
 
-/* Input Focus Effect */
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
+input[type=email]:focus,
+input[type=password]:focus,
+input[type=text]:focus {
     border-color: var(--text-color);
-    box-shadow: 0 0 5px rgba(--secondary-color);
+    box-shadow: 0 0 5px rgba(--secondary-color)
 }
 
-/* Placeholder Styling */
 input::placeholder {
     color: var(--text-color);
-    opacity: 0.7;
+    opacity: .7
 }
 
-/* Labels */
 label {
-    font-weight: bold;
-    color: var(--text-color);
+    font-weight: 700;
+    color: var(--text-color)
 }
 
 .helptext {
-    display: none;
+    display: none
 }
 
-/* Style for the sign-up link */
 .sign-up-link {
-    margin-top: 15px;
+    margin-top: 15px
 }
 
 .sign-up-link a {
-    text-decoration: none;
+    text-decoration: none
 }
 
 .sign-up-link a:hover {
-    text-decoration: underline;
+    text-decoration: underline
 }
 
 cta-button {
-    background-color: red !important;
-    /* FIX LATER */
+    background-color: red !important
 }
 
-/* Media Queries */
-
-/* Small screens (phones, up to 480px) */
-@media (max-width: 576px) {
+@media (max-width:576px) {
     .auth-container {
         padding: 350px;
         max-width: 90%;
-        margin: 10px;
+        margin: 10px
     }
 
     .btn-primary {
-        padding: 12px;
+        padding: 12px
     }
 
     .sign-up-link {
-        font-size: 16px;
+        font-size: 16px
     }
 }
 
-/* Medium screens (tablets, up to 768px) */
-@media (max-width: 768px) {
+@media (max-width:768px) {
     .auth-container {
         max-width: 80%;
-        padding: 30px;
+        padding: 30px
     }
 
     .btn-primary {
         padding: 18px;
-        font-size: 16px;
+        font-size: 16px
     }
 
     .sign-up-link {
-        font-size: 20px;
+        font-size: 20px
     }
 }
 
-/* Large screens (desktops, up to 1024px) */
-@media (max-width: 992px) {
+@media (max-width:992px) {
     .auth-container {
         max-width: 60%;
-        padding: 40px;
+        padding: 40px
     }
 
     .btn-primary {
         padding: 18px;
-        font-size: 18px;
+        font-size: 18px
     }
 
     .sign-up-link {
-        font-size: 20px;
+        font-size: 20px
     }
 }
 
-/* Extra-large screens (large desktops, up to 1200px) */
-@media (max-width: 1200px) {
+@media (max-width:1200px) {
+
+    .btn-primary,
+    .sign-up-link {
+        font-size: 20px
+    }
+
     .auth-container {
         max-width: 500px;
-        padding: 50px;
+        padding: 50px
     }
 
     .btn-primary {
-        padding: 20px;
-        font-size: 20px;
-    }
-
-    .sign-up-link {
-        font-size: 20px;
+        padding: 20px
     }
 }
 
-/* Ultra-wide screens (for very large screens, 1400px+) */
-@media (max-width: 1400px) {
+@media (max-width:1400px) {
     .auth-container {
         padding: 60px;
-        width: 80%;
+        width: 80%
     }
 
     .btn-primary {
         padding: 22px;
-        font-size: 22px;
+        font-size: 22px
     }
 
     .sign-up-link {
-        font-size: 20px;
+        font-size: 20px
     }
 }
