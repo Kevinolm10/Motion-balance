@@ -443,7 +443,6 @@ nav {
 
     .nav-list {
         flex-direction: column;
-        gap: 10x;
         padding: 5px
     }
 
