@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'cloudinary',
     'home',
     'products',
+    'user_profile',
+    'orders',
+    'wishlist',
 ]
 
 
