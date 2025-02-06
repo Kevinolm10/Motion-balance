@@ -15,11 +15,12 @@ env_path = os.path.join(BASE_DIR, 'env.py')
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
-ENVIRONMENT = os.getenv('ENVIRONMENT')
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = ENVIRONMENT == 'development'
+if ENVIRONMENT == "production":
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = [
     '8000-kevinolm10-motionbalanc-vdspn73ey1h.ws.codeinstitute-ide.net',
