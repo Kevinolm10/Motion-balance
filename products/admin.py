@@ -1,65 +1,49 @@
+# Django Imports
 from django.contrib import admin
-from .models import Category, Product, Order, OrderItem, UserProfile, ProductFeedback, Wishlist
+# Local Imports
+from .models import Category, Product, ProductFeedback
 
-# Register your models here.
-
-
-
+# Category Admin
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'nav_element', 'parent')
+    list_display = ('name', 'slug', 'nav_element', 'parent', 'created_at', 'updated_at')
     list_filter = ('nav_element', 'parent')
     search_fields = ('name', 'slug')
+    list_display_links = ('name',)  # Makes the category name clickable
+    ordering = ('name',)  # Orders categories alphabetically by name
+    
+    # Use a custom method to display parent category name in a better way
+    def parent(self, obj):
+        return obj.parent.name if obj.parent else "None"
+    parent.short_description = 'Parent Category'
 
-
+# Product Admin
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'discount_percentage', 'discount_price', 'average_rating', 'subcategory_name', 'category')
-    list_filter = ('parent_category', 'category')
+    list_display = ('name', 'price', 'discount_percentage', 'discount_price', 'average_rating', 'subcategory_name', 'category_name')
+    list_filter = ('category', 'parent_category')
     search_fields = ('name', 'description')
-    readonly_fields = ('discount_price',)  # Make discount_price read-only
+    readonly_fields = ('discount_price',)
 
-    # Since `average_rating` already exists in the `Product` model, we can reference it directly here.
     def average_rating(self, obj):
         return obj.average_rating()
     average_rating.short_description = 'Average Rating'
 
-    # You could also add a custom field for subcategory display, if desired
     def subcategory_name(self, obj):
         return obj.category.name if obj.category else 'No subcategory'
     subcategory_name.short_description = 'Subcategory'
 
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'status', 'total_price', 'created_at', 'updated_at')
-    list_filter = ('status', 'created_at', 'updated_at')
-    search_fields = ('user__username', 'id')
-    readonly_fields = ('created_at', 'updated_at')
+    # Custom method to display the category name in list view
+    def category_name(self, obj):
+        return obj.category.name if obj.category else 'No category'
+    category_name.short_description = 'Category'
 
 
-@admin.register(OrderItem)
-class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order', 'product', 'quantity', 'price')
-    list_filter = ('order', 'product')
-    search_fields = ('order__id', 'product__name')
-
-
-@admin.register(UserProfile)
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'first_name', 'last_name', 'email', 'phone_number')
-    search_fields = ('first_name', 'last_name', 'email', 'user__username')
-
-
+# ProductFeedback Admin
 @admin.register(ProductFeedback)
 class ProductFeedbackAdmin(admin.ModelAdmin):
-    list_display = ('feedback_id', 'user', 'product', 'rating', 'created_at')
+    list_display = ('id', 'user', 'product', 'rating', 'created_at')
     list_filter = ('rating', 'created_at')
     search_fields = ('user__username', 'product__name', 'comment')
     readonly_fields = ('created_at',)
 
-
-@admin.register(Wishlist)
-class WishlistAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'product', 'created_at')
-    list_filter = ('created_at',)
-    search_fields = ('user__username', 'product__name')
