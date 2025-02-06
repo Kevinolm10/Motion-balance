@@ -1,0 +1,171 @@
+main {
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif
+}
+
+a {
+    font-size: 20px;
+    color: var(--background-color)
+}
+
+a:hover {
+    color: #d4cdab
+}
+
+h1 {
+    padding: 5px;
+    font-size: 30px
+}
+
+p {
+    font-size: 18px;
+    padding: 7px
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    margin: 10px;
+    padding-top: 50px
+}
+
+.auth-container {
+    top: 75%;
+    max-width: 500px;
+    width: 100%;
+    padding: 50px;
+    background: var(--secondary-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    text-align: center
+}
+
+input[type=email],
+input[type=password],
+input[type=text] {
+    border: 1px solid var(--secondary-color);
+    border-radius: 3px;
+    color: var(--text-color);
+    transition: var(--transition-speed)
+}
+
+input[type=email]:focus,
+input[type=password]:focus,
+input[type=text]:focus {
+    border-color: var(--text-color);
+    box-shadow: 0 0 5px rgba(--secondary-color)
+}
+
+input::placeholder {
+    color: var(--text-color);
+    opacity: .7
+}
+
+label {
+    font-weight: 700;
+    color: var(--text-color)
+}
+
+.helptext {
+    display: none
+}
+
+.sign-up-link {
+    margin-top: 15px
+}
+
+.sign-up-link a {
+    text-decoration: none
+}
+
+.sign-up-link a:hover {
+    text-decoration: underline
+}
+
+cta-button {
+    background-color: red !important
+}
+
+@media (max-width:576px) {
+    .auth-container {
+        padding: 350px;
+        max-width: 90%;
+        margin: 10px
+    }
+
+    .btn-primary {
+        padding: 12px
+    }
+
+    .sign-up-link {
+        font-size: 16px
+    }
+}
+
+@media (max-width:768px) {
+    .auth-container {
+        max-width: 80%;
+        padding: 30px
+    }
+
+    .btn-primary {
+        padding: 18px;
+        font-size: 16px
+    }
+
+    .sign-up-link {
+        font-size: 20px
+    }
+}
+
+@media (max-width:992px) {
+    .auth-container {
+        max-width: 60%;
+        padding: 40px
+    }
+
+    .btn-primary {
+        padding: 18px;
+        font-size: 18px
+    }
+
+    .sign-up-link {
+        font-size: 20px
+    }
+}
+
+@media (max-width:1200px) {
+
+    .btn-primary,
+    .sign-up-link {
+        font-size: 20px
+    }
+
+    .auth-container {
+        max-width: 500px;
+        padding: 50px
+    }
+
+    .btn-primary {
+        padding: 20px
+    }
+}
+
+@media (max-width:1400px) {
+    .auth-container {
+        padding: 60px;
+        width: 80%
+    }
+
+    .btn-primary {
+        padding: 22px;
+        font-size: 22px
+    }
+
+    .sign-up-link {
+        font-size: 20px
+    }
+}
