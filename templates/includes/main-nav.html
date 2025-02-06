@@ -28,7 +28,7 @@
                 <div class="dropdown-menu border-0" aria-labelledby="accessories-link">
                     <a href="{% url 'all_accessories' %}" class="dropdown-item">All Accessories</a>
                     {% for category in accessory_categories %}
-                    <a href="{% url 'product_category' category_slug=category.slug %}" class="dropdown-item">
+                    <a href="{% url 'product_by_subcategory' subcategory_slug=category.slug %}" class="dropdown-item">
                         {{ category.name }}
                     </a>
                     {% endfor %}
@@ -40,21 +40,16 @@
                 <a class="nav-link {% if 'sale' in request.path %}active{% endif %} font-weight-bold text-black"
                     href="{% url 'sale_products' %}" id="sale-link" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-                    <span>Sale</span>
+                    Sale
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="sale-link">
-                    <a href="{% url 'sale_products' %}" class="dropdown-item">All Items on sale</a>
+                    <a href="{% url 'sale_products' %}" class="dropdown-item">All Sale</a>
                     {% for category in sale_categories %}
-                    <a href="{% url 'sale_category' category_slug=category.slug %}" class="dropdown-item">
+                    <a href="{% url 'product_by_subcategory' subcategory_slug=category.slug %}" class="dropdown-item">
                         {{ category.name }}
                     </a>
                     {% endfor %}
                 </div>
-            </li>
-
-            <!-- FAQ -->
-            <li>
-                <a class="nav-link font-weight-bold text-black" href="">FAQ</a>
             </li>
         </ul>
     </nav>
