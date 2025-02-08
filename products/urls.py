@@ -8,4 +8,6 @@ urlpatterns = [
     path('sale/', views.sale_products, name='sale_products'),
     path('accessories/', views.all_accessories, name='all_accessories'),
     path('subcategory/<slug:subcategory_slug>/', views.product_by_subcategory, name='product_by_subcategory'),
+     path('add_to_wishlist/<int:product_id>/', views.add_to_wishlist, name='add_to_wishlist'),
+    path('remove_from_wishlist/<int:product_id>/', views.remove_from_wishlist, name='remove_from_wishlist'),
 ]

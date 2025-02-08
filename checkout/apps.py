@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
-class OrdersConfig(AppConfig):
-    name = 'orders'
+class CheckoutConfig(AppConfig):
+    name = 'checkout'
 
     def ready(self):
         from . import signals  # Use a relative import to import the signals module

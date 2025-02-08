@@ -118,7 +118,7 @@ class ProductFeedback(models.Model):
     rating = models.PositiveIntegerField()
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    order_item = models.ForeignKey('orders.OrderItem', on_delete=models.CASCADE)
+    order_item = models.ForeignKey('checkout.OrderItem', on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import UserProfile
 from .forms import UserProfileForm
-from orders.models import Order
+from checkout.models import Order
 from products.models import ProductFeedback
 from wishlist.models import WishlistItem
 
