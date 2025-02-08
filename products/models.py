@@ -32,6 +32,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+# Category Manager
     @classmethod
     def create_parent_categories(cls):
         """Create top-level parent categories if they don't exist."""

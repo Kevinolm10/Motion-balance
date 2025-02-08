@@ -9,6 +9,7 @@ def all_products(request):
     categories = Category.objects.all()
     query = None
 
+    # If the search bar is used, filter products by name, description, or subcategory
     if request.GET:
         if 'q' in request.GET:
             query = request.GET['q']
@@ -22,6 +23,7 @@ def all_products(request):
             products = products.filter(product_queries)
             categories = categories.filter(category_queries)
 
+
     context = {
         'products': products,
         'categories': categories,
@@ -31,6 +33,7 @@ def all_products(request):
     return render(request, 'products/products.html', context)
 
 
+# A view to return a single product
 def product_by_subcategory(request, subcategory_slug):
     # Get the subcategory based on the slug
     subcategory = get_object_or_404(Category, slug=subcategory_slug)
