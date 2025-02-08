@@ -94,33 +94,33 @@
                         {% if request.user.is_superuser %}
                         <a href="#" class="{% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Product Management">
-                            <button class="product-management">Product Management</button>
-                        </a>
-                        {% else %}
-                        <a href="#" class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
-                            aria-label="User Profile">
-                            <button><i class="fa-solid fa-user"></i></button>
-                            <p></p>
+                            <button class="product-management" Product Management </button> </a> {% else %} <a
+                                href="{% url 'user_profile' %}"
+                                class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
+                                aria-label="User Profile">
+                                <button><i class="fa-solid fa-user"></i>
+                                </button>
                         </a>
                         {% endif %}
                         <a href="{% url 'account_logout' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Log Out">
-                            <button><i class="fa-solid fa-sign-out-alt"></i></button>
-                            <p></p>
+                            <button>
+                                <i class="fa-solid fa-sign-out-alt"></i>
+                            </button>
                         </a>
                         {% else %}
                         <a href="{% url 'account_login' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Log In">
-                            <button><i class="fas fa-sign-in-alt"></i></button>
-                            <p></p>
+                            <button>
+                                <i class="fas fa-sign-in-alt">
+                                </i></button>
                         </a>
                         <a href="{% url 'account_signup' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Sign Up">
                             <button><i class="fas fa-user-plus"></i></button>
-                            <p></p>
                         </a>
                         {% endif %}
                         <div class="profileicons user {% if request.path == '/basket/' %}active{% endif %}">
