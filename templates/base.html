@@ -94,12 +94,12 @@
                         {% if request.user.is_superuser %}
                         <a href="#" class="{% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Product Management">
-                            <button class="product-management" Product Management </button> </a> {% else %} <a
-                                href="{% url 'user_profile' %}"
-                                class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
-                                aria-label="User Profile">
-                                <button><i class="fa-solid fa-user"></i>
-                                </button>
+                            <button class="product-management">Product Management</button> </a> {% else %} <a
+                            href="{% url 'user_profile' %}"
+                            class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
+                            aria-label="User Profile">
+                            <button><i class="fa-solid fa-user"></i>
+                            </button>
                         </a>
                         {% endif %}
                         <a href="{% url 'account_logout' %}"

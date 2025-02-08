@@ -15,6 +15,15 @@
                 {{ form.as_p }}
                 <button type="submit" class="cta-button">Save Changes</button>
             </form>
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
         <div class="history-section">
             <h2>Order History</h2>

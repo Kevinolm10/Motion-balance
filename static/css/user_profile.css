@@ -21,6 +21,10 @@
     border-radius: 8px;
 }
 
+div.alert.alert-success {
+    margin-top: 20px;
+}
+
 .history-section {
     background-color: #f9f9f9;
     padding: 20px;

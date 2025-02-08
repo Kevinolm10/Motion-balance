@@ -1,7 +1,8 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Order  # Ensure this matches the actual model name and location
+from .models import Order
 
+# Create a signal to handle order creation and updates
 @receiver(post_save, sender=Order)
 def order_created_or_updated(sender, instance, created, **kwargs):
     if created:

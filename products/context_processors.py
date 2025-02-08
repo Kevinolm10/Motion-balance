@@ -6,6 +6,7 @@ def categories_context(request):
     accessory_categories = Category.objects.filter(parent__nav_element="accessories")
     sale_categories = Category.objects.filter(parent__nav_element="sale")
 
+     # Return the categories as a dictionary
     return {
         'product_categories': product_categories,
         'accessory_categories': accessory_categories,
