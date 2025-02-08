@@ -1,17 +1,35 @@
 from django.contrib import admin
 from .models import Order, OrderItem
 
-# Order Admin
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    readonly_fields = ('product', 'quantity', 'price')
+    extra = 0
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'status', 'total_price', 'created_at', 'updated_at', 'wishlist')
-    list_filter = ('status', 'created_at', 'updated_at', 'wishlist')
-    search_fields = ('user__username', 'id')
-    readonly_fields = ('created_at', 'updated_at')
+    list_display = ('order_number', 'user', 'status', 'created_at', 'grand_total')
+    list_filter = ('status', 'created_at', 'updated_at')
+    search_fields = ('order_number', 'user__username', 'full_name', 'email')
+    readonly_fields = ('order_number', 'created_at', 'updated_at', 'grand_total', 'transaction_id', 'payment_method')
+    fieldsets = (
+        (None, {
+            'fields': ('order_number', 'user', 'status', 'created_at', 'updated_at')
+        }),
+        ('Contact Information', {
+            'fields': ('full_name', 'email', 'phone_number')
+        }),
+        ('Shipping Information', {
+            'fields': ('shipping_address', 'billing_address', 'city', 'country', 'postcode')
+        }),
+        ('Order Details', {
+            'fields': ('subtotal', 'delivery_cost', 'discount_amount', 'grand_total', 'transaction_id', 'payment_method', 'wishlist')
+        }),
+    )
+    inlines = [OrderItemInline]
 
-# OrderItem Admin
+@admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order', 'product', 'quantity', 'price')  # Ensure these fields exist
-    list_filter = ('order', 'product')
-
-admin.site.register(OrderItem, OrderItemAdmin)
+    list_display = ('order', 'product', 'quantity', 'price')
+    search_fields = ('order__order_number', 'product__name')
+    readonly_fields = ('order', 'product', 'quantity', 'price')
