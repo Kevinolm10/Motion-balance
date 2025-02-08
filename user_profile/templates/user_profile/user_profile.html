@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-grid">
+        <div class="profile-section">
+            <h1>{{ user.username }}'s Profile</h1>
+            <form method="post" class="profile-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="cta-button">Save Changes</button>
+            </form>
+        </div>
+        <div class="history-section">
+            <h2>Order History</h2>
+            <table class="table table-striped order-history">
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.created_at }}</td>
+                        <td>${{ order.total_price }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>
+                            <a href="{% url 'order_detail' order.id %}" class="btn btn-primary">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Feedback History</h2>
+            <table class="table table-striped feedback-history">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for feedback in feedbacks %}
+                    <tr>
+                        <td>{{ feedback.product.name }}</td>
+                        <td>{{ feedback.rating }}</td>
+                        <td>{{ feedback.comment }}</td>
+                        <td>{{ feedback.created_at }}</td>
+                        <td>
+                            <a href="{% url 'edit_feedback' feedback.id %}" class="btn btn-primary">Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Wishlist</h2>
+            <table class="table table-striped wishlist-history">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Date Added</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in wishlist_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.created_at }}</td>
+                        <td>
+                            <a href="{% url 'product_detail' item.product.id %}" class="btn btn-primary">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
