@@ -22,7 +22,6 @@ class Order(models.Model):
     email = models.EmailField(max_length=254)
     phone_number = models.CharField(max_length=20)
     shipping_address = models.CharField(max_length=255)
-    billing_address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     country = models.CharField(max_length=50)
     postcode = models.CharField(max_length=20, null=True, blank=True)
@@ -34,9 +33,6 @@ class Order(models.Model):
     delivery_cost = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     discount_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-
-    transaction_id = models.CharField(max_length=100, null=True, blank=True)
-    payment_method = models.CharField(max_length=50, null=True, blank=True)
 
     wishlist = models.ForeignKey(Wishlist, on_delete=models.SET_NULL, null=True, blank=True)
 
