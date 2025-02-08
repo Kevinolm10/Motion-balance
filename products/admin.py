@@ -1,49 +1,42 @@
-# Django Imports
 from django.contrib import admin
-# Local Imports
-from .models import Category, Product, ProductFeedback
-
-# Category Admin
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'nav_element', 'parent', 'created_at', 'updated_at')
-    list_filter = ('nav_element', 'parent')
-    search_fields = ('name', 'slug')
-    list_display_links = ('name',)  # Makes the category name clickable
-    ordering = ('name',)  # Orders categories alphabetically by name
-    
-    # Use a custom method to display parent category name in a better way
-    def parent(self, obj):
-        return obj.parent.name if obj.parent else "None"
-    parent.short_description = 'Parent Category'
+from .models import Product, Category, Tag, ProductVariant, ProductImage, ProductFeedback
 
 # Product Admin
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'discount_percentage', 'discount_price', 'average_rating', 'subcategory_name', 'category_name')
-    list_filter = ('category', 'parent_category')
-    search_fields = ('name', 'description')
-    readonly_fields = ('discount_price',)
+    list_display = ('name', 'subcategory_name', 'category', 'parent_category', 'price', 'discount_price', 'average_rating')
+    search_fields = ('name', 'subcategory_name', 'category__name', 'parent_category')
+    list_filter = ('parent_category', 'category', 'tags')
 
-    def average_rating(self, obj):
-        return obj.average_rating()
-    average_rating.short_description = 'Average Rating'
+# Category Admin
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'parent', 'nav_element', 'created_at', 'updated_at')
+    search_fields = ('name', 'parent__name')
+    list_filter = ('nav_element', 'created_at', 'updated_at')
 
-    def subcategory_name(self, obj):
-        return obj.category.name if obj.category else 'No subcategory'
-    subcategory_name.short_description = 'Subcategory'
+# Tag Admin
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
 
-    # Custom method to display the category name in list view
-    def category_name(self, obj):
-        return obj.category.name if obj.category else 'No category'
-    category_name.short_description = 'Category'
+# Product Variant Admin
+@admin.register(ProductVariant)
+class ProductVariantAdmin(admin.ModelAdmin):
+    list_display = ('product', 'size', 'color', 'price')
+    search_fields = ('product__name', 'size', 'color')
+    list_filter = ('size', 'color')
 
+# Product Image Admin
+@admin.register(ProductImage)
+class ProductImageAdmin(admin.ModelAdmin):
+    list_display = ('product', 'image', 'alt_text')
+    search_fields = ('product__name', 'alt_text')
 
-# ProductFeedback Admin
+# Product Feedback Admin
 @admin.register(ProductFeedback)
 class ProductFeedbackAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'product', 'rating', 'created_at')
+    list_display = ('user', 'product', 'rating', 'created_at')
+    search_fields = ('user__username', 'product__name')
     list_filter = ('rating', 'created_at')
-    search_fields = ('user__username', 'product__name', 'comment')
-    readonly_fields = ('created_at',)
-
