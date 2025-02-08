@@ -2,20 +2,17 @@ from pathlib import Path
 import cloudinary
 import environ
 import os
-if os.path.exists("env.py"):
-    import env 
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from env.py
-env_path = os.path.join(BASE_DIR, 'env.py')
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY")
 
-
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = [
     '8000-kevinolm10-motionbalanc-vdspn73ey1h.ws.codeinstitute-ide.net',
@@ -97,8 +94,8 @@ EMAIL_HOST = "smtp.gmail.com"  # Gmail SMTP server
 EMAIL_PORT = 587  # Use 465 for SSL
 EMAIL_USE_TLS = True  # Required for STARTTLS
 EMAIL_USE_SSL = False  # Must be False if TLS is True
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")  # Use environment variables for security
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")  # Use App Password, not your regular password
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")  # Use environment variables for security
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")  # Use App Password, not your regular password
 DEFAULT_FROM_EMAIL = "motion-balance@info.com"
 
 
@@ -117,10 +114,7 @@ WSGI_APPLICATION = 'motion_balance.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.db(),
 }
 
 CSRF_TRUSTED_ORIGINS = [
@@ -180,13 +174,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configure Cloudinary using environment variables
 cloudinary.config(
-    cloud_name=os.getenv("CLOUD_NAME"),
-    api_key=os.getenv("CLOUD_API_KEY"),
-    api_secret=os.getenv("CLOUD_API_SECRET"),
+    cloud_name= env("CLOUD_NAME"),
+    api_key= env("CLOUD_API_KEY"),
+    api_secret= env("CLOUD_API_SECRET"),
 )
 
 try:
     from .env import GOOGLE_MAPS_API_KEY
 except ImportError:
-    GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', None)
+    GOOGLE_MAPS_API_KEY = env('GOOGLE_MAPS_API_KEY', None)
 
