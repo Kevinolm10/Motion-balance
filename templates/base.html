@@ -25,6 +25,7 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
     {% endblock %}
 
     {% block extra_css %}
@@ -199,19 +200,76 @@
                         <li><a href="https://www.twitter.com" target="_blank" aria-label="Twitter"><i
                                     class="fab fa-twitter social-icons"></i></a></li>
                     </ul>
-                </div>
-            </div>
 
-            <!-- Copyright Section -->
-            <div class="row">
-                <div class="col text-center mt-3">
-                    <p>&copy; 2024 Motion & Balance. All rights reserved.</p>
+                    <div id="mc_embed_shell">
+
+                    </div>
+
+                    <div id="mc_embed_signup">
+                        <form
+                            action="https://outlook.us10.list-manage.com/subscribe/post?u=f5373ee0f63e281572d640ff1&amp;id=2b807bf8c3&amp;f_id=008694e5f0"
+                            method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                            class="validate" target="_blank">
+                            <div id="mc_embed_signup_scroll">
+                                <h2>Subscribe</h2>
+                                <div class="indicates-required"><span class="asterisk">*</span> indicates required
+                                </div>
+                                <div class="mc-field-group"><label for="mce-EMAIL">Email Address <span
+                                            class="asterisk">*</span></label><input type="email" name="EMAIL"
+                                        class="required email" id="mce-EMAIL" required="" value=""></div>
+                                <div id="mce-responses" class="clear foot">
+                                    <div class="response" id="mce-error-response" style="display: none;"></div>
+                                    <div class="response" id="mce-success-response" style="display: none;"></div>
+                                </div>
+                                <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                    /* real people should not fill this in and expect good things - do not remove
+                                    this or risk form bot signups */
+                                    <input type="text" name="b_f5373ee0f63e281572d640ff1_2b807bf8c3" tabindex="-1"
+                                        value="">
+                                </div>
+                                <div class="optionalParent">
+                                    <div class="clear foot">
+                                        <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button"
+                                            value="Subscribe">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <!-- Copyright Section -->
+                    <div class="row">
+                        <div class="col text-center mt-3">
+                            <p>&copy; 2024 Motion & Balance. All rights reserved.</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
     </footer>
 
     {% block postloadjs %}
+    <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+    <script type="text/javascript">
+        (function ($) {
+            window.fnames = new Array();
+            window.ftypes = new Array();
+            fnames[0] = 'EMAIL';
+            ftypes[0] = 'email';
+            fnames[1] = 'FNAME';
+            ftypes[1] = 'text';
+            fnames[2] = 'LNAME';
+            ftypes[2] = 'text';
+            fnames[3] = 'ADDRESS';
+            ftypes[3] = 'address';
+            fnames[4] = 'PHONE';
+            ftypes[4] = 'phone';
+            fnames[5] = 'BIRTHDAY';
+            ftypes[5] = 'birthday';
+            fnames[6] = 'COMPANY';
+            ftypes[6] = 'text';
+        }(jQuery));
+        var $mcj = jQuery.noConflict(true);
+    </script>
     {% endblock %}
 </body>
 
