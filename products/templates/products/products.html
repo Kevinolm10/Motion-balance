@@ -34,22 +34,26 @@
     <section class="products">
         {% for product in products %}
         <div class="product-card">
-            <img src="{{ product.product_image.url }}" alt="{{ product.name }}">
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.description }}</p>
-            <p>Price: ${{ product.price }}</p>
+            <div class="product-image">
+                {% if product.images.first %}
+                <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}">
+                {% endif %}
+            </div>
+            <div class="product-details">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <p>Price: ${{ product.price }}</p>
 
-            {% if product.discount_percentage %}
-            <p class="discount">Discount: {{ product.discount_percentage }}%</p>
-            <p class="discount">Discounted Price: ${{ product.discount_price }}</p>
-            {% endif %}
+                {% if product.discount_percentage %}
+                <p class="discount">Discount: {{ product.discount_percentage }}%</p>
+                <p class="discount">Discounted Price: ${{ product.discount_price }}</p>
+                {% endif %}
 
+                <p>Average Rating: {{ product.average_rating }}</p>
 
-
-            <button class="cta-button">Add to Cart</button>
-            <button class="cta-button">View Details</button>
-
-
+                <button class="cta-button">Add to Cart</button>
+                <button class="cta-button">View Details</button>
+            </div>
         </div>
         {% endfor %}
     </section>
