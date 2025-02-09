@@ -52,7 +52,8 @@ aside {
 }
 
 .products {
-    grid-template-columns: repeat(4, 1fr)
+    grid-template-columns: repeat(4, 1fr);
+    height: 50%;
 }
 
 .product-card {
