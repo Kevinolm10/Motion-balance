@@ -1,0 +1,71 @@
+main {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.product-details {
+    display: grid;
+    grid-template-areas:
+        "image info"
+        "feedback form";
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 30px;
+    border: 1px solid #ccc;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.product-image {
+    grid-area: image;
+}
+
+.product-info {
+    grid-area: info;
+}
+
+.product-feedback {
+    grid-area: feedback;
+}
+
+.feedback-form {
+    grid-area: form;
+}
+
+.product-info,
+.product-feedback,
+.feedback-form {
+    gap: 1rem;
+}
+
+p {
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+/* Feedback Form Styling */
+.feedback-form form {
+    margin-top: 20px;
+}
+
+.feedback-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.feedback-form select,
+.feedback-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.feedback-form textarea {
+    resize: vertical;
+}
