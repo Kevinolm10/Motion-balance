@@ -4,12 +4,16 @@ from django.contrib.auth.decorators import login_required  # Import login_requir
 from django.db.models import Q
 from .models import Product, Category
 from wishlist.models import Wishlist, WishlistItem
+from .forms import ProductFilterForm
 
 # A view to return all products, sorting, and search
 def all_products(request):
     products = Product.objects.all()
     categories = Category.objects.all()
     query = None
+
+    # Initialize the filter form with GET parameters
+    form = ProductFilterForm(request.GET)
 
     # If the search bar is used, filter products by name, description, or subcategory
     if request.GET:
@@ -25,11 +29,26 @@ def all_products(request):
             products = products.filter(product_queries)
             categories = categories.filter(category_queries)
 
+        # Apply filters from the form
+        if form.is_valid():
+            if form.cleaned_data['min_price']:
+                products = products.filter(price__gte=form.cleaned_data['min_price'])
+            if form.cleaned_data['max_price']:
+                products = products.filter(price__lte=form.cleaned_data['max_price'])
+            if form.cleaned_data['min_discount']:
+                products = products.filter(discount_percentage__gte=form.cleaned_data['min_discount'])
+            if form.cleaned_data['max_discount']:
+                products = products.filter(discount_percentage__lte=form.cleaned_data['max_discount'])
+            if form.cleaned_data['min_rating']:
+                products = products.filter(average_rating__gte=form.cleaned_data['min_rating'])
+            if form.cleaned_data['max_rating']:
+                products = products.filter(average_rating__lte=form.cleaned_data['max_rating'])
 
     context = {
         'products': products,
         'categories': categories,
         'search_term': query,
+        'form': form,
     }
 
     return render(request, 'products/products.html', context)
