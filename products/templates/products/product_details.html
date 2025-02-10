@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/product.css' %}">
+<link rel="stylesheet" href="{% static 'products/css/product_details.css' %}">
 {% endblock extra_css %}
 
 {% block page_header %}
@@ -10,20 +10,52 @@
 {% endblock %}
 
 {% block content %}
-<div class="product-details">
-    <div class="product-image">
-        {% if product.images.first %}
-        <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}">
-        {% endif %}
+<main>
+    <div class="product-details">
+        <div class="product-image">
+            {% if product.images.first %}
+            <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}">
+            {% endif %}
+        </div>
+        <div class="product-info">
+            <p>{{ product.description }}</p>
+            <p>Price: ${{ product.price }}</p>
+            {% if product.discount_percentage %}
+            <p class="discount">Discount: {{ product.discount_percentage }}%</p>
+            <p class="discount">Discounted Price: ${{ product.discount_price }}</p>
+            {% endif %}
+            <p>Average Rating: {{ product.average_rating }}</p>
+        </div>
+        <div class="product-feedback">
+            <h2>Customer Feedback</h2>
+            {% for feedback in product.feedback.all %}
+            <div class="feedback">
+                <p><strong>{{ feedback.user.username }}</strong> rated it {{ feedback.rating }} stars</p>
+                <p>{{ feedback.comment }}</p>
+            </div>
+            {% empty %}
+            <p>No feedback available for this product.</p>
+            {% endfor %}
+        </div>
+        <div class="feedback-form">
+            {% if user.is_authenticated %}
+            <h2>Leave Feedback</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <label for="order_item_id">Select Order Item:</label>
+                <select name="order_item_id" id="order_item_id">
+                    {% for order_item in user_order_items %}
+                    <option value="{{ order_item.id }}">Order #{{ order_item.order.id }} - {{ order_item.product.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="cta-button">Submit Feedback</button>
+            </form>
+            {% else %}
+            <p><a href="{% url 'login' %}">Log in</a> to leave feedback.</p>
+            {% endif %}
+        </div>
     </div>
-    <div class="product-info">
-        <p>{{ product.description }}</p>
-        <p>Price: ${{ product.price }}</p>
-        {% if product.discount_percentage %}
-        <p class="discount">Discount: {{ product.discount_percentage }}%</p>
-        <p class="discount">Discounted Price: ${{ product.discount_price }}</p>
-        {% endif %}
-        <p>Average Rating: {{ product.average_rating }}</p>
-    </div>
-</div>
+</main>
 {% endblock %}
