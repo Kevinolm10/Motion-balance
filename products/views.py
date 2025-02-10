@@ -5,6 +5,8 @@ from django.db.models import Q
 from .models import Product, Category
 from wishlist.models import Wishlist, WishlistItem
 from .forms import ProductFilterForm
+from .forms import FeedbackForm
+from checkout.models import OrderItem
 
 # A view to return all products, sorting, and search
 def all_products(request):
@@ -118,10 +120,30 @@ def all_accessories(request):
         'products': products
     })
 
+@login_required
 def product_details(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+    user_order_items = OrderItem.objects.filter(order__user=request.user, product=product)
+
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            order_item_id = request.POST.get('order_item_id')
+            order_item = get_object_or_404(OrderItem, id=order_item_id, order__user=request.user, product=product)
+            feedback = form.save(commit=False)
+            feedback.user = request.user
+            feedback.product = product
+            feedback.order_item = order_item
+            feedback.save()
+            messages.success(request, 'Your feedback has been submitted.')
+            return redirect('product_details', product_id=product.id)
+    else:
+        form = FeedbackForm()
+
     context = {
         'product': product,
+        'form': form,
+        'user_order_items': user_order_items,
     }
     return render(request, 'products/product_details.html', context)
 
