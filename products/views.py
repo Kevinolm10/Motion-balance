@@ -118,6 +118,13 @@ def all_accessories(request):
         'products': products
     })
 
+def product_details(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    context = {
+        'product': product,
+    }
+    return render(request, 'products/product_details.html', context)
+
 @login_required
 def add_to_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
