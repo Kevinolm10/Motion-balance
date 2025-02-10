@@ -5,6 +5,14 @@ main {
     padding: 10px;
 }
 
+.page-header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 25px;
+    font-size: 2.5rem;
+}
+
 .product-details {
     display: grid;
     grid-template-areas:
@@ -68,4 +76,63 @@ p {
 
 .feedback-form textarea {
     resize: vertical;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1200px) {
+    .product-details {
+        width: 90%;
+    }
+}
+
+@media (max-width: 992px) {
+    .product-details {
+        grid-template-areas:
+            "image"
+            "info"
+            "feedback"
+            "form";
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        font-size: 2rem;
+    }
+
+    .product-details {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .feedback-form form {
+        margin-top: 15px;
+    }
+
+    .feedback-form label,
+    .feedback-form select,
+    .feedback-form textarea {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-header {
+        font-size: 1.5rem;
+    }
+
+    .product-details {
+        padding: 15px;
+    }
+
+    .feedback-form form {
+        margin-top: 10px;
+    }
+
+    .feedback-form label,
+    .feedback-form select,
+    .feedback-form textarea {
+        font-size: 0.8rem;
+    }
 }
