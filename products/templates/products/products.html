@@ -7,9 +7,9 @@
 
 {% block page_header %}
 {% if category.parent_category %}
-<h1>{{ category.parent_category.name }}</h1>
+<h1 class="page-header">{{ category.parent_category.name }}</h1>
 {% else %}
-<h1>{{ category.name }}</h1>
+<h1 class="page-header">{{ category.name }}</h1>
 {% endif %}
 {% endblock %}
 
@@ -37,7 +37,6 @@
             </div>
             <div class="product-details">
                 <h3>{{ product.name }}</h3>
-                <p>{{ product.description }}</p>
                 <p>Price: ${{ product.price }}</p>
 
                 {% if product.discount_percentage %}
