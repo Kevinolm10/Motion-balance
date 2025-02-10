@@ -113,16 +113,25 @@ class ProductImage(models.Model):
 
 # Product Feedback Model
 class ProductFeedback(models.Model):
+    STARS = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+    )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='feedback')
-    rating = models.PositiveIntegerField()
-    comment = models.TextField()
+    rating = models.IntegerField(choices=STARS)
+    comment = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    order_item = models.ForeignKey('checkout.OrderItem', on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(auto_now=True)
+    order_item = models.ForeignKey('checkout.OrderItem', on_delete=models.CASCADE, default=1)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.product.update_average_rating()
 
     def __str__(self):
-        return f"Feedback by {self.user.username} on {self.product.name}"
+        return f"Feedback from {self.user.username} for {self.product.name}"
