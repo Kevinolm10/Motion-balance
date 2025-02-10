@@ -6,7 +6,7 @@
 {% endblock extra_css %}
 
 {% block page_header %}
-<h1>{{ product.name }}</h1>
+<h1 class="page-header">{{ product.name }}</h1>
 {% endblock %}
 
 {% block content %}
@@ -25,6 +25,7 @@
             <p class="discount">Discounted Price: ${{ product.discount_price }}</p>
             {% endif %}
             <p>Average Rating: {{ product.average_rating }}</p>
+            <button class="cta-button">Add to Cart</button>
         </div>
         <div class="product-feedback">
             <h2>Customer Feedback</h2>
