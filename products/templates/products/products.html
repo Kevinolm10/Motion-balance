@@ -15,19 +15,11 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <h2>Filters</h2>
-        <section>
-            <br>
-            <a href="">
-                <p>Category</p>
-            </a>
-            <br>
-            <a href="">
-                <p>Price Range</p>
-            </a>
-            <br>
-            <a href="" <p>Brand</p>
-            </a>
-        </section>
+        <form method="get">
+            {{ form.as_p }}
+            <button type="submit" class="cta-button">Apply Filters</button>
+            <a href="{% url 'all_products' %}" class="cta-button">Reset Filters</a>
+        </form>
     </aside>
 
     <!-- Products Grid (Django Templating) -->
@@ -52,7 +44,7 @@
                 <p>Average Rating: {{ product.average_rating }}</p>
 
                 <button class="cta-button">Add to Cart</button>
-                <button class="cta-button">View Details</button>
+                <button href="{% url 'product_details' %}" class="cta-button">View Details</button>
             </div>
         </div>
         {% endfor %}
