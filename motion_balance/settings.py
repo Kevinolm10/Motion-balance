@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'user_profile',
     'checkout',
     'wishlist',
+    'cart',
 ]
 
 
