@@ -124,8 +124,8 @@
                             <button><i class="fas fa-user-plus"></i></button>
                         </a>
                         {% endif %}
-                        <div class="profileicons user {% if request.path == '/basket/' %}active{% endif %}">
-                            <a href="#"
+                        <div class="profileicons user {% if request.path == '/cart/' %}{% endif %}">
+                            <a href="{% url 'cart' %}"
                                 class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %}"
                                 aria-label="View Basket">
                                 <button><i class="fa-solid fa-cart-shopping"></i></button>
