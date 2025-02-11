@@ -10,5 +10,6 @@ urlpatterns = [
     path('products/', include('products.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('checkout/', include('checkout.urls')),  # Include the checkout app URLs
+    path('cart/', include('cart.urls')),  # Include the cart app URLs
     path('user_profile/', include('user_profile.urls')),  # Ensure the trailing slash
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
