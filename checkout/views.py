@@ -12,3 +12,8 @@ def order_list(request):
 def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     return render(request, 'checkout/order_detail.html', {'order': order})
+
+
+def checkout(request):
+    """ A view to handle the checkout process """
+    return render(request, 'checkout/checkout.html')
