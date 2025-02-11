@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'cart/css/cart.css' %}">
+{% endblock extra_css %}
+
+{% block page_header %}
+<h1 class="page-header">Your Shopping Cart</h1>
+{% endblock %}
+
+{% block content %}
+<div class="cart-container">
+    <h2 class="page-header">Shopping Bag</h2>
+    {% if cart_items %}
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>
+                    <div class="cart-item">
+                        <img src="{{ item.image_url }}" alt="{{ item.alt_text }}">
+                        <div class="cart-item-details">
+                            <h3>{{ item.product.name }}</h3>
+                            {% if item.product.discount_percentage %}
+                            <p class="discount">Discount: {{ item.product.discount_percentage }}%</p>
+                            <p class="discounted-price">Discounted Price: ${{ item.product.discount_price }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.product.discount_price }}</td>
+                <td>${{ item.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="cart-summary">
+        <p>Total: ${{ total }}</p>
+        <p>Delivery: ${{ delivery }}</p>
+        <p>Grand Total: ${{ grand_total }}</p>
+        {% if free_delivery_delta > 0 %}
+        <p class="text-danger">
+            Spend ${{ free_delivery_delta }} more for free delivery!
+        </p>
+        {% endif %}
+        <a href="{% url 'checkout' %}" class="cta-button">Checkout</a>
+    </div>
+    {% else %}
+    <p>Your cart is empty.</p>
+    <a href="{% url 'all_products' %}" class="cta-button">Keep Shopping</a>
+    {% endif %}
+</div>
+{% endblock %}
