@@ -75,6 +75,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'products.context_processors.categories_context', 
+                'cart.context_processors.cart_items', 
             ],
         },
     },
@@ -185,3 +186,6 @@ try:
 except ImportError:
     GOOGLE_MAPS_API_KEY = env('GOOGLE_MAPS_API_KEY', None)
 
+
+FREE_DELIVERY_THRESHOLD = 50
+STANDARD_DELIVERY_PERCENTAGE = 10
