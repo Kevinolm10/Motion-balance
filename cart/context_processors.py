@@ -11,11 +11,13 @@ def cart_items(request):
 
     for item_id, quantity in cart.items():
         product = get_object_or_404(Product, pk=item_id)
-        subtotal = quantity * product.discount_price  # Use the discounted price from the model
+        discounted_price = product.discount_price if product.discount_price else product.price
+        subtotal = quantity * discounted_price  # Use the discounted price from the model
         total += subtotal
         product_count += quantity
         image_url = product.images.first().image.url if product.images.exists() else None
-        alt_text = product.images.first().alt_text if product.images.exists() else ''
+        alt_text = product.images.first().alt_text if product.images.exists() else product.name
+        sizes = product.sizes.split(',') if product.sizes else []  # Split sizes into a list
         cart_items.append({
             'product_id': item_id,
             'quantity': quantity,
@@ -23,6 +25,7 @@ def cart_items(request):
             'subtotal': subtotal,
             'image_url': image_url,
             'alt_text': alt_text,
+            'sizes': sizes,
         })
 
     if total < settings.FREE_DELIVERY_THRESHOLD:
