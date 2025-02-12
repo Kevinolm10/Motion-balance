@@ -52,14 +52,21 @@ class Tag(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
+    sizes = models.CharField(max_length=255, help_text="Comma-separated sizes (e.g., S,M,L,XL)")
     price = models.DecimalField(max_digits=10, decimal_places=2)
     discount_percentage = models.FloatField(null=True, blank=True)
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     subcategory_name = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
-    parent_category = models.CharField(max_length=20, choices=Category.PARENT_CATEGORY, default='products')
+    parent_category = models.CharField(max_length=20, choices=[('products', 'Products')], default='products')
     tags = models.ManyToManyField(Tag, related_name='products', blank=True)
     average_rating = models.FloatField(default=0.0)  # Store instead of calculating dynamically
+
+    @property
+    def discounted_price(self):
+        if self.discount_percentage:
+            return self.price * (1 - self.discount_percentage / 100)
+        return self.price
 
     def save(self, *args, **kwargs):
         """Link product to subcategory under the selected parent category and calculate discount price."""
@@ -85,31 +92,21 @@ class Product(models.Model):
 
     def update_average_rating(self):
         """Recalculate the average rating when a new review is added."""
-        avg_rating = self.productfeedback_set.aggregate(Avg('rating'))['rating__avg']
+        avg_rating = self.feedback.aggregate(Avg('rating'))['rating__avg']
         self.average_rating = round(avg_rating, 2) if avg_rating else 0.0
         self.save()
 
     def __str__(self):
         return self.name
-
-# Product Variant Model
-class ProductVariant(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
-    size = models.CharField(max_length=50, null=True, blank=True)  # Example: S, M, L
-    color = models.CharField(max_length=50, null=True, blank=True)  # Example: Red, Blue
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return f"{self.product.name} - {self.size} - {self.color}"
-
-# Product Image Model
+    
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='products/images/')
-    alt_text = models.CharField(max_length=255, blank=True)  # SEO-friendly
+    alt_text = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return f"Image for {self.product.name}"
+    
 
 # Product Feedback Model
 class ProductFeedback(models.Model):
