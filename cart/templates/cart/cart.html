@@ -13,14 +13,14 @@
 <div class="cart-container">
     <h2 class="page-header">Shopping Bag</h2>
     {% if cart_items %}
-    <table class="cart-table">
+    <table class="cart-table" role="table" aria-labelledby="cart-summary">
         <thead>
             <tr>
-                <th>Product</th>
-                <th>Size</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
+                <th scope="col">Product</th>
+                <th scope="col">Size</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -29,32 +29,39 @@
                 <td>
                     <div class="cart-item">
                         {% if item.image_url %}
-                        <img src="{{ item.image_url }}" alt="{{ item.alt_text }}">
+                        <img src="{{ item.image_url }}" alt="{{ item.alt_text }}" />
                         {% endif %}
                         <div class="cart-item-details">
                             <h3>{{ item.product.name }}</h3>
                             {% if item.product.discount_percentage %}
-                            <p class="discount">Discount: {{ item.product.discount_percentage }}%</p>
-                            <p class="discounted-price">Discounted Price: ${{ item.product.discount_price }}</p>
+                            <p class="discount" aria-label="Discount: {{ item.product.discount_percentage }}%">
+                                Discount: {{ item.product.discount_percentage }}%
+                            </p>
+                            <p class="discounted-price"
+                                aria-label="Discounted Price: ${{ item.product.discount_price }}">
+                                Discounted Price: ${{ item.product.discount_price }}
+                            </p>
                             {% endif %}
                         </div>
                     </div>
-                </td>
                 </td>
                 <td>{{ item.size }}</td>
                 <td>{{ item.quantity }}</td>
                 <td>${{ item.product.discount_price|default:item.product.price }}</td>
                 <td>${{ item.subtotal }}</td>
                 <td>
-                    <a href="{% url 'delete_from_cart' item.product.id %}" class="remove-item">
-                        <i class="fas fa-trash-alt profileicons"></i>
+                    <a href="{% url 'delete_from_cart' item.product.id %}" class="remove-item" role="button"
+                        aria-label="Remove {{ item.product.name }} from cart">
+                        <i class="fas fa-trash-alt profileicons" aria-hidden="true"></i>
+                        <span class="sr-only">Remove item from cart</span>
                     </a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <div class="cart-summary">
+
+    <div class="cart-summary" aria-labelledby="cart-summary">
         <p>Total: ${{ total }}</p>
         <p>Delivery: ${{ delivery }}</p>
         <p>Grand Total: ${{ grand_total }}</p>
@@ -63,12 +70,16 @@
             Spend ${{ free_delivery_delta }} more for free delivery!
         </p>
         {% endif %}
-        <a href="{% url 'all_products' %}" class="cta-button">Keep Shopping</a>
-        <a href="{% url 'checkout' %}" class="cta-button">Checkout</a>
+
+        <a href="{% url 'all_products' %}" class="cta-button" role="link"
+            aria-label="Continue shopping and view all products">Keep Shopping</a>
+        <a href="{% url 'checkout' %}" class="cta-button" role="link" aria-label="Proceed to checkout">Checkout</a>
     </div>
+
     {% else %}
     <p>Your cart is empty.</p>
-    <a href="{% url 'all_products' %}" class="cta-button">Keep Shopping</a>
+    <a href="{% url 'all_products' %}" class="cta-button" role="link"
+        aria-label="Continue shopping and view all products">Keep Shopping</a>
     {% endif %}
 </div>
 {% endblock %}

@@ -6,7 +6,7 @@
 {% endblock extra_css %}
 
 {% block page_header %}
-<h1 class="page-header">{{ product.name }}</h1>
+<h1 class="page-header" id="product-name">{{ product.name }}</h1>
 {% endblock %}
 
 {% block content %}
@@ -14,7 +14,7 @@
     <div class="product-details">
         <div class="product-image">
             {% if product.images.first %}
-            <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}">
+            <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}" />
             {% endif %}
         </div>
         <div class="product-info">
@@ -27,14 +27,14 @@
             <p>Average Rating: {{ product.average_rating }}</p>
 
             <!-- Size Selector -->
-            <form class="form" action="{% url 'add_to_cart' product.id %}" method="POST">
+            <form class="form" action="{% url 'add_to_cart' product.id %}" method="POST" aria-labelledby="product-name">
                 {% csrf_token %}
                 <div class="form-row">
                     <!-- Size Selector (Ensure it's inside the form) -->
                     {% if product.sizes %}
                     <div class="form-group">
                         <label for="size"><strong>Size:</strong></label>
-                        <select name="size" id="size">
+                        <select name="size" id="size" aria-label="Select product size">
                             {% for size in product.sizes %}
                             <option value="{{ size }}">{{ size }}</option>
                             {% endfor %}
@@ -42,61 +42,64 @@
                     </div>
                     {% endif %}
 
-
-
-                    <form class="form" action="{% url 'add_to_cart' product.id %}" method="POST">
-                        {% csrf_token %}
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="id_qty_{{ product.id }}"><strong>Quantity:</strong></label>
-                                <input class="qty_input" type="number" name="quantity" value="1" min="1" max="99"
-                                    data-item_id="{{ product.id }}" id="id_qty_{{ product.id }}">
-                            </div>
-
-                            <div class="form-actions">
-                                <a href="{% url 'all_products' %}" class="btn keep-shopping">
-                                    <span class="icon">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
-                                    <span class="text-uppercase">Keep Shopping</span>
-                                </a>
-                                <input type="submit" class="btn add-to-bag" value="Add to Bag">
-                            </div>
-                            <input type="hidden" name="redirect_url" value="{{ request.path }}">
-                        </div>
-                    </form>
-                </div>
-                <div class="product-feedback">
-                    <h2>Customer Feedback</h2>
-                    {% for feedback in product.feedback.all %}
-                    <div class="feedback">
-                        <p><strong>{{ feedback.user.username }}</strong> rated it {{ feedback.rating }} stars</p>
-                        <p>{{ feedback.comment }}</p>
+                    <div class="form-group">
+                        <label for="id_qty_{{ product.id }}" aria-label="Quantity"><strong>Quantity:</strong></label>
+                        <input class="qty_input" type="number" name="quantity" value="1" min="1" max="99"
+                            data-item_id="{{ product.id }}" id="id_qty_{{ product.id }}"
+                            aria-describedby="quantity-description">
                     </div>
-                    {% empty %}
-                    <p>No feedback available for this product.</p>
-                    {% endfor %}
+
+                    <div class="form-actions">
+                        <a href="{% url 'all_products' %}" class="btn keep-shopping" role="link"
+                            aria-label="Continue shopping">
+                            <span class="icon">
+                                <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="text-uppercase">Keep Shopping</span>
+                        </a>
+                        <input type="submit" class="btn add-to-bag" value="Add to Bag"
+                            aria-label="Add this product to your shopping bag">
+                    </div>
+                    <input type="hidden" name="redirect_url" value="{{ request.path }}">
                 </div>
-                <div class="feedback-form">
-                    {% if user.is_authenticated %}
-                    <h2>Leave Feedback</h2>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <label for="order_item_id">Select Order Item:</label>
-                        <select name="order_item_id" id="order_item_id">
-                            {% for order_item in user_order_items %}
-                            <option value="{{ order_item.id }}">Order #{{ order_item.order.id }} -
-                                {{ order_item.product.name }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                        <button type="submit" class="cta-button">Submit Feedback</button>
-                    </form>
-                    {% else %}
-                    <p><a href="{% url 'login' %}">Log in</a> to leave feedback.</p>
-                    {% endif %}
-                </div>
+            </form>
         </div>
+
+        <!-- Customer Feedback Section -->
+        <div class="product-feedback" aria-labelledby="feedback-section">
+            <h2 id="feedback-section">Customer Feedback</h2>
+            {% for feedback in product.feedback.all %}
+            <div class="feedback" role="article" aria-labelledby="feedback-{{ feedback.id }}">
+                <p><strong>{{ feedback.user.username }}</strong> rated it {{ feedback.rating }} stars</p>
+                <p>{{ feedback.comment }}</p>
+            </div>
+            {% empty %}
+            <p>No feedback available for this product.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Feedback Form -->
+        <div class="feedback-form">
+            {% if user.is_authenticated %}
+            <h2>Leave Feedback</h2>
+            <form method="post" aria-labelledby="feedback-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <label for="order_item_id" id="order-item-label">Select Order Item:</label>
+                <select name="order_item_id" id="order_item_id" aria-labelledby="order-item-label">
+                    {% for order_item in user_order_items %}
+                    <option value="{{ order_item.id }}">Order #{{ order_item.order.id }} - {{ order_item.product.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="cta-button" aria-label="Submit your feedback">Submit Feedback</button>
+            </form>
+            {% else %}
+            <p><a href="{% url 'login' %}" role="link" aria-label="Login to leave feedback">Log in</a> to leave
+                feedback.</p>
+            {% endif %}
+        </div>
+
+    </div>
 </main>
 {% endblock %}

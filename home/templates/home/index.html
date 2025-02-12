@@ -7,12 +7,14 @@
 
 {% block content %}
 <!-- Call to action content -->
-<div class="background-image">
+<div class="background-image" role="region" aria-label="Promotional section for healthy lifestyle products">
     <div class="cta-overlay">
         <div class="cta-content">
-            <h2 class="cta-title">Ready to Elevate Your Healthy Lifestyle?</h2>
-            <p class="cta-subtitle">Shop our latest collection of fitness clothing and accessories.</p>
-            <a href="{% url 'all_products' %}" class="cta-button">Shop Now</a>
+            <h2 class="cta-title" id="cta-title">Ready to Elevate Your Healthy Lifestyle?</h2>
+            <p class="cta-subtitle" aria-labelledby="cta-title">Shop our latest collection of fitness clothing and
+                accessories.</p>
+            <a href="{% url 'all_products' %}" class="cta-button" role="link"
+                aria-label="Shop our latest collection of fitness clothing and accessories">Shop Now</a>
         </div>
     </div>
 </div>
