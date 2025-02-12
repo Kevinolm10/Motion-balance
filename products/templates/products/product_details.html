@@ -25,6 +25,21 @@
             <p class="discount">Discounted Price: ${{ product.discount_price }}</p>
             {% endif %}
             <p>Average Rating: {{ product.average_rating }}</p>
+
+            <!-- Size Selector -->
+            {% if product.sizes %}
+            <div class="size-selector">
+                <label for="size">Size:</label>
+                <select name="size" id="size">
+                    {% for size in product.sizes %}
+                    <option value="{{ size }}">{{ size }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
+
+
+
             <form class="form" action="{% url 'add_to_cart' product.id %}" method="POST">
                 {% csrf_token %}
                 <div class="form-row">
@@ -67,7 +82,8 @@
                 <label for="order_item_id">Select Order Item:</label>
                 <select name="order_item_id" id="order_item_id">
                     {% for order_item in user_order_items %}
-                    <option value="{{ order_item.id }}">Order #{{ order_item.order.id }} - {{ order_item.product.name }}
+                    <option value="{{ order_item.id }}">Order #{{ order_item.order.id }} -
+                        {{ order_item.product.name }}
                     </option>
                     {% endfor %}
                 </select>
