@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
 
+# Create your views here.
+
+# The view_cart function will render the cart.html template
 def view_cart(request):
     """ A view to return the cart page """
     return render(request, 'cart/cart.html')
 
+
+# The add_to_cart function will add a product to the cart
 def add_to_cart(request, item_id):
     """ Add a quantity of the specified product to the shopping cart """
     quantity = int(request.POST.get('quantity', 1))  # Get quantity, default to 1 if not provided
@@ -15,6 +20,8 @@ def add_to_cart(request, item_id):
     if not isinstance(cart, dict):
         cart = {}
 
+
+# The item_id is converted to a string to ensure it's consistent
     if item_id in cart:
         # If the product is already in the cart, update the size and quantity
         if size in cart[item_id]:
@@ -30,7 +37,7 @@ def add_to_cart(request, item_id):
 
 
 
-
+# The delete_from_cart function will remove a product from the cart
 def delete_from_cart(request, item_id):
     """ Remove the specified product from the shopping cart """
     cart = request.session.get('cart', {})
