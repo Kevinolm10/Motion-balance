@@ -3,7 +3,7 @@
     justify-content: center;
     width: 100%;
     padding: 25px;
-    font-size: 2.5rem;
+    font-size: 2.5rem
 }
 
 .sidebar,
@@ -61,7 +61,7 @@ aside {
 
 .products {
     grid-template-columns: repeat(4, 1fr);
-    height: 50%;
+    height: 50%
 }
 
 .product-card {
@@ -95,7 +95,7 @@ aside {
     }
 
     .cta-button {
-        padding: 10px 20px;
+        padding: 10px 20px
     }
 }
 

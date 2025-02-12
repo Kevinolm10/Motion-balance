@@ -2,7 +2,7 @@ main {
     display: grid;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 10px
 }
 
 .page-header {
@@ -10,58 +10,55 @@ main {
     justify-content: center;
     width: 100%;
     padding: 25px;
-    font-size: 2.5rem;
+    font-size: 2.5rem
 }
 
 .product-details {
     display: grid;
-    grid-template-areas:
-        "image info"
-        "feedback form";
+    grid-template-areas: "image info""feedback form";
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     padding: 30px;
     border: 1px solid #ccc;
     width: 80%;
-    margin: 0 auto;
+    margin: 0 auto
 }
 
 .product-image {
-    grid-area: image;
+    grid-area: image
 }
 
 .product-info {
-    grid-area: info;
+    grid-area: info
 }
 
 .product-feedback {
-    grid-area: feedback;
+    grid-area: feedback
 }
 
 .feedback-form {
-    grid-area: form;
+    grid-area: form
 }
 
-.product-info,
+.feedback-form,
 .product-feedback,
-.feedback-form {
-    gap: 1rem;
+.product-info {
+    gap: 1rem
 }
 
 p {
     margin-top: 10px;
-    font-size: 1rem;
+    font-size: 1rem
 }
 
-/* Feedback Form Styling */
 .feedback-form form {
-    margin-top: 20px;
+    margin-top: 20px
 }
 
 .feedback-form label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: 700
 }
 
 .feedback-form select,
@@ -71,73 +68,67 @@ p {
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 1rem;
+    font-size: 1rem
 }
 
 .feedback-form textarea {
-    resize: vertical;
+    resize: vertical
 }
 
-/* Media Queries for Responsive Design */
-@media (max-width: 1200px) {
+@media (max-width:1200px) {
     .product-details {
-        width: 90%;
+        width: 90%
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width:992px) {
     .product-details {
-        grid-template-areas:
-            "image"
-            "info"
-            "feedback"
-            "form";
-        grid-template-columns: 1fr;
+        grid-template-areas: "image""info""feedback""form";
+        grid-template-columns: 1fr
     }
 
     .cta-button {
-        margin-top: 20px;
-
+        margin-top: 20px
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width:768px) {
     .page-header {
-        font-size: 2rem;
+        font-size: 2rem
     }
 
     .product-details {
         width: 100%;
-        padding: 20px;
+        padding: 20px
     }
 
     .feedback-form form {
-        margin-top: 15px;
+        margin-top: 15px
     }
 
     .feedback-form label,
     .feedback-form select,
     .feedback-form textarea {
-        font-size: 0.9rem;
+        font-size: .9rem
     }
 }
 
-@media (max-width: 576px) {
+@media (max-width:576px) {
     .page-header {
-        font-size: 1.5rem;
+        font-size: 1.5rem
     }
 
     .product-details {
-        padding: 15px;
+        padding: 15px
     }
 
     .feedback-form form {
-        margin-top: 10px;
+        margin-top: 10px
     }
 
     .feedback-form label,
     .feedback-form select,
     .feedback-form textarea {
-        font-size: 0.8rem;
+        font-size: .8rem
     }
 }
