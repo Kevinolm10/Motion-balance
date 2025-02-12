@@ -35,21 +35,21 @@
                             <h3>{{ item.product.name }}</h3>
                             {% if item.product.discount_percentage %}
                             <p class="discount">Discount: {{ item.product.discount_percentage }}%</p>
-                            <p class="discounted-price">Discounted Price: ${{ item.product.discounted_price }}</p>
+                            <p class="discounted-price">Discounted Price: ${{ item.product.discount_price }}</p>
                             {% endif %}
                         </div>
                     </div>
                 </td>
-                <td>
-                    <select name="size">
-                        {% for size in item.sizes %}
-                        <option value="{{ size }}">{{ size }}</option>
-                        {% endfor %}
-                    </select>
                 </td>
+                <td>{{ item.size }}</td>
                 <td>{{ item.quantity }}</td>
-                <td>${{ item.product.discounted_price }}</td>
+                <td>${{ item.product.discount_price|default:item.product.price }}</td>
                 <td>${{ item.subtotal }}</td>
+                <td>
+                    <a href="{% url 'delete_from_cart' item.product.id %}" class="remove-item">
+                        <i class="fas fa-trash-alt profileicons"></i>
+                    </a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -63,6 +63,7 @@
             Spend ${{ free_delivery_delta }} more for free delivery!
         </p>
         {% endif %}
+        <a href="{% url 'all_products' %}" class="cta-button">Keep Shopping</a>
         <a href="{% url 'checkout' %}" class="cta-button">Checkout</a>
     </div>
     {% else %}
