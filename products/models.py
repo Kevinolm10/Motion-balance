@@ -52,7 +52,7 @@ class Tag(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    sizes = models.CharField(max_length=255, help_text="Comma-separated sizes (e.g., S,M,L,XL)")
+    sizes = models.CharField(max_length=255, blank=True, null=True, help_text="Comma-separated list of sizes (e.g., S,M,L,XL)")
     price = models.DecimalField(max_digits=10, decimal_places=2)
     discount_percentage = models.FloatField(null=True, blank=True)
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
@@ -65,8 +65,10 @@ class Product(models.Model):
     @property
     def discounted_price(self):
         if self.discount_percentage:
-            return self.price * (1 - self.discount_percentage / 100)
-        return self.price
+            discount_decimal = Decimal(str(self.discount_percentage)) / Decimal('100')  # Convert float to Decimal
+            return self.price * (Decimal('1') - discount_decimal)
+        return self.price  # If no discount, return original price
+
 
     def save(self, *args, **kwargs):
         """Link product to subcategory under the selected parent category and calculate discount price."""
