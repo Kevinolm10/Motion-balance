@@ -17,6 +17,7 @@
         <thead>
             <tr>
                 <th>Product</th>
+                <th>Size</th>
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Total</th>
@@ -27,18 +28,27 @@
             <tr>
                 <td>
                     <div class="cart-item">
+                        {% if item.image_url %}
                         <img src="{{ item.image_url }}" alt="{{ item.alt_text }}">
+                        {% endif %}
                         <div class="cart-item-details">
                             <h3>{{ item.product.name }}</h3>
                             {% if item.product.discount_percentage %}
                             <p class="discount">Discount: {{ item.product.discount_percentage }}%</p>
-                            <p class="discounted-price">Discounted Price: ${{ item.product.discount_price }}</p>
+                            <p class="discounted-price">Discounted Price: ${{ item.product.discounted_price }}</p>
                             {% endif %}
                         </div>
                     </div>
                 </td>
+                <td>
+                    <select name="size">
+                        {% for size in item.sizes %}
+                        <option value="{{ size }}">{{ size }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
                 <td>{{ item.quantity }}</td>
-                <td>${{ item.product.discount_price }}</td>
+                <td>${{ item.product.discounted_price }}</td>
                 <td>${{ item.subtotal }}</td>
             </tr>
             {% endfor %}
