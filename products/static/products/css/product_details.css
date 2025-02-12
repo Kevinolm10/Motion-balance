@@ -94,6 +94,11 @@ p {
             "form";
         grid-template-columns: 1fr;
     }
+
+    .cta-button {
+        margin-top: 20px;
+
+    }
 }
 
 @media (max-width: 768px) {
