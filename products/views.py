@@ -9,13 +9,20 @@ from .forms import FeedbackForm
 from checkout.models import OrderItem
 
 # A view to return all products, sorting, and search
-def all_products(request):
+def all_products(request, category_slug=None):
     products = Product.objects.all()
     categories = Category.objects.all()
     query = None
+    category = None
 
     # Initialize the filter form with GET parameters
     form = ProductFilterForm(request.GET)
+
+    # If a category slug is provided, filter products by category and its subcategories
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        subcategories = Category.objects.filter(parent=category)
+        products = products.filter(category__in=[category] + list(subcategories))
 
     # If the search bar is used, filter products by name, description, or subcategory
     if request.GET:
@@ -31,26 +38,16 @@ def all_products(request):
             products = products.filter(product_queries)
             categories = categories.filter(category_queries)
 
-        # Apply filters from the form
-        if form.is_valid():
-            if form.cleaned_data['min_price']:
-                products = products.filter(price__gte=form.cleaned_data['min_price'])
-            if form.cleaned_data['max_price']:
-                products = products.filter(price__lte=form.cleaned_data['max_price'])
-            if form.cleaned_data['min_discount']:
-                products = products.filter(discount_percentage__gte=form.cleaned_data['min_discount'])
-            if form.cleaned_data['max_discount']:
-                products = products.filter(discount_percentage__lte=form.cleaned_data['max_discount'])
-            if form.cleaned_data['min_rating']:
-                products = products.filter(average_rating__gte=form.cleaned_data['min_rating'])
-            if form.cleaned_data['max_rating']:
-                products = products.filter(average_rating__lte=form.cleaned_data['max_rating'])
+    form = ProductFilterForm(request.GET)
+    products = form.filter_products(products)
+
 
     context = {
         'products': products,
         'categories': categories,
-        'search_term': query,
+        'category': category,
         'form': form,
+        'query': query,
     }
 
     return render(request, 'products/products.html', context)
@@ -58,39 +55,46 @@ def all_products(request):
 
 # A view to return a single product
 def product_by_subcategory(request, subcategory_slug):
-    # Get the subcategory based on the slug
+    """ Fetch products by subcategory and apply filters. """
     subcategory = get_object_or_404(Category, slug=subcategory_slug)
-
-    # Filter products by subcategory
     products = Product.objects.filter(category=subcategory)
 
-    # Render the products page with the filtered products
+    form = ProductFilterForm(request.GET)
+    products = form.filter_products(products)  # Apply filters using the form method
+
     return render(request, 'products/products.html', {
         'subcategory': subcategory,
-        'products': products
+        'products': products,
+        'form': form,
     })
+
 
 
 def product_category(request, category_slug):
-    # Get the category based on the slug
+    """ Fetch products by category and apply filters. """
     category = get_object_or_404(Category, slug=category_slug)
-
-    # Filter products by category
     products = Product.objects.filter(category=category)
 
-    # Render the same template but with the filtered products
+    form = ProductFilterForm(request.GET)
+    products = form.filter_products(products)  # Apply filters using the form method
+
     return render(request, 'products/products.html', {
         'category': category,
-        'products': products
+        'products': products,
+        'form': form
     })
 
 
-def sale_products(request):
-    # Fetch all products on sale (discount price is not null)
-    products = Product.objects.filter(discount_price__isnull=False)
 
-    # Render the same template with the filtered products
-    return render(request, 'products/products.html', {'products': products})
+
+def sale_products(request):
+    """ Fetch all products on sale and apply filters. """
+    products = Product.objects.filter(discount_price__isnull=False)
+    
+    form = ProductFilterForm(request.GET)
+    products = form.filter_products(products)  # Apply filters using the form method
+
+    return render(request, 'products/products.html', {'products': products, 'form': form})
 
 
 def sale_category(request, category_slug):
@@ -108,17 +112,18 @@ def sale_category(request, category_slug):
 
 
 def all_accessories(request):
-    # Fetch the accessories category
     accessories_category = get_object_or_404(Category, slug='accessories')
-
-    # Fetch all products in the accessories category
     products = Product.objects.filter(category=accessories_category)
 
-    # Render the same products page with the filtered products
+    form = ProductFilterForm(request.GET)
+    products = form.filter_products(products)
+
     return render(request, 'products/products.html', {
         'category': accessories_category,
-        'products': products
+        'products': products,
+        'form': form
     })
+
 
 @login_required
 def product_details(request, product_id):
