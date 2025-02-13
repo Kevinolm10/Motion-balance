@@ -16,40 +16,48 @@ def add_to_cart(request, item_id):
     redirect_url = request.POST.get('redirect_url')  # Redirect URL after adding to cart
     cart = request.session.get('cart', {})
 
-    # Initialize the cart if it's not a dictionary
+    # Ensure the cart is a dictionary
     if not isinstance(cart, dict):
         cart = {}
 
+    # Ensure item_id is stored as a string for consistency
+    item_id = str(item_id)
 
-# The item_id is converted to a string to ensure it's consistent
-    if item_id in cart:
-        # If the product is already in the cart, update the size and quantity
-        if size in cart[item_id]:
-            cart[item_id][size] += quantity  # Increment quantity
-        else:
-            cart[item_id][size] = quantity  # Add new size
+    if item_id not in cart:
+        cart[item_id] = {}  # Initialize product entry as a dictionary for sizes
+
+    if size in cart[item_id]:
+        cart[item_id][size] += quantity  # Increase quantity if size exists
     else:
-        # If it's a new product, add it with the selected size and quantity
-        cart[item_id] = {size: quantity}
+        cart[item_id][size] = quantity  # Add new size entry
 
     request.session['cart'] = cart  # Save cart back to session
+    request.session.modified = True  # Ensure session updates
+
+    print(f"Cart after adding: {request.session['cart']}")  # Debugging print
+
     return redirect(redirect_url)  # Redirect to the specified URL
 
 
-
 # The delete_from_cart function will remove a product from the cart
-def delete_from_cart(request, item_id):
-    """ Remove the specified product from the shopping cart """
+def delete_from_cart(request, item_id, size):
+    """ Remove a specific size of the product from the shopping cart """
     cart = request.session.get('cart', {})
 
     item_id = str(item_id)  # Ensure it's a string
 
     if item_id in cart:
-        del cart[item_id]
+        if size in cart[item_id]:
+            del cart[item_id][size]  #  Remove only the selected size
+
+            # If no sizes remain for this product, remove the product entry
+            if not cart[item_id]:  
+                del cart[item_id]
 
     request.session['cart'] = cart
-    request.session.modified = True  # ✅ Force Django to save session changes
+    request.session.modified = True  #  Force session update
 
-    print(f"Cart after deletion: {request.session.get('cart', {})}")  # Debugging print
+    print(f"Cart after deletion: {request.session.get('cart', {})}")  #  Debugging print
 
-    return redirect('view_cart') 
+    return redirect('view_cart')
+
