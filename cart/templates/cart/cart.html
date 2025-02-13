@@ -50,8 +50,8 @@
                 <td>${{ item.product.discount_price|default:item.product.price }}</td>
                 <td>${{ item.subtotal }}</td>
                 <td>
-                    <a href="{% url 'delete_from_cart' item.product.id %}" class="remove-item" role="button"
-                        aria-label="Remove {{ item.product.name }} from cart">
+                    <a href="{% url 'delete_from_cart' item_id=item.product.id size=item.size %}" class="remove-item"
+                        role="button" aria-label="Remove {{ item.product.name }} from cart">
                         <i class="fas fa-trash-alt profileicons" aria-hidden="true"></i>
                         <span class="sr-only">Remove item from cart</span>
                     </a>
