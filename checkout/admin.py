@@ -27,6 +27,8 @@ class OrderAdmin(admin.ModelAdmin):
         }),
     )
     inlines = [OrderItemInline]
+    ordering = ('-created_at',)  # Orders sorted by most recent first
+
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
