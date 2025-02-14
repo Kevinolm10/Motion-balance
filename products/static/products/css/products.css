@@ -77,6 +77,37 @@ aside {
     border-radius: 8px
 }
 
+.product-card {
+    position: relative;
+}
+
+.product-image {
+    position: relative;
+}
+
+.wishlist-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #ccc;
+    /* Default color */
+    cursor: pointer;
+    transition: color 0.3s;
+    /* Smooth transition for color */
+}
+
+.wishlist-icon.added {
+    color: #e74c3c;
+    /* Red when added */
+}
+
+.wishlist-icon:hover {
+    color: #e74c3c;
+    /* Hover effect for the icon */
+}
+
+
 .discount {
     color: red;
     font-weight: 700
