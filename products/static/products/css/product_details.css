@@ -24,6 +24,22 @@ main {
     margin: 0 auto
 }
 
+.wishlist-icon {
+    position: absolute;
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.wishlist-icon.added {
+    color: #e74c3c;
+}
+
+.wishlist-icon:hover {
+    color: #e74c3c;
+}
+
 .product-image {
     grid-area: image
 }
