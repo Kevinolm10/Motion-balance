@@ -34,7 +34,6 @@
                         <th>Date</th>
                         <th>Total</th>
                         <th>Status</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,7 +44,6 @@
                         <td>${{ order.total_price }}</td>
                         <td>{{ order.status }}</td>
                         <td>
-                            <a href="{% url 'order_detail' order.id %}" class="btn btn-primary">View</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -118,4 +116,7 @@
             {% else %}
             <p>You have no items in your wishlist.</p>
             {% endif %}
-            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
