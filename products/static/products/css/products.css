@@ -34,7 +34,7 @@ main {
 main {
     background: var(--background-color);
     color: var(--text-color);
-    font-family: var(--font-family)
+    font-family: var(--font-family);
 }
 
 .product-card,
