@@ -7,6 +7,7 @@ from wishlist.models import Wishlist, WishlistItem
 from .forms import ProductFilterForm
 from .forms import FeedbackForm
 from checkout.models import OrderItem
+from django.http import JsonResponse  
 
 # A view to return all products, sorting, and search
 def all_products(request, category_slug=None):
@@ -152,22 +153,32 @@ def product_details(request, product_id):
     }
     return render(request, 'products/product_details.html', context)
 
+
 @login_required
 def add_to_wishlist(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+    """Add a product to the user's wishlist."""
+    if request.method != "POST":
+        return redirect(request.META.get('HTTP_REFERER'))  # Go back to the referring page
+
+    product = get_object_or_404(Product, pk=product_id)
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
-    wishlist_item, created = WishlistItem.objects.get_or_create(wishlist=wishlist, product=product)
-    if created:
-        messages.success(request, f"{product.name} has been added to your wishlist.")
-    else:
-        messages.info(request, f"{product.name} is already in your wishlist.")
-    return redirect('product_detail', product_id=product.id)
+
+    if WishlistItem.objects.filter(wishlist=wishlist, product=product).exists():
+        return redirect(request.META.get('HTTP_REFERER'))  # Go back to the referring page
+    
+    WishlistItem.objects.create(wishlist=wishlist, product=product)
+    
+    return redirect(request.META.get('HTTP_REFERER'))  # Go back to the referring page
 
 @login_required
 def remove_from_wishlist(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+    """Remove a product from the user's wishlist."""
+    if request.method != "POST":
+        return redirect(request.META.get('HTTP_REFERER'))  # Go back to the referring page
+
+    product = get_object_or_404(Product, pk=product_id)
     wishlist = get_object_or_404(Wishlist, user=request.user)
     wishlist_item = get_object_or_404(WishlistItem, wishlist=wishlist, product=product)
     wishlist_item.delete()
-    messages.success(request, f"{product.name} has been removed from your wishlist.")
-    return redirect('product_detail', product_id=product.id)
+
+    return redirect(request.META.get('HTTP_REFERER'))  # Go back to the referring page
