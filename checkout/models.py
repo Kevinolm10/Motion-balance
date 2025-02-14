@@ -63,7 +63,6 @@ class OrderItem(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
     
     size = models.CharField(max_length=10, null=True, blank=True)
-    color = models.CharField(max_length=50, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.total_price = self.product_price * self.quantity  # Calculate line item total
