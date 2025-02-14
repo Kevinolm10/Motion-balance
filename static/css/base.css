@@ -84,7 +84,7 @@ header {
 }
 
 main {
-    min-height: 100vh
+    height: auto;
 }
 
 span {
