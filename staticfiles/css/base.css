@@ -1,7 +1,6 @@
 .branding .brand,
 .cta-button {
-    text-transform: uppercase;
-    text-decoration: none
+    text-transform: uppercase
 }
 
 .branding .brand,
@@ -111,7 +110,9 @@ span:hover {
     letter-spacing: 2px
 }
 
-.brand:hover {
+.brand:hover,
+.footer,
+.footer-store-info a {
     color: var(--hover-bg)
 }
 
@@ -223,6 +224,13 @@ span:hover {
     display: inline-block
 }
 
+.menu,
+.search-bar,
+.social-links ul,
+nav {
+    display: flex
+}
+
 .nav-list li a {
     font-size: 1.1rem;
     transition: color var(--transition-speed);
@@ -268,14 +276,12 @@ span:hover {
 }
 
 nav {
-    display: flex;
     justify-content: center;
     align-items: center;
     height: 100%
 }
 
 .search-bar {
-    display: flex;
     align-items: center;
     border-radius: 30px;
     border: 1px solid var(--secondary-color);
@@ -309,9 +315,14 @@ nav {
 }
 
 .hamburger i,
+.product-management,
 .profileicons button {
     transition: background-color var(--transition-speed);
-    height: 2rem;
+    height: 2rem
+}
+
+.hamburger i,
+.profileicons button {
     width: 2rem
 }
 
@@ -339,22 +350,30 @@ nav {
 }
 
 .product-management {
-    transition: background-color var(--transition-speed);
     border-radius: 30px;
     border: 1px solid var(--secondary-color);
-    height: 2rem;
     margin-top: 2.5rem;
     margin-right: .5rem;
     font-size: 10px
 }
 
-.footer,
-.footer-store-info a {
-    color: var(--hover-bg)
-}
-
 #delivery-banner .col {
     background-color: var(--accent-color)
+}
+
+.message-container {
+    position: fixed;
+    top: 72px;
+    right: 15px;
+    z-index: 99999999999;
+}
+
+.custom-toast {
+    overflow: visible;
+}
+
+.toast-capper {
+    height: 2px;
 }
 
 .footer {
@@ -392,7 +411,6 @@ nav {
 
 .social-links ul {
     list-style: none;
-    display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 15px
@@ -413,7 +431,6 @@ nav {
 }
 
 .menu {
-    display: flex;
     flex-direction: row;
     gap: 15px
 }
@@ -425,6 +442,16 @@ nav {
     align-items: center;
     justify-content: center;
     border-radius: 50%
+}
+
+#mc_embed_signup {
+    clear: left;
+    font: 14px Helvetica, Arial, sans-serif;
+    width: 100%
+}
+
+#mc_embed_signup_scroll h2 {
+    color: #000
 }
 
 @media (max-width:576px) {
@@ -564,9 +591,5 @@ nav {
 
     .footer-links a {
         font-size: .9rem
-    }
-
-    .search-bar {
-        margin: 0
     }
 }

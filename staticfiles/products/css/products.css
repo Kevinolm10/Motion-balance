@@ -1,0 +1,180 @@
+.page-header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 25px;
+    font-size: 2.5rem
+}
+
+.sidebar,
+aside {
+    border-radius: 10px
+}
+
+.layout,
+.products {
+    display: grid;
+    gap: 20px
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+}
+
+.layout,
+.sidebar,
+aside,
+main {
+    padding: 20px
+}
+
+main {
+    background: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-family)
+}
+
+.product-card,
+aside {
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .1)
+}
+
+.layout {
+    grid-template-columns: 250px 1fr
+}
+
+aside {
+    width: 30%
+}
+
+.sidebar {
+    position: sticky;
+    top: 0;
+    border-right: 1px solid #000;
+    width: 80%
+}
+
+.products {
+    grid-template-columns: repeat(4, 1fr);
+    height: 50%
+}
+
+.product-card {
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch
+}
+
+.product-card img {
+    width: 100%;
+    border-radius: 8px
+}
+
+.product-card {
+    position: relative;
+}
+
+.product-image {
+    position: relative;
+}
+
+.wishlist-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #ccc;
+    /* Default color */
+    cursor: pointer;
+    transition: color 0.3s;
+    /* Smooth transition for color */
+}
+
+.wishlist-icon.added {
+    color: #e74c3c;
+    /* Red when added */
+}
+
+.wishlist-icon:hover {
+    color: #e74c3c;
+    /* Hover effect for the icon */
+}
+
+
+.discount {
+    color: red;
+    font-weight: 700
+}
+
+.cta-button {
+    padding: 15px 30px;
+    margin: 10px;
+    font-size: .8rem
+}
+
+@media (max-width:1800px) {
+    .products {
+        grid-template-columns: repeat(3, 1fr)
+    }
+
+    .cta-button {
+        padding: 10px 20px
+    }
+}
+
+@media (max-width:1024px) {
+    .products {
+        grid-template-columns: repeat(2, 1fr)
+    }
+
+    .cta-button {
+        padding: 10px 20px;
+        margin: 5px
+    }
+}
+
+@media (max-width:768px) {
+    .products {
+        grid-template-columns: repeat(2, 1fr)
+    }
+
+    .sidebar {
+        display: none
+    }
+
+    .layout {
+        grid-template-columns: auto 1fr
+    }
+
+    .product-card {
+        margin: 20px;
+        padding: 30px
+    }
+
+    .cta-button {
+        padding: 10px 20px;
+        margin: 5px
+    }
+}
+
+@media (max-width:480px) {
+    .products {
+        grid-template-columns: repeat(1, 1fr)
+    }
+
+    h3 {
+        font-size: 1.5rem
+    }
+
+    .cta-button {
+        padding: 10px 20px;
+        margin: 5px
+    }
+}
