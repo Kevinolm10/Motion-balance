@@ -19,7 +19,8 @@
 .profile-section {
     background-color: #f9f9f9;
     padding: 20px;
-    border-radius: 8px
+    border-radius: 8px;
+    padding: 50px;
 }
 
 div.alert.alert-success {
@@ -42,8 +43,16 @@ div.alert.alert-success {
     text-align: left
 }
 
-.table th {
-    background-color: #f2f2f2
+/* Wishlist styling */
+.wishlist-item {
+    display: flex;
+    align-items: center;
+}
+
+.wishlist-item-image {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
 }
 
 @media (max-width:992px) {
