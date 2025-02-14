@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'checkout',
     'wishlist',
     'cart',
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 MIDDLEWARE = [
@@ -78,6 +82,10 @@ TEMPLATES = [
                 'products.context_processors.categories_context', 
                 'cart.context_processors.cart_items',
                 'wishlist.context_processors.wishlist_context', 
+            ],
+            'builtins': [ 
+                'crispy_forms.templatetags.crispy_forms_tags',
+                'crispy_forms.templatetags.crispy_forms_field',
             ],
         },
     },
