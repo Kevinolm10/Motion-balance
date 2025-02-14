@@ -1,9 +1,7 @@
 from django.urls import path
-from .views import WishlistView, WishlistAddView, WishlistRemoveView
+from .views import add_to_wishlist, remove_from_wishlist
 
-# URL patterns for wishlist app
 urlpatterns = [
-    path('', WishlistView.as_view(), name='wishlist'),  # View wishlist
-    path('add/<int:product_id>/', WishlistAddView.as_view(), name='wishlist-add'),  # Add to wishlist
-    path('remove/<int:product_id>/', WishlistRemoveView.as_view(), name='wishlist-remove'),  # Remove from wishlist
+    path('add_to_wishlist/<int:product_id>/', add_to_wishlist, name='add_to_wishlist'),
+    path('remove_from_wishlist/<int:product_id>/', remove_from_wishlist, name='remove_from_wishlist'),
 ]
