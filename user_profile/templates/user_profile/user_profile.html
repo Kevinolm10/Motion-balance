@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
+<link rel="stylesheet" href="{% static 'user_profile/css/user_profile.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
@@ -79,27 +79,43 @@
             </table>
 
             <h2>Wishlist</h2>
+            {% if wishlist_items %}
             <table class="table table-striped wishlist-history">
                 <thead>
                     <tr>
                         <th>Product</th>
                         <th>Date Added</th>
+                        <th>Price</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in wishlist_items %}
                     <tr>
+                        <td>
+                            <div class="wishlist-item">
+                                {% if item.product.images.first %}
+                                <img src="{{ item.product.images.first.image.url }}"
+                                    alt="{{ item.product.images.first.alt_text }}" class="wishlist-item-image">
+                                {% endif %}
+                            </div>
+                        </td>
                         <td>{{ item.product.name }}</td>
                         <td>{{ item.created_at }}</td>
+                        <td>${{ item.product.discounted_price }}</td>
                         <td>
-                            <a href="{% url 'product_detail' item.product.id %}" class="btn btn-primary">View</a>
+                            <a href="{% url 'product_details' item.product.id %}" class="btn btn-primary">View</a>
+                            <form action="{% url 'remove_from_wishlist' item.product.id %}" method="post"
+                                style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="cta-button">Remove</button>
+                            </form>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
-    </div>
-</div>
-{% endblock %}
+            {% else %}
+            <p>You have no items in your wishlist.</p>
+            {% endif %}
+            {% endblock %}
