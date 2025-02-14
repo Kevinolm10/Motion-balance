@@ -5,16 +5,7 @@
 <link rel="stylesheet" href="{% static 'products/css/products.css' %}">
 {% endblock extra_css %}
 
-{% block page_header %}
-{% if category.parent_category %}
-<h1 class="page-header">{{ category.parent_category.name }}</h1>
-{% else %}
-<h1 class="page-header">{{ category.name }}</h1>
-{% endif %}
-{% endblock %}
-
 {% block content %}
-<!-- Products filtering column -->
 <div class="layout">
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -26,7 +17,6 @@
         </form>
     </aside>
 
-
     <!-- Products Grid (Django Templating) -->
     <section class="products">
         {% for product in products %}
@@ -35,6 +25,9 @@
                 {% if product.images.first %}
                 <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}">
                 {% endif %}
+                <i class="fas fa-heart wishlist-icon {% if product.id in wishlist_product_ids %}added{% endif %}"
+                    data-product-id="{{ product.id }}"></i>
+
             </div>
             <div class="product-details">
                 <h3>{{ product.name }}</h3>
@@ -55,5 +48,24 @@
     </section>
 </div>
 
+{% block extra_js %}
+<script>
+    $(document).ready(function () {
+        $('.wishlist-icon').click(function () {
+            var icon = $(this);
+            var productId = icon.data('product-id');
+            var url = icon.hasClass('added') ?
+                `/products/remove_from_wishlist/${productId}/` :
+                `/products/add_to_wishlist/${productId}/`;
 
+            $.post(url, {}, function () {
+                // After the request, the page will reload and update the icon accordingly.
+            }).fail(function (xhr, status, error) {
+                console.error("Error:", error);
+                console.log("Response:", xhr.responseText);
+            });
+        });
+    });
+</script>
+{% endblock %}
 {% endblock %}
