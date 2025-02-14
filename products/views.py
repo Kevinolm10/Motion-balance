@@ -126,10 +126,9 @@ def all_accessories(request):
     })
 
 
-@login_required
 def product_details(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    user_order_items = OrderItem.objects.filter(order__user=request.user, product=product)
+    user_order_items = OrderItem.objects.filter(order__user=request.user, product=product) if request.user.is_authenticated else []
 
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
@@ -153,12 +152,13 @@ def product_details(request, product_id):
     }
     return render(request, 'products/product_details.html', context)
 
-
-@login_required
 def add_to_wishlist(request, product_id):
     """Add a product to the user's wishlist."""
     if request.method != "POST":
         return redirect(request.META.get('HTTP_REFERER'))  # Go back to the referring page
+
+    if not request.user.is_authenticated:
+        return redirect('account_login')  # Redirect to login page if user is not authenticated
 
     product = get_object_or_404(Product, pk=product_id)
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
