@@ -365,16 +365,22 @@ nav {
     position: fixed;
     top: 72px;
     right: 15px;
-    z-index: 99999999999;
+    z-index: 1050;
+    /* Adjusted z-index */
+    width: auto;
+    height: auto;
 }
 
 .custom-toast {
-    overflow: visible;
+    overflow: hidden;
+    /* Removed visible overflow */
 }
 
 .toast-capper {
-    height: 2px;
+    height: auto;
+    /* Removed 2px height */
 }
+
 
 .footer {
     background-color: var(--primary-color);
