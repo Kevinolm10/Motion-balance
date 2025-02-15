@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required  # Import login_required
 from django.db.models import Q
-from .models import Product, Category
+from .models import Product, Category, ProductFeedback
 from wishlist.models import Wishlist, WishlistItem
 from .forms import ProductFilterForm
 from .forms import FeedbackForm
@@ -126,9 +126,45 @@ def all_accessories(request):
     })
 
 
+
+# A view to return a single product and allow feedback creation, update, or deletion
 def product_details(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     user_order_items = OrderItem.objects.filter(order__user=request.user, product=product) if request.user.is_authenticated else []
+
+    # Check if the user can leave feedback (only if authenticated and they have ordered this product)
+    can_leave_feedback = False
+    existing_feedback = None
+    if request.user.is_authenticated:  # Only check for feedback if the user is authenticated
+        if user_order_items.exists():
+            existing_feedback = ProductFeedback.objects.filter(user=request.user, product=product).first()
+            if not existing_feedback:
+                can_leave_feedback = True  # User can leave feedback if they haven't already
+    
+    context = {
+        'product': product,
+        'form': FeedbackForm(),
+        'user_order_items': user_order_items,
+        'existing_feedback': existing_feedback,
+        'can_leave_feedback': can_leave_feedback,
+    }
+    return render(request, 'products/product_details.html', context)
+
+
+
+@login_required
+def create_feedback(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    user_order_items = OrderItem.objects.filter(order__user=request.user, product=product)
+
+    if not user_order_items.exists():
+        messages.error(request, 'You can only leave feedback for products you have ordered.')
+        return redirect('product_details', product_id=product.id)
+
+    existing_feedback = ProductFeedback.objects.filter(user=request.user, product=product).first()
+    if existing_feedback:
+        messages.error(request, 'You have already submitted feedback for this product.')
+        return redirect('product_details', product_id=product.id)
 
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
@@ -142,15 +178,47 @@ def product_details(request, product_id):
             feedback.save()
             messages.success(request, 'Your feedback has been submitted.')
             return redirect('product_details', product_id=product.id)
-    else:
-        form = FeedbackForm()
+        else:
+            messages.error(request, 'There was an error with your feedback submission.')
+            return redirect('product_details', product_id=product.id)
 
-    context = {
-        'product': product,
-        'form': form,
-        'user_order_items': user_order_items,
-    }
-    return render(request, 'products/product_details.html', context)
+    return redirect('product_details', product_id=product.id)
+
+
+# View to update feedback
+@login_required
+def update_feedback(request, feedback_id):
+    feedback = get_object_or_404(ProductFeedback, id=feedback_id)
+
+    if feedback.user != request.user:
+        messages.error(request, 'You are not authorized to update this feedback.')
+        return redirect('product_details', product_id=feedback.product.id)
+
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST, instance=feedback)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your feedback has been updated.')
+            return redirect('product_details', product_id=feedback.product.id)
+        else:
+            messages.error(request, 'There was an error with your feedback update.')
+            return redirect('product_details', product_id=feedback.product.id)
+
+    return redirect('product_details', product_id=feedback.product.id)
+
+# View to delete feedback
+@login_required
+def delete_feedback(request, feedback_id):
+    feedback = get_object_or_404(ProductFeedback, id=feedback_id)
+
+    if feedback.user != request.user:
+        messages.error(request, 'You are not authorized to delete this feedback.')
+        return redirect('product_details', product_id=feedback.product.id)
+
+    feedback.delete()
+    messages.success(request, 'Your feedback has been deleted.')
+    return redirect('product_details', product_id=feedback.product.id)
+
 
 def add_to_wishlist(request, product_id):
     """Add a product to the user's wishlist."""
