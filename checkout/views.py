@@ -7,75 +7,86 @@ from products.models import Product
 from cart.context_processors import cart_items
 import stripe
 
-# Create your views here.
-
-# A view to return the checkout page
 def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     cart = request.session.get('cart', {})
     if not cart:
-        messages.error(request, "There's nothing in your bag at the moment")
-        return redirect(reverse('products'))
+        messages.error(request, "There's nothing in your cart at the moment")
+        return redirect(reverse('all_products'))
     
     current_cart = cart_items(request)
     total = current_cart['grand_total']
     stripe_total = round(total * 100)
     stripe.api_key = stripe_secret_key
-    intent = stripe.PaymentIntent.create(
-        amount=stripe_total,
-        currency=settings.STRIPE_CURRENCY,
-    )
+
+    try:
+        intent = stripe.PaymentIntent.create(
+            amount=stripe_total,
+            currency=settings.STRIPE_CURRENCY,
+        )
+    except stripe.error.StripeError:
+        messages.error(request, "There was an issue with payment. Please try again.")
+        return redirect(reverse('checkout'))
 
     if request.method == 'POST':
         form_data = {
             'full_name': request.POST['full_name'],
             'email': request.POST['email'],
             'phone_number': request.POST['phone_number'],
-            'street_address2': request.POST['shipping_address'],
-            'town_or_city': request.POST['city'],
+            'shipping_address': request.POST['shipping_address'],
+            'city': request.POST['city'],
             'postcode': request.POST['postcode'],
             'country': request.POST['country'],
         }
+
         order_form = OrderForm(form_data)
         if order_form.is_valid():
             order = order_form.save(commit=False)
+            if request.user.is_authenticated:
+                order.user = request.user
             order.stripe_pid = intent.id
             order.original_cart = cart
+            order.total_price = total  # Added total_price here
             order.save()
+
+            # Loop over the cart to create order items
             for item_id, item_data in cart.items():
                 try:
                     product = Product.objects.get(id=item_id)
-                    if isinstance(item_data, int):
-                        orderItem = orderItem(
+                    if isinstance(item_data, int):  # Regular product without size
+                        order_item = OrderItem(
                             order=order,
                             product=product,
+                            product_name=product.name,
+                            product_price=product.price,
                             quantity=item_data,
                         )
-                        orderItem.save()
-                    else:
-                        for size, quantity in item_data['items_by_size'].items():
-                            orderItem = orderItem(
+                        order_item.save()
+                    else:  # Product with sizes
+                        for size, quantity in item_data.items():
+                            order_item = OrderItem(
                                 order=order,
                                 product=product,
+                                product_name=product.name,
+                                product_price=product.price,
                                 quantity=quantity,
-                                product_size=size,
+                                size=size,  # Ensure the correct field is used for size
                             )
-                            orderItem.save()
+                            order_item.save()
                 except Product.DoesNotExist:
                     messages.error(request, (
-                        "One of the products in your bag wasn't found in our database. "
-                        "Please call us for assistance!")
-                    )
+                        "One of the products in your cart wasn't found in our database. "
+                        "Please email us for assistance!"
+                    ))
                     order.delete()
                     return redirect(reverse('view_cart'))
 
             request.session['save_info'] = 'save-info' in request.POST
             return redirect(reverse('checkout_success', args=[order.order_number]))
         else:
-            messages.error(request, 'There was an error with your form. \
-                Please double check your information.')
+            messages.error(request, 'There was an error with your form. Please double-check your information.')
     else:
         order_form = OrderForm()
 
@@ -94,11 +105,9 @@ def checkout_success(request, order_number):
     """
     save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
-    messages.success(request, f'Order successfully processed! \
-        Your order number is {order_number}. A confirmation \
-        email will be sent to {order.email}.')
+    messages.success(request, f'Order successfully processed! Your order number is {order_number}. A confirmation email will be sent to {order.email}.')
 
-    if 'bag' in request.session:
+    if 'cart' in request.session:
         del request.session['cart']
 
     template = 'checkout/checkout_success.html'
@@ -107,3 +116,11 @@ def checkout_success(request, order_number):
     }
 
     return render(request, template, context)
+
+
+def order_detail(request, order_id):
+    # Fetch the order using the provided order ID
+    order = get_object_or_404(Order, id=order_id)
+
+    # Pass the order to the template
+    return render(request, 'order_detail.html', {'order': order})
