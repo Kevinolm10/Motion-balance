@@ -50,12 +50,14 @@
         $('.wishlist-icon').click(function () {
             var icon = $(this);
             var productId = icon.data('product-id');
-            var url = icon.hasClass('added') ?
+            var isAdded = icon.hasClass('added'); // Check if it's already in wishlist
+            var url = isAdded ?
                 `/products/remove_from_wishlist/${productId}/` :
                 `/products/add_to_wishlist/${productId}/`;
 
             $.post(url, {}, function () {
-                // After the request, the page will reload and update the icon accordingly.
+                // Toggle the "added" class to reflect the new state
+                icon.toggleClass('added');
             }).fail(function (xhr, status, error) {
                 console.error("Error:", error);
                 console.log("Response:", xhr.responseText);
@@ -63,5 +65,6 @@
         });
     });
 </script>
+
 {% endblock %}
 {% endblock %}
