@@ -151,24 +151,32 @@
 
     {% if messages %}
     <div class="message-container">
-        <div class="alert alert-info">
-            <strong>Level:</strong> 40<br>
-            <strong>Message:</strong> Error message content
+        {% for message in messages %}
+        <div class="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="mr-auto">
+                    {% if message.tags == 'success' %}
+                    Success
+                    {% elif message.tags == 'info' %}
+                    Info
+                    {% elif message.tags == 'warning' %}
+                    Warning
+                    {% elif message.tags == 'error' %}
+                    Error
+                    {% endif %}
+                </strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                {{ message }}
+            </div>
         </div>
-        <div class="alert alert-info">
-            <strong>Level:</strong> 30<br>
-            <strong>Message:</strong> Warning message content
-        </div>
-        <div class="alert alert-info">
-            <strong>Level:</strong> 25<br>
-            <strong>Message:</strong> Success message content
-        </div>
-        <div class="alert alert-info">
-            <strong>Level:</strong> 20<br>
-            <strong>Message:</strong> Info message content
-        </div>
+        {% endfor %}
     </div>
     {% endif %}
+
 
     {% block page_header %}
     {% endblock %}
@@ -200,57 +208,59 @@
                         <li><a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><i
                                     class="fab fa-facebook-f social-icons"></i></a></li>
                     </ul>
-
                     <div id="mc_embed_shell">
 
-                    </div>
-
-                    <div id="mc_embed_signup">
-                        <form
-                            action="https://outlook.us10.list-manage.com/subscribe/post?u=f5373ee0f63e281572d640ff1&amp;id=2b807bf8c3&amp;f_id=008694e5f0"
-                            method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                            class="validate" target="_blank">
-                            <div id="mc_embed_signup_scroll">
-                                <h2>Subscribe</h2>
-                                <div class="indicates-required"><span class="asterisk">*</span> indicates required
-                                </div>
-                                <div class="mc-field-group"><label for="mce-EMAIL">Email Address <span
-                                            class="asterisk">*</span></label><input type="email" name="EMAIL"
-                                        class="required email" id="mce-EMAIL" required="" value=""></div>
-                                <div id="mce-responses" class="clear foot">
-                                    <div class="response" id="mce-error-response" style="display: none;"></div>
-                                    <div class="response" id="mce-success-response" style="display: none;"></div>
-                                </div>
-                                <div aria-hidden="true" style="position: absolute; left: -5000px;">
-                                    /* real people should not fill this in and expect good things - do not remove
-                                    this or risk form bot signups */
-                                    <input type="text" name="b_f5373ee0f63e281572d640ff1_2b807bf8c3" tabindex="-1"
-                                        value="">
-                                </div>
-                                <div class="optionalParent">
-                                    <div class="clear foot">
-                                        <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button"
-                                            value="Subscribe">
+                        <div id="mc_embed_signup">
+                            <form
+                                action="https://outlook.us10.list-manage.com/subscribe/post?u=f5373ee0f63e281572d640ff1&amp;id=2b807bf8c3&amp;f_id=008694e5f0"
+                                method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                                class="validate" target="_blank">
+                                <div id="mc_embed_signup_scroll">
+                                    <h2>Subscribe</h2>
+                                    <div class="indicates-required"><span class="asterisk">*</span> indicates required
+                                    </div>
+                                    <div class="mc-field-group"><label for="mce-EMAIL">Email Address <span
+                                                class="asterisk">*</span></label><input type="email" name="EMAIL"
+                                            class="required email" id="mce-EMAIL" required="" value=""></div>
+                                    <div id="mce-responses" class="clear foot">
+                                        <div class="response" id="mce-error-response" style="display: none;"></div>
+                                        <div class="response" id="mce-success-response" style="display: none;"></div>
+                                    </div>
+                                    <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                        /* real people should not fill this in and expect good things - do not remove
+                                        this or risk form bot signups */
+                                        <input type="text" name="b_f5373ee0f63e281572d640ff1_2b807bf8c3" tabindex="-1"
+                                            value="">
+                                    </div>
+                                    <div class="optionalParent">
+                                        <div class="clear foot">
+                                            <input type="submit" name="subscribe" id="mc-embedded-subscribe"
+                                                class="button" value="Subscribe">
+                                        </div>
                                     </div>
                                 </div>
+                            </form>
+                        </div>
+
+
+
+                        <!-- Copyright Section -->
+                        <div class="row">
+                            <div class="col text-center mt-3">
+                                <p>&copy; 2024 Motion & Balance. All rights reserved.</p>
                             </div>
-                        </form>
-                    </div>
-
-
-                    <!-- Copyright Section -->
-                    <div class="row">
-                        <div class="col text-center mt-3">
-                            <p>&copy; 2024 Motion & Balance. All rights reserved.</p>
                         </div>
                     </div>
-                </div>
     </footer>
 
     {% block postloadjs %}
     <script type="text/javascript">
-        $('toast').toast('show');
+        // Initialize all toasts
+        $(document).ready(function () {
+            $('.toast').toast('show'); // Show the toast messages
+        });
     </script>
+
 
 
     <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
