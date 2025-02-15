@@ -110,7 +110,6 @@ class ProductImage(models.Model):
         return f"Image for {self.product.name}"
     
 
-# Product Feedback Model
 class ProductFeedback(models.Model):
     STARS = (
         (1, '1'),
@@ -127,6 +126,11 @@ class ProductFeedback(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     order_item = models.ForeignKey('checkout.OrderItem', on_delete=models.CASCADE, default=1)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'product'], name='unique_user_product_feedback')
+        ]
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
