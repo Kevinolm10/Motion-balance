@@ -177,6 +177,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Media Storage
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -187,16 +190,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Configure Cloudinary using environment variables
-cloudinary.config(
-    cloud_name=env('CLOUD_NAME'),
-    api_key=env('CLOUD_API_KEY'),
-    api_secret=env('CLOUD_API_SECRET')
-)
-
-try:
-    from .env import GOOGLE_MAPS_API_KEY
-except ImportError:
-    GOOGLE_MAPS_API_KEY = env('GOOGLE_MAPS_API_KEY', None)
+# Load from environment variables
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUD_NAME'),
+    'API_KEY': env('CLOUD_API_KEY'),
+    'API_SECRET': env('CLOUD_API_SECRET'),
+}
 
 
 # Stripe

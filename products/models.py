@@ -1,4 +1,5 @@
 from django.db import models
+import cloudinary.models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db.models import Avg
@@ -119,7 +120,7 @@ class Product(models.Model):
     
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='products/images/')
+    image = cloudinary.models.CloudinaryField('image')
     alt_text = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
