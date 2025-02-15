@@ -82,29 +82,49 @@
             {% endfor %}
         </div>
 
-        <!-- Feedback Form -->
-        <div class="feedback-form">
-            {% if user.is_authenticated %}
-            <h2>Leave Feedback</h2>
-            <form method="post" aria-labelledby="feedback-form">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <label for="order_item_id" id="order-item-label">Select Order Item:</label>
-                <select name="order_item_id" id="order_item_id" aria-labelledby="order-item-label">
-                    {% for order_item in user_order_items %}
-                    <option value="{{ order_item.id }}">Order #{{ order_item.order.id }} - {{ order_item.product.name }}
-                    </option>
-                    {% endfor %}
-                </select>
-                <button type="submit" class="cta-button" aria-label="Submit your feedback">Submit Feedback</button>
-            </form>
-            {% else %}
-            <p><a href="{% url 'login' %}" role="link" aria-label="Login to leave feedback">Log in</a> to leave
-                feedback.</p>
-            {% endif %}
-        </div>
+        <!-- Feedback Section -->
+        {% if user.is_authenticated %}
+        <h2>Leave Feedback</h2>
 
-    </div>
+        {% if not user_order_items %}
+        <p class="alert alert-info">You need to purchase this product to leave a review.</p>
+        {% elif can_leave_feedback %}
+        <form method="POST" action="{% url 'create_feedback' product.id %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <label for="order_item_id">Select Order Item:</label>
+            <select name="order_item_id" id="order_item_id">
+                {% for order_item in user_order_items %}
+                <option value="{{ order_item.id }}">
+                    Order #{{ order_item.order.id }} - {{ order_item.product.name }}
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit">Submit Feedback</button>
+        </form>
+        {% elif existing_feedback %}
+        <h3>Your Existing Feedback</h3>
+        <p>{{ existing_feedback.comment }}</p>
+
+        <!-- Feedback Update Form -->
+        <form method="POST" action="{% url 'update_feedback' existing_feedback.id %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update Feedback</button>
+        </form>
+
+        <!-- Delete Feedback -->
+        <form method="POST" action="{% url 'delete_feedback' existing_feedback.id %}">
+            {% csrf_token %}
+            <button type="submit">Delete Feedback</button>
+        </form>
+        {% endif %}
+        {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to leave feedback.</p>
+        {% endif %}
+
+
+
 </main>
 {% endblock %}
 
