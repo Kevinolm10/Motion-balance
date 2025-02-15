@@ -20,7 +20,6 @@ class Category(models.Model):
     nav_element = models.CharField(
         max_length=20,
         choices=PARENT_CATEGORY,
-        default='products'
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -32,7 +31,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-# Category Manager
     @classmethod
     def create_parent_categories(cls):
         """Create top-level parent categories if they don't exist."""
@@ -41,14 +39,14 @@ class Category(models.Model):
             slug = category[0]
             cls.objects.get_or_create(name=name, slug=slug, parent=None)
 
-# Tag Model
+            # Tag Model
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
 
-# Product Model
+
 class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -58,7 +56,18 @@ class Product(models.Model):
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     subcategory_name = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
-    parent_category = models.CharField(max_length=20, choices=[('products', 'Products')], default='products')
+    
+    # Parent category choices
+    parent_category = models.CharField(
+        max_length=20,
+        choices=[
+            ('products', 'Products'),
+            ('accessories', 'Accessories'),
+            ('sale', 'Sale'),
+        ],
+        default='products'
+    )
+    
     tags = models.ManyToManyField(Tag, related_name='products', blank=True)
     average_rating = models.FloatField(default=0.0)  # Store instead of calculating dynamically
 
@@ -69,22 +78,27 @@ class Product(models.Model):
             return self.price * (Decimal('1') - discount_decimal)
         return self.price  # If no discount, return original price
 
-
     def save(self, *args, **kwargs):
         """Link product to subcategory under the selected parent category and calculate discount price."""
         if not self.subcategory_name:
             raise ValidationError("Subcategory name is required.")
 
+        # Find the parent category based on the parent_category field value
         parent_category = Category.objects.filter(nav_element=self.parent_category, parent__isnull=True).first()
         if not parent_category:
             raise ValidationError(f"Parent category '{self.parent_category}' does not exist.")
 
+        # Create or get the subcategory based on the subcategory_name
         subcategory, created = Category.objects.get_or_create(
             name=self.subcategory_name,
             parent=parent_category,
             defaults={'slug': self.subcategory_name.lower().replace(" ", "-")}
         )
         self.category = subcategory
+
+        # Validate size only if the product is not an accessory
+        if self.parent_category != 'accessories' and not self.sizes:
+            raise ValidationError("Sizes are required for this product.")
 
         if self.discount_percentage is not None:
             discount_decimal = Decimal(str(self.discount_percentage)) / Decimal('100')
@@ -100,6 +114,8 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
     
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
