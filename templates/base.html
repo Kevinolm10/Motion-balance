@@ -48,11 +48,6 @@
 
     {% block extra_js %}
     {% endblock %}
-
-    <!-- Google Maps API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap" async defer>
-    </script>
-
     <!-- Title -->
     <title>Motion & Balance {% block extra_title %}{% endblock %}</title>
     <meta name="csrf-token" content="{{ csrf_token }}">
@@ -198,26 +193,12 @@
                     </address>
                 </div>
 
-                <!-- Google Map Placeholder -->
-                <div class="col-md-4 footer-map">
-                    <h4>Find Us Here</h4>
-                    <div id="map" role="region" aria-label="Google Map">
-                        Google Map will be displayed here
-                    </div>
-                </div>
-
                 <!-- Links Section -->
                 <div class="col-md-4 social-links">
-                    <h4>Socials</h4>
+                    <h4>Visit us on Facebook!</h4>
                     <ul>
                         <li><a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><i
                                     class="fab fa-facebook-f social-icons"></i></a></li>
-                        <li><a href="https://www.instagram.com" target="_blank" aria-label="Instagram"><i
-                                    class="fab fa-instagram social-icons"></i></a></li>
-                        <li><a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i
-                                    class="fab fa-linkedin-in social-icons"></i></a></li>
-                        <li><a href="https://www.twitter.com" target="_blank" aria-label="Twitter"><i
-                                    class="fab fa-twitter social-icons"></i></a></li>
                     </ul>
 
                     <div id="mc_embed_shell">
