@@ -14,18 +14,3 @@ document.addEventListener("DOMContentLoaded", function () {
         })
     })
 });
-
-function initMap() {
-    var e = {
-            lat: 40.7128,
-            lng: -74.006
-        },
-        t = new google.maps.Map(document.getElementById("map"), {
-            zoom: 12,
-            center: e
-        });
-    new google.maps.Marker({
-        position: e,
-        map: t
-    })
-}
