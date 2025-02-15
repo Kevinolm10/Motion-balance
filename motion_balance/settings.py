@@ -19,6 +19,7 @@ ALLOWED_HOSTS = [
     '8000-kevinolm10-motionbalanc-vdspn73ey1h.ws.codeinstitute-ide.net',
     '.herokuapp.com',
     '127.0.0.1',
+    'localhost',
     ]
 
 
@@ -214,3 +215,4 @@ STANDARD_DELIVERY_PERCENTAGE = 10
 STRIPE_CURRENCY = 'usd'
 STRIPE_PUBLIC_KEY = env.str('STRIPE_PUBLIC_KEY', default='')
 STRIPE_SECRET_KEY = env.str('STRIPE_SECRET_KEY', default='')
+STRIPE_WH_SECRET = env.str('STRIPE_WH_SECRET', default='')
