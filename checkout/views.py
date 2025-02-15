@@ -6,6 +6,7 @@ from .models import Order, OrderItem
 from products.models import Product
 from cart.context_processors import cart_items
 import stripe
+from django.contrib.auth.models import User
 
 def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -44,8 +45,15 @@ def checkout(request):
         order_form = OrderForm(form_data)
         if order_form.is_valid():
             order = order_form.save(commit=False)
+
+            # Check if the user is authenticated, if not, create or use a guest user
             if request.user.is_authenticated:
                 order.user = request.user
+            else:
+                # Use the email provided by the form to create a guest user
+                guest_user, created = User.objects.get_or_create(username='guest', email=request.POST['email'])
+                order.user = guest_user  # Assign guest user
+
             order.stripe_pid = intent.id
             order.original_cart = cart
             order.total_price = total  # Added total_price here
