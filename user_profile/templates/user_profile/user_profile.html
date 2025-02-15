@@ -25,6 +25,8 @@
             </div>
             {% endif %}
         </div>
+
+        <!-- Order History Section -->
         <div class="history-section">
             <h2>Order History</h2>
             <table class="table table-striped order-history">
@@ -39,17 +41,21 @@
                 <tbody>
                     {% for order in orders %}
                     <tr>
-                        <td>{{ order.id }}</td>
+                        <td>{{ order.order_number }}</td>
                         <td>{{ order.created_at }}</td>
-                        <td>${{ order.total_price }}</td>
-                        <td>{{ order.status }}</td>
+                        <td>${{ order.grand_total }}</td>
+                        <td>{{ order.get_status_display }}</td>
                         <td>
+                            <a href="{% url 'order_detail' order.id %}" class="btn btn-primary">View</a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
 
+        <!-- Feedback History Section -->
+        <div class="feedback-section">
             <h2>Feedback History</h2>
             <table class="table table-striped feedback-history">
                 <thead>
@@ -75,7 +81,10 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
 
+        <!-- Wishlist Section -->
+        <div class="wishlist-section">
             <h2>Wishlist</h2>
             {% if wishlist_items %}
             <table class="table table-striped wishlist-history">
