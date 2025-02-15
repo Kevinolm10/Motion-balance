@@ -70,22 +70,22 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),  # Global templates
-            os.path.join(BASE_DIR, 'home', 'templates'),  # Templates for 'home' app
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'home', 'templates'),
             os.path.join(BASE_DIR, 'templates', 'allauth'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request', # required by allauth
+                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'products.context_processors.categories_context', 
+                'products.context_processors.categories_context',
                 'cart.context_processors.cart_items',
-                'wishlist.context_processors.wishlist_context', 
+                'wishlist.context_processors.wishlist_context',
             ],
-            'builtins': [ 
+            'builtins': [
                 'crispy_forms.templatetags.crispy_forms_tags',
                 'crispy_forms.templatetags.crispy_forms_field',
             ],
@@ -115,12 +115,12 @@ SITE_ID = 1
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"  # Gmail SMTP server
-EMAIL_PORT = 587  # Use 465 for SSL
-EMAIL_USE_TLS = True  # Required for STARTTLS
-EMAIL_USE_SSL = False  # Must be False if TLS is True
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")  # Use environment variables for security
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")  # Use App Password, not your regular password
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = "motion-balance@info.com"
 
 
@@ -143,10 +143,8 @@ DATABASES = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://8000-kevinolm10-motionbalanc-vdspn73ey1h.ws.codeinstitute-ide.net',
     'http://127.0.0.1:8000',
 ]
-
 
 
 # Password validation

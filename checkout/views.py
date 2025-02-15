@@ -1,16 +1,15 @@
+import json
+import stripe
 from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
 from django.contrib import messages
 from django.conf import settings
+from django.views.decorators.http import require_POST
+from django.contrib.auth.models import User
 from .forms import OrderForm
 from .models import Order, OrderItem
 from products.models import Product
 from cart.context_processors import cart_items
 
-from django.views.decorators.http import require_POST
-import stripe
-from django.contrib.auth.models import User
-
-import json
 
 @require_POST
 def cache_checkout_data(request):
@@ -37,7 +36,7 @@ def checkout(request):
     if not cart:
         messages.error(request, "There's nothing in your cart at the moment")
         return redirect(reverse('all_products'))
-    
+
     current_cart = cart_items(request)
     total = current_cart['grand_total']
     stripe_total = round(total * 100)
@@ -49,7 +48,9 @@ def checkout(request):
             currency=settings.STRIPE_CURRENCY,
         )
     except stripe.error.StripeError:
-        messages.error(request, "There was an issue with payment. Please try again.")
+        messages.error(
+            request,
+            "There was an issue with payment. Please try again.")
         return redirect(reverse('checkout'))
 
     if request.method == 'POST':
@@ -67,12 +68,14 @@ def checkout(request):
         if order_form.is_valid():
             order = order_form.save(commit=False)
 
-            # Check if the user is authenticated, if not, create or use a guest user
+# Check if the user is authenticated, if not, create or use a guest user
             if request.user.is_authenticated:
                 order.user = request.user
             else:
                 # Use the email provided by the form to create a guest user
-                guest_user, created = User.objects.get_or_create(username='guest', email=request.POST['email'])
+                guest_user, created = User.objects.get_or_create(
+                    username='guest',
+                    email=request.POST['email'])
                 order.user = guest_user  # Assign guest user
 
             order.stripe_pid = intent.id
@@ -84,7 +87,7 @@ def checkout(request):
             for item_id, item_data in cart.items():
                 try:
                     product = Product.objects.get(id=item_id)
-                    if isinstance(item_data, int):  # Regular product without size
+                    if isinstance(item_data, int):
                         order_item = OrderItem(
                             order=order,
                             product=product,
@@ -101,21 +104,23 @@ def checkout(request):
                                 product_name=product.name,
                                 product_price=product.price,
                                 quantity=quantity,
-                                size=size,  # Ensure the correct field is used for size
+                                size=size,
                             )
                             order_item.save()
                 except Product.DoesNotExist:
                     messages.error(request, (
-                        "One of the products in your cart wasn't found in our database. "
+                        "One of the products in your cart wasn't found. "
                         "Please email us for assistance!"
                     ))
                     order.delete()
                     return redirect(reverse('view_cart'))
 
             request.session['save_info'] = 'save-info' in request.POST
-            return redirect(reverse('checkout_success', args=[order.order_number]))
+            return redirect(reverse(
+                'checkout_success', args=[order.order_number]))
         else:
-            messages.error(request, 'There was an error with your form. Please double-check your information.')
+            messages.error(request,
+            'There was an error with your form. Check your information.')
     else:
         order_form = OrderForm()
 
@@ -128,13 +133,15 @@ def checkout(request):
 
     return render(request, template, context)
 
+
 def checkout_success(request, order_number):
     """
     Handle successful checkouts
     """
     save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
-    messages.success(request, f'Order successfully processed! Your order number is {order_number}. A confirmation email will be sent to {order.email}.')
+    messages.success(
+        request, f'Order successfully processed! Your order number is {order_number}. A confirmation email will be sent to {order.email}.')
 
     if 'cart' in request.session:
         del request.session['cart']
