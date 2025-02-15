@@ -14,33 +14,64 @@ def cart_items(request):
         cart = {}
 
     for item_id, sizes in cart.items():
-        product = get_object_or_404(Product, pk=int(item_id))  # Get product details by ID
+        try:
+            product = get_object_or_404(Product, pk=int(item_id))  # Ensure item_id is an integer
 
-        # sizes is expected to be a dictionary: size -> quantity
-        if isinstance(sizes, dict):  
-            for size, quantity in sizes.items():  # Loop through sizes and quantities
+            if isinstance(sizes, dict):  # Ensure sizes is a dictionary
+                for size, quantity in sizes.items():
+                    discounted_price = product.discount_price if product.discount_price else product.price
+                    discounted_price = Decimal(str(discounted_price))  # Ensure it's a Decimal
+                    subtotal = quantity * discounted_price
+                    total += subtotal
+                    product_count += quantity
+
+                    # Get product image (fallback to None if no images)
+                    image = product.images.first()
+                    image_url = image.image.url if image else None
+                    alt_text = image.alt_text if image else product.name
+
+                    # Append product details to the cart_items list
+                    cart_items.append({
+                        'product_id': item_id,
+                        'size': size,  # Include size in the cart item
+                        'quantity': quantity,
+                        'product': product,
+                        'subtotal': subtotal,
+                        'image_url': image_url,
+                        'alt_text': alt_text,
+                    })
+            else:  # If no sizes, just add the item as a regular product with quantity
                 discounted_price = product.discount_price if product.discount_price else product.price
-                subtotal = quantity * discounted_price
+                discounted_price = Decimal(str(discounted_price))  # Ensure it's a Decimal
+                subtotal = sizes * discounted_price
                 total += subtotal
-                product_count += quantity
-                image_url = product.images.first().image.url if product.images.exists() else None
-                alt_text = product.images.first().alt_text if product.images.exists() else product.name
+                product_count += sizes
 
-                # Append the product details to the cart_items list
+                image = product.images.first()
+                image_url = image.image.url if image else None
+                alt_text = image.alt_text if image else product.name
+
                 cart_items.append({
                     'product_id': item_id,
-                    'size': size,  # Include size in the cart item
-                    'quantity': quantity,
+                    'size': None,  # No size for this item
+                    'quantity': sizes,
                     'product': product,
                     'subtotal': subtotal,
                     'image_url': image_url,
                     'alt_text': alt_text,
                 })
 
+        except Product.DoesNotExist:
+            continue  # Skip invalid products instead of breaking the entire cart
+
+    # Fetch settings with default values
+    FREE_DELIVERY_THRESHOLD = Decimal(str(getattr(settings, 'FREE_DELIVERY_THRESHOLD', '50.00')))  # Ensure it's a Decimal
+    STANDARD_DELIVERY_PERCENTAGE = Decimal(str(getattr(settings, 'STANDARD_DELIVERY_PERCENTAGE', '5.00')))  # Ensure it's a Decimal
+
     # Calculate delivery costs based on total
-    if total < settings.FREE_DELIVERY_THRESHOLD:
-        delivery = (total * Decimal(settings.STANDARD_DELIVERY_PERCENTAGE) / Decimal(100)).quantize(Decimal('0.01'))
-        free_delivery_delta = (settings.FREE_DELIVERY_THRESHOLD - total).quantize(Decimal('0.01'))
+    if total < FREE_DELIVERY_THRESHOLD:
+        delivery = (total * (STANDARD_DELIVERY_PERCENTAGE / Decimal(100))).quantize(Decimal('0.01'))
+        free_delivery_delta = (FREE_DELIVERY_THRESHOLD - total).quantize(Decimal('0.01'))
     else:
         delivery = Decimal('0.00')
         free_delivery_delta = Decimal('0.00')
@@ -55,7 +86,7 @@ def cart_items(request):
         'product_count': product_count,
         'delivery': delivery,
         'free_delivery_delta': free_delivery_delta,
-        'free_delivery_threshold': settings.FREE_DELIVERY_THRESHOLD,
+        'free_delivery_threshold': FREE_DELIVERY_THRESHOLD,
         'grand_total': grand_total,
     }
 
