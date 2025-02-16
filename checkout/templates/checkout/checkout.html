@@ -20,8 +20,82 @@
         </div>
     </div>
 
-    <!-- Order Summary Section -->
+    <!-- Checkout Form Section -->
     <div class="row">
+        <div class="col-12 col-lg-6">
+            <p class="text-muted">Please fill out the form below to complete your order</p>
+            <form action="{% url 'checkout' %}" method="POST" id="payment-form" novalidate>
+                {% csrf_token %}
+
+                <!-- Billing Information -->
+                <fieldset class="form-section">
+                    <legend>Billing Information</legend>
+                    <label for="{{ order_form.full_name.id_for_label }}">Full Name</label>
+                    {{ order_form.full_name|as_crispy_field }}
+
+                    <label for="{{ order_form.email.id_for_label }}">Email</label>
+                    {{ order_form.email|as_crispy_field }}
+                </fieldset>
+
+                <!-- Payment Information -->
+                <fieldset class="form-section">
+                    <legend>Payment Information</legend>
+                    <label for="card-element">Credit or Debit Card</label>
+                    <div id="card-element" class="form-control">
+                        <!-- Stripe Elements will insert the card input here -->
+                    </div>
+                    <div id="card-errors" role="alert" class="text-danger mt-2" aria-live="polite"></div>
+                </fieldset>
+
+                <!-- Delivery Information -->
+                <fieldset class="form-section">
+                    <legend>Delivery Information</legend>
+                    <label for="{{ order_form.phone_number.id_for_label }}">Phone Number</label>
+                    {{ order_form.phone_number|as_crispy_field }}
+
+                    <label for="{{ order_form.country.id_for_label }}">Country</label>
+                    {{ order_form.country|as_crispy_field }}
+
+                    <label for="{{ order_form.postcode.id_for_label }}">Postcode</label>
+                    {{ order_form.postcode|as_crispy_field }}
+
+                    <label for="{{ order_form.city.id_for_label }}">City</label>
+                    {{ order_form.city|as_crispy_field }}
+
+                    <label for="{{ order_form.shipping_address.id_for_label }}">Shipping Address</label>
+                    {{ order_form.shipping_address|as_crispy_field }}
+
+                    <div class="save-info">
+                        {% if user.is_authenticated %}
+                        <label for="id-save-info">
+                            <input type="checkbox" id="id-save-info" name="save_info">
+                            Save this delivery information to my profile
+                        </label>
+                        {% else %}
+                        <label for="id-save-info">
+                            <a href="{% url 'account_signup' %}">Create an account</a> or
+                            <a href="{% url 'account_login' %}">Login</a> to save this information
+                        </label>
+                        {% endif %}
+                    </div>
+                </fieldset>
+
+                <!-- Buttons Section -->
+                <div class="submit-buttons">
+                    <a href="{% url 'view_cart' %}" class="btn btn-outline-dark rounded-0">
+                        Adjust Cart
+                    </a>
+                    <button id="submit-button" class="btn btn-black rounded-0">
+                        Complete Order
+                    </button>
+                    <p class="warning-text">
+                        Your card will be charged <strong>${{ grand_total|floatformat:2 }}</strong>
+                    </p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Order Summary Section -->
         <div class="col-12 col-lg-6 order-lg-last mb-5">
             <h3>Order Summary</h3>
             <div class="summary-header">
@@ -65,66 +139,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Checkout Form Section -->
-        <div class="col-12 col-lg-6">
-            <p class="text-muted">Please fill out the form below to complete your order</p>
-            <form action="{% url 'checkout' %}" method="POST" id="payment-form">
-                {% csrf_token %}
-
-                <!-- Billing Information -->
-                <fieldset class="form-section">
-                    <legend>Billing Information</legend>
-                    {{ order_form.full_name|as_crispy_field }}
-                    {{ order_form.email|as_crispy_field }}
-                </fieldset>
-
-                <!-- Delivery Information -->
-                <fieldset class="form-section">
-                    <legend>Delivery Information</legend>
-                    {{ order_form.phone_number|as_crispy_field }}
-                    {{ order_form.country|as_crispy_field }}
-                    {{ order_form.postcode|as_crispy_field }}
-                    {{ order_form.city|as_crispy_field }}
-                    {{ order_form.shipping_address|as_crispy_field }}
-
-                    <div class="save-info">
-                        {% if user.is_authenticated %}
-                        <label for="id-save-info">Save this delivery information to my profile</label>
-                        <input type="checkbox" id="id-save-info" name="save_info">
-                        {% else %}
-                        <label for="id-save-info">
-                            <a href="{% url 'account_signup' %}">Create an account</a> or
-                            <a href="{% url 'account_login' %}">Login</a> to save this information
-                        </label>
-                        {% endif %}
-                    </div>
-                </fieldset>
-
-                <!-- Payment Information -->
-                <fieldset class="form-section">
-                    <legend>Payment Information</legend>
-                    <label for="card-element">Credit or debit card</label>
-                    <div id="card-element" class="form-control">
-                        <!-- Stripe Elements will insert the card input here -->
-                    </div>
-                    <div id="card-errors" role="alert" class="text-danger mt-2"></div>
-                </fieldset>
-
-                <!-- Buttons Section -->
-                <div class="submit-buttons">
-                    <a href="{% url 'view_cart' %}" class="btn btn-outline-dark rounded-0">
-                        Adjust Cart
-                    </a>
-                    <button id="submit-button" class="btn btn-black rounded-0">
-                        Complete Order
-                    </button>
-                    <p class="warning-text">
-                        Your card will be charged <strong>${{ grand_total|floatformat:2 }}</strong>
-                    </p>
-                </div>
-            </form>
-        </div>
     </div>
 </div>
 {% endblock %}
@@ -134,4 +148,14 @@
 {{ stripe_public_key|json_script:"id_stripe_public_key" }}
 {{ client_secret|json_script:"id_client_secret" }}
 <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const submitButton = document.getElementById("submit-button");
+
+        submitButton.addEventListener("click", function () {
+            submitButton.disabled = true;
+            submitButton.textContent = "Processing...";
+        });
+    });
+</script>
 {% endblock %}

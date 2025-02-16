@@ -2,21 +2,25 @@
 {% load static %}
 
 {% block page_header %}
-
 {% endblock %}
 
 {% block content %}
-<!-- Call to action content -->
-<div class="background-image" role="region" aria-label="Promotional section for healthy lifestyle products">
+<!-- Promotional Call to Action Section -->
+<section class="background-image" role="region" aria-labelledby="cta-title">
     <div class="cta-overlay">
         <div class="cta-content">
             <h2 class="cta-title" id="cta-title">Ready to Elevate Your Healthy Lifestyle?</h2>
-            <p class="cta-subtitle" aria-labelledby="cta-title">Shop our latest collection of fitness clothing and
-                accessories.</p>
+            <p class="cta-subtitle" id="cta-subtitle" aria-describedby="cta-title">
+                Shop our latest collection of fitness clothing and accessories.
+            </p>
             <a href="{% url 'all_products' %}" class="cta-button" role="link"
-                aria-label="Shop our latest collection of fitness clothing and accessories">Shop Now</a>
+                aria-label="Shop our latest collection of fitness clothing and accessories">
+                Shop Now
+            </a>
         </div>
     </div>
-</div>
+</section>
 
+<!-- Preload background image for better performance -->
+<link rel="preload" as="image" href="{% static 'images/cta-background.jpg' %}">
 {% endblock %}

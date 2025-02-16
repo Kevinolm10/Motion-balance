@@ -11,16 +11,17 @@
 
 {% block content %}
 <div class="cart-container">
-    <h2 class="page-header">Shopping Bag</h2>
+    <h2 class="page-header">🛍️ Shopping Bag</h2>
+
     {% if cart_items %}
     <table class="cart-table" role="table" aria-labelledby="cart-summary">
         <thead>
             <tr>
                 <th scope="col">Product</th>
                 <th scope="col">Size</th>
-                <th scope="col">Quantity</th>
                 <th scope="col">Price</th>
                 <th scope="col">Total</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,31 +30,30 @@
                 <td>
                     <div class="cart-item">
                         {% if item.image_url %}
-                        <img src="{{ item.image_url }}" alt="{{ item.alt_text }}" />
+                        <img src="{{ item.image_url }}" alt="{{ item.alt_text }}">
                         {% endif %}
                         <div class="cart-item-details">
-                            <h3>{{ item.product.name }}</h3>
+                            <h3>{{ item.product.name|escape }}</h3>
                             {% if item.product.discount_percentage %}
                             <p class="discount" aria-label="Discount: {{ item.product.discount_percentage }}%">
-                                Discount: {{ item.product.discount_percentage }}%
+                                Discount: <strong>{{ item.product.discount_percentage }}%</strong>
                             </p>
                             <p class="discounted-price"
-                                aria-label="Discounted Price: ${{ item.product.discount_price }}">
-                                Discounted Price: ${{ item.product.discount_price }}
+                                aria-label="Discounted Price: ${{ item.product.discount_price|floatformat:2 }}">
+                                Discounted Price: <strong>${{ item.product.discount_price|floatformat:2 }}</strong>
                             </p>
                             {% endif %}
                         </div>
                     </div>
                 </td>
-                <td>{{ item.size }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>${{ item.product.discount_price|default:item.product.price }}</td>
-                <td>${{ item.subtotal }}</td>
+                <td>{{ item.size|default:"N/A" }}</td>
+                <td>${{ item.product.discount_price|default:item.product.price|floatformat:2 }}</td>
+                <td>${{ item.subtotal|floatformat:2 }}</td>
                 <td>
                     <a href="{% url 'delete_from_cart' item_id=item.product.id size=item.size %}" class="remove-item"
                         role="button" aria-label="Remove {{ item.product.name }} from cart">
                         <i class="fas fa-trash-alt profileicons" aria-hidden="true"></i>
-                        <span class="sr-only">Remove item from cart</span>
+                        <span class="sr-only">Remove item</span>
                     </a>
                 </td>
             </tr>
@@ -62,24 +62,26 @@
     </table>
 
     <div class="cart-summary" aria-labelledby="cart-summary">
-        <p>Total: ${{ total }}</p>
-        <p>Delivery: ${{ delivery }}</p>
-        <p>Grand Total: ${{ grand_total }}</p>
+        <p><strong>Total:</strong> ${{ total|floatformat:2 }}</p>
+        <p><strong>Delivery:</strong> ${{ delivery|floatformat:2 }}</p>
+        <p><strong>Grand Total:</strong> <strong>${{ grand_total|floatformat:2 }}</strong></p>
         {% if free_delivery_delta > 0 %}
         <p class="text-danger">
-            Spend ${{ free_delivery_delta }} more for free delivery!
+            Spend <strong>${{ free_delivery_delta|floatformat:2 }}</strong> more for **free delivery**!
         </p>
         {% endif %}
 
         <a href="{% url 'all_products' %}" class="cta-button" role="link"
-            aria-label="Continue shopping and view all products">Keep Shopping</a>
-        <a href="{% url 'checkout' %}" class="cta-button" role="link" aria-label="Proceed to checkout">Checkout</a>
+            aria-label="Continue shopping and view all products">🛒 Keep Shopping</a>
+        <a href="{% url 'checkout' %}" class="cta-button" role="link" aria-label="Proceed to checkout">💳 Checkout</a>
     </div>
 
     {% else %}
-    <p>Your cart is empty.</p>
-    <a href="{% url 'all_products' %}" class="cta-button" role="link"
-        aria-label="Continue shopping and view all products">Keep Shopping</a>
+    <div class="empty-cart-message">
+        <p class="text-muted">Your cart is currently empty. Let's fix that! 😊</p>
+        <a href="{% url 'all_products' %}" class="cta-button" role="link"
+            aria-label="Continue shopping and view all products">Start Shopping 🛍️</a>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

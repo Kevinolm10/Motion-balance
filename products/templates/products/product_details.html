@@ -15,30 +15,36 @@
         <div class="product-image">
             {% if product.images.first %}
             <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}" />
+            {% else %}
+            <img src="{% static 'images/default-product.jpg' %}" alt="No Image Available" />
             {% endif %}
         </div>
+
         <div class="product-info">
-            <p>{{ product.description }}</p>
-            <p>Price: ${{ product.price }}</p>
+            <p>{{ product.description|default:"No description available." }}</p>
+            <p>Price: ${{ product.price|default:"0.00" }}</p>
+
             {% if product.discount_percentage %}
             <p class="discount">Discount: {{ product.discount_percentage }}%</p>
-            <p class="discount">Discounted Price: ${{ product.discount_price }}</p>
+            <p class="discount">Discounted Price: ${{ product.discount_price|default:product.price }}</p>
             {% endif %}
-            <p>Average Rating: {{ product.average_rating }}</p>
+
+            <p>Average Rating: {{ product.average_rating|default:"No ratings yet" }}</p>
 
             <!-- Heart Icon for Wishlist -->
             <i class="fas fa-heart wishlist-icon {% if product.id in wishlist_product_ids %}added{% endif %}"
-                data-product-id="{{ product.id }}"></i>
+                data-product-id="{{ product.id }}"
+                aria-label="{% if product.id in wishlist_product_ids %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}"
+                role="button" tabindex="0"></i>
 
             <!-- Size Selector -->
             <form class="form" action="{% url 'add_to_cart' product.id %}" method="POST" aria-labelledby="product-name">
                 {% csrf_token %}
                 <div class="form-row">
-                    <!-- Size Selector (Ensure it's inside the form) -->
                     {% if product.sizes %}
                     <div class="form-group">
                         <label for="size"><strong>Size:</strong></label>
-                        <select name="size" id="size" aria-label="Select product size">
+                        <select name="size" id="size" required aria-label="Select product size">
                             {% for size in product.sizes %}
                             <option value="{{ size }}">{{ size }}</option>
                             {% endfor %}
@@ -50,7 +56,7 @@
                         <label for="id_qty_{{ product.id }}" aria-label="Quantity"><strong>Quantity:</strong></label>
                         <input class="qty_input" type="number" name="quantity" value="1" min="1" max="99"
                             data-item_id="{{ product.id }}" id="id_qty_{{ product.id }}"
-                            aria-describedby="quantity-description">
+                            aria-describedby="quantity-description" required>
                     </div>
 
                     <div class="form-actions">
@@ -82,7 +88,7 @@
             {% endfor %}
         </div>
 
-        <!-- Feedback Section -->
+        <!-- Feedback Submission -->
         {% if user.is_authenticated %}
         <h2>Leave Feedback</h2>
 
@@ -93,7 +99,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <label for="order_item_id">Select Order Item:</label>
-            <select name="order_item_id" id="order_item_id">
+            <select name="order_item_id" id="order_item_id" required>
                 {% for order_item in user_order_items %}
                 <option value="{{ order_item.id }}">
                     Order #{{ order_item.order.id }} - {{ order_item.product.name }}
@@ -106,14 +112,12 @@
         <h3>Your Existing Feedback</h3>
         <p>{{ existing_feedback.comment }}</p>
 
-        <!-- Feedback Update Form -->
         <form method="POST" action="{% url 'update_feedback' existing_feedback.id %}">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Update Feedback</button>
         </form>
 
-        <!-- Delete Feedback -->
         <form method="POST" action="{% url 'delete_feedback' existing_feedback.id %}">
             {% csrf_token %}
             <button type="submit">Delete Feedback</button>
@@ -122,9 +126,6 @@
         {% else %}
         <p><a href="{% url 'login' %}">Login</a> to leave feedback.</p>
         {% endif %}
-
-
-
 </main>
 {% endblock %}
 
@@ -134,17 +135,22 @@
         $('.wishlist-icon').click(function () {
             var icon = $(this);
             var productId = icon.data('product-id');
-            var url = icon.hasClass('added') ?
-                `/products/remove_from_wishlist/${productId}/` :
+            var url = icon.hasClass('added') ? `/products/remove_from_wishlist/${productId}/` :
                 `/products/add_to_wishlist/${productId}/`;
 
             $.post(url, {}, function () {
-                // After the request, the page will reload and update the icon accordingly.
+                icon.toggleClass('added');
+                var message = icon.hasClass('added') ? "Added to Wishlist" :
+                    "Removed from Wishlist";
+                $('#wishlist-status').text(message).fadeIn().delay(2000).fadeOut();
             }).fail(function (xhr, status, error) {
+                alert("An error occurred while updating the wishlist. Please try again.");
                 console.error("Error:", error);
                 console.log("Response:", xhr.responseText);
             });
         });
     });
 </script>
+
+<div id="wishlist-status" aria-live="polite" style="display: none;"></div>
 {% endblock %}

@@ -13,36 +13,47 @@
         <form method="get">
             {{ form.as_p }}
             <button type="submit" class="cta-button">Apply Filters</button>
-            <a href="{% url 'all_products' %}" class="cta-button">Reset Filters</a>
+            <a href="{% url 'all_products' %}" class="cta-button reset-btn">Reset Filters</a>
         </form>
     </aside>
 
-    <!-- Products Grid (Django Templating) -->
+    <!-- Products Grid -->
     <section class="products">
+        {% if products %}
         {% for product in products %}
         <div class="product-card">
             <div class="product-image">
                 {% if product.images.first %}
                 <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}">
+                {% else %}
+                <img src="{% static 'images/default-product.jpg' %}" alt="No Image Available">
                 {% endif %}
+
                 <i class="fas fa-heart wishlist-icon {% if product.id in wishlist_product_ids %}added{% endif %}"
-                    data-product-id="{{ product.id }}"></i>
+                    data-product-id="{{ product.id }}"
+                    title="{% if product.id in wishlist_product_ids %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}">
+                </i>
             </div>
             <div class="product-details">
                 <h3>{{ product.name }}</h3>
-                <p>Price: ${{ product.price }}</p>
+                <p>Price: ${{ product.price|default:"0.00" }}</p>
 
                 {% if product.discount_percentage %}
                 <p class="discount">Discount: {{ product.discount_percentage }}%</p>
-                <p class="discount">Discounted Price: ${{ product.discount_price }}</p>
+                <p class="discount">Discounted Price: ${{ product.discount_price|default:product.price }}</p>
                 {% endif %}
-                <p>Average Rating: {{ product.average_rating }}</p>
+
+                <p>Average Rating: {{ product.average_rating|default:"No ratings yet" }}</p>
                 <a href="{% url 'product_details' product.id %}" class="cta-button">View Details</a>
             </div>
         </div>
         {% endfor %}
+        {% else %}
+        <p class="no-products">No products found matching your filters.</p>
+        {% endif %}
     </section>
 </div>
+
 
 {% block extra_js %}
 <script>
