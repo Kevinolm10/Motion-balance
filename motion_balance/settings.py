@@ -20,6 +20,7 @@ ALLOWED_HOSTS = [
     '.herokuapp.com',
     '127.0.0.1',
     'localhost',
+    'localhost:8000',
     ]
 
 
@@ -214,3 +215,4 @@ STRIPE_CURRENCY = 'usd'
 STRIPE_PUBLIC_KEY = env.str('STRIPE_PUBLIC_KEY', default='')
 STRIPE_SECRET_KEY = env.str('STRIPE_SECRET_KEY', default='')
 STRIPE_WH_SECRET = env.str('STRIPE_WH_SECRET', default='')
+

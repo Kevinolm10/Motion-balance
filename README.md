@@ -1,21 +1,24 @@
 # [Project Name]
 
 ## Live Version
-[Project Name](https://your-live-link-here)
+**Deployed website: [Motion & Balance](https://motion-balance-0321ed00608b.herokuapp.com/)
 
 ## Repository
-[GitHub Repository](https://github.com/your-username/project-repo)
+[Motion & Balance Repo](https://github.com/Kevinolm10/Motion-balance)
 
 ## Developer
-This website is developed by [Your Name](https://github.com/your-username)
+This website is developed by [Kevin Ölmheden](https://github.com/Kevinolm10)
 
-![Project Screenshot](path/to/your-image.png)
+![Main image]()
+
+
+**Card number for payment testing: 4242424242424242**
 
 ---
 
 ## About
 
-[Project Name](https://your-live-link-here) is a platform designed to [brief description of purpose]. The platform offers [key features or services].
+[Motion & Balance](https://motion-balance-0321ed00608b.herokuapp.com/) is a platform designed to [brief description of purpose]. The platform offers [key features or services].
 
 ---
 

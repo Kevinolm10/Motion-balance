@@ -1,13 +1,18 @@
-// Set your publishable key: remember to change this to your live publishable key in production
-var stripePublicKey = document.getElementById('id_stripe_public_key').textContent.slice(1, -1);
-var clientSecret = document.getElementById('id_client_secret').textContent.slice(1, -1);
-var stripe = Stripe(stripePublicKey);
-var elements = stripe.elements();
+/*
+    Core logic/payment flow for this comes from here:
+    https://stripe.com/docs/payments/accept-a-payment
 
-// Custom styling can be passed to options when creating an Element.
+    CSS from here: 
+    https://stripe.com/docs/stripe-js
+*/
+
+var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
+var clientSecret = $('#id_client_secret').text().slice(1, -1);
+var stripe = stripe(stripePublicKey);
+var elements = stripe.elements();
 var style = {
     base: {
-        color: '#32325d',
+        color: '#000',
         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
         fontSmoothing: 'antialiased',
         fontSize: '16px',
@@ -16,21 +21,17 @@ var style = {
         }
     },
     invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a'
+        color: '#dc3545',
+        iconColor: '#dc3545'
     }
 };
-
-// Create an instance of the card Element.
 var card = elements.create('card', {
     style: style
 });
-
-// Add an instance of the card Element into the `card-element` <div>.
 card.mount('#card-element');
 
-// Handle real-time validation errors from the card Element.
-card.on('change', function (event) {
+// Handle realtime validation errors on the card element
+card.addEventListener('change', function (event) {
     var errorDiv = document.getElementById('card-errors');
     if (event.error) {
         var html = `
@@ -45,7 +46,7 @@ card.on('change', function (event) {
     }
 });
 
-// Handle form submission.
+// Handle form submit
 var form = document.getElementById('payment-form');
 
 form.addEventListener('submit', function (ev) {
@@ -79,7 +80,6 @@ form.addEventListener('submit', function (ev) {
                         line1: $.trim(form.shipping_address.value),
                         city: $.trim(form.city.value),
                         country: $.trim(form.country.value),
-                        postal_code: $.trim(form.postcode.value),
                     }
                 }
             },
@@ -92,16 +92,15 @@ form.addEventListener('submit', function (ev) {
                     country: $.trim(form.country.value),
                     postal_code: $.trim(form.postcode.value),
                 }
-            }
+            },
         }).then(function (result) {
             if (result.error) {
                 var errorDiv = document.getElementById('card-errors');
                 var html = `
                     <span class="icon" role="alert">
-                        <i class="fas fa-times"></i>
+                    <i class="fas fa-times"></i>
                     </span>
-                    <span>${result.error.message}</span>
-                `;
+                    <span>${result.error.message}</span>`;
                 $(errorDiv).html(html);
                 $('#payment-form').fadeToggle(100);
                 $('#loading-overlay').fadeToggle(100);
@@ -116,6 +115,7 @@ form.addEventListener('submit', function (ev) {
             }
         });
     }).fail(function () {
+        // just reload the page, the error will be in django messages
         location.reload();
-    });
+    })
 });

@@ -16,16 +16,23 @@ def cache_checkout_data(request):
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
+        
+        # Get cart data from session
+        cart_data = request.session.get('cart', {})
+        if not cart_data:
+            raise ValueError("No cart data found")
+
+        # Modify the PaymentIntent with cart data
         stripe.PaymentIntent.modify(pid, metadata={
-            'bag': json.dumps(request.session.get('bag', {})),
+            'cart_items': json.dumps(cart_data),  # Store cart items in metadata
             'save_info': request.POST.get('save_info'),
-            'username': request.user,
+            'username': request.user.username,  # Ensure username is correctly stored
         })
+
         return HttpResponse(status=200)
     except Exception as e:
-        messages.error(request, 'Sorry, your payment cannot be \
-            processed right now. Please try again later.')
-        return HttpResponse(content=e, status=400)
+        messages.error(request, 'Sorry, your payment cannot be processed right now. Please try again later.')
+        return HttpResponse(content=str(e), status=400)
 
 
 def checkout(request):
@@ -68,11 +75,11 @@ def checkout(request):
         if order_form.is_valid():
             order = order_form.save(commit=False)
 
-# Check if the user is authenticated, if not, create or use a guest user
+            # Check if the user is authenticated
             if request.user.is_authenticated:
                 order.user = request.user
             else:
-                # Use the email provided by the form to create a guest user
+                # If not authenticated, create or get a guest user
                 guest_user, created = User.objects.get_or_create(
                     username='guest',
                     email=request.POST['email'])
@@ -80,14 +87,14 @@ def checkout(request):
 
             order.stripe_pid = intent.id
             order.original_cart = cart
-            order.total_price = total  # Added total_price here
+            order.total_price = total
             order.save()
 
-            # Loop over the cart to create order items
+            # Create order items from the cart
             for item_id, item_data in cart.items():
                 try:
                     product = Product.objects.get(id=item_id)
-                    if isinstance(item_data, int):
+                    if isinstance(item_data, int):  # Product without size
                         order_item = OrderItem(
                             order=order,
                             product=product,
