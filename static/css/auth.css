@@ -1,171 +1,245 @@
+/* General Body & Font Styling */
 main {
     min-height: 100vh;
     margin: 0;
-    font-family: Arial, sans-serif
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* Links */
 a {
-    font-size: 20px;
-    color: var(--background-color)
+    font-size: 18px;
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #d4cdab
+    color: #5b9bd5;
 }
 
+/* Header Styling */
 h1 {
-    padding: 5px;
-    font-size: 30px
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: black;
 }
 
-p {
-    font-size: 18px;
-    padding: 7px
-}
-
+/* Main Container for Centering */
 .main-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 50px;
     background-color: transparent;
-    margin: 10px;
-    padding-top: 50px
-}
-
-.auth-container {
-    top: 75%;
-    max-width: 500px;
     width: 100%;
-    padding: 50px;
-    background: var(--secondary-color);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-    border-radius: 10px;
-    text-align: center
+    max-width: 1200px;
+    padding-bottom: 50px;
+    /* Limit max width on larger screens */
 }
 
+/* Auth Container Styling */
+.auth-container {
+    background: var(--secondary-color);
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
+    /* Adjusted max-width */
+    margin: auto;
+}
+
+/* Form Input Styling */
 input[type=email],
 input[type=password],
 input[type=text] {
-    border: 1px solid var(--secondary-color);
-    border-radius: 3px;
-    color: var(--text-color);
-    transition: var(--transition-speed)
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
 input[type=email]:focus,
 input[type=password]:focus,
 input[type=text]:focus {
-    border-color: var(--text-color);
-    box-shadow: 0 0 5px rgba(--secondary-color)
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(91, 155, 213, 0.3);
+    outline: none;
 }
 
+/* Placeholder Styling */
 input::placeholder {
-    color: var(--text-color);
-    opacity: .7
+    color: #888;
 }
 
+/* Label Styling */
 label {
-    font-weight: 700;
-    color: var(--text-color)
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-color);
 }
 
+/* Helptext Styling */
 .helptext {
-    display: none
+    font-size: 14px;
+    color: #888;
+    margin-top: 10px;
 }
 
+/* Sign Up Link */
 .sign-up-link {
-    margin-top: 15px
-}
-
-.sign-up-link a {
-    text-decoration: none
+    margin-top: 20px;
+    font-size: 16px;
+    color: #fff;
 }
 
 .sign-up-link a:hover {
-    text-decoration: underline
+    text-decoration: underline;
 }
 
-cta-button {
-    background-color: red !important
+/* New Button Styling */
+.cta-button {
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 20px;
+    /* Space between button and other content */
+    box-sizing: border-box;
+    display: inline-block;
 }
 
-@media (max-width:576px) {
+.cta-button:hover {
+    background-color: #3a7ecf;
+    transform: scale(1.05);
+    /* Slight zoom effect on hover */
+}
+
+.cta-button:active {
+    background-color: #3571a3;
+    transform: scale(1);
+    /* Press effect */
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 576px) {
+
+    /* Adjustments for Small Screens (Mobile Portrait) */
     .auth-container {
-        padding: 350px;
+        padding: 25px;
         max-width: 90%;
-        margin: 10px
     }
 
-    .btn-primary {
-        padding: 12px
+    h1 {
+        font-size: 28px;
     }
 
-    .sign-up-link {
-        font-size: 16px
+    input[type=email],
+    input[type=password],
+    input[type=text] {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .cta-button {
+        padding: 14px 20px;
+        font-size: 16px;
     }
 }
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
+
+    /* Adjustments for Tablets and Smaller Screens (Portrait & Landscape) */
     .auth-container {
+        padding: 35px;
         max-width: 80%;
-        padding: 30px
     }
 
-    .btn-primary {
-        padding: 18px;
-        font-size: 16px
+    h1 {
+        font-size: 32px;
     }
 
-    .sign-up-link {
-        font-size: 20px
-    }
-}
-
-@media (max-width:992px) {
-    .auth-container {
-        max-width: 60%;
-        padding: 40px
+    input[type=email],
+    input[type=password],
+    input[type=text] {
+        padding: 14px;
     }
 
-    .btn-primary {
-        padding: 18px;
-        font-size: 18px
-    }
-
-    .sign-up-link {
-        font-size: 20px
+    .cta-button {
+        padding: 15px 22px;
+        font-size: 17px;
     }
 }
 
-@media (max-width:1200px) {
+@media (max-width: 992px) {
 
-    .btn-primary,
-    .sign-up-link {
-        font-size: 20px
-    }
-
+    /* Adjustments for Tablets (Landscape) */
     .auth-container {
-        max-width: 500px;
-        padding: 50px
+        padding: 40px;
+        max-width: 70%;
     }
 
-    .btn-primary {
-        padding: 20px
+    h1 {
+        font-size: 36px;
+    }
+
+    .cta-button {
+        padding: 16px 24px;
+        font-size: 18px;
     }
 }
 
-@media (max-width:1400px) {
+@media (max-width: 1200px) {
+
+    /* Adjustments for Smaller Desktop Screens */
     .auth-container {
-        padding: 60px;
-        width: 80%
+        padding: 40px;
+        max-width: 600px;
+        /* Slightly wider container for better alignment */
     }
 
-    .btn-primary {
-        padding: 22px;
-        font-size: 22px
+    h1 {
+        font-size: 38px;
     }
 
-    .sign-up-link {
-        font-size: 20px
+    .cta-button {
+        padding: 18px 28px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 1400px) {
+
+    /* Adjustments for Larger Screens */
+    .auth-container {
+        padding: 50px;
+        width: 70%;
+        /* Max width allows centering */
+    }
+
+    h1 {
+        font-size: 42px;
+    }
+
+    .cta-button {
+        padding: 20px 30px;
+        font-size: 20px;
     }
 }
