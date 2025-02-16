@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 from .models import Product, Category, ProductFeedback
 from wishlist.models import Wishlist, WishlistItem
@@ -46,8 +47,13 @@ def all_products(request, category_slug=None):
     form = ProductFilterForm(request.GET)
     products = form.filter_products(products)
 
+    # Paginate the products
+    paginator = Paginator(products, 6)  # Show 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'products': products,
+        'products': page_obj,
         'categories': categories,
         'category': category,
         'form': form,
