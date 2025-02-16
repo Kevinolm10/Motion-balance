@@ -5,13 +5,15 @@
             <li class="nav-item dropdown">
                 <a class="nav-link {% if 'products' in request.path and 'sale' not in request.path and 'accessories' not in request.path %}active{% endif %} font-weight-bold text-black"
                     href="{% url 'all_products' %}" id="all-products-link" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
+                    aria-expanded="false" aria-label="Go to the products page">
                     Products
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="products-link">
-                    <a href="{% url 'all_products' %}" class="dropdown-item">All Products</a>
+                    <a href="{% url 'all_products' %}" class="dropdown-item" aria-label="Go to all products">All
+                        Products</a>
                     {% for category in product_categories %}
-                    <a href="{% url 'product_category' category_slug=category.slug %}" class="dropdown-item">
+                    <a href="{% url 'product_category' category_slug=category.slug %}" class="dropdown-item"
+                        aria-label="View products in {{ category.name }} category">
                         {{ category.name }}
                     </a>
                     {% endfor %}
@@ -28,7 +30,8 @@
                 <div class="dropdown-menu border-0" aria-labelledby="accessories-link">
                     <a href="{% url 'all_accessories' %}" class="dropdown-item">All Accessories</a>
                     {% for category in accessory_categories %}
-                    <a href="{% url 'product_by_subcategory' subcategory_slug=category.slug %}" class="dropdown-item">
+                    <a href="{% url 'product_by_subcategory' subcategory_slug=category.slug %}" class="dropdown-item"
+                        aria-label="View products in {{ subcategory.name }} category">
                         {{ category.name }}
                     </a>
                     {% endfor %}
@@ -39,13 +42,15 @@
             <li class="nav-item dropdown">
                 <a class="nav-link {% if 'sale' in request.path %}active{% endif %} font-weight-bold text-black"
                     href="{% url 'sale_products' %}" id="sale-link" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
+                    aria-expanded="false" aria-label="Go to the sales page">
                     Sale
                 </a>
                 <div class="dropdown-menu border-0" aria-labelledby="sale-link">
-                    <a href="{% url 'sale_products' %}" class="dropdown-item">All Sale</a>
+                    <a href="{% url 'sale_products' %}" class="dropdown-item" aria-label="Go to all sale items page">All
+                        Sale</a>
                     {% for category in sale_categories %}
-                    <a href="{% url 'product_by_subcategory' subcategory_slug=category.slug %}" class="dropdown-item">
+                    <a href="{% url 'product_by_subcategory' subcategory_slug=category.slug %}" class="dropdown-item"
+                        aria-label="View products in {{ subcategory.name }} category">
                         {{ category.name }}
                     </a>
                     {% endfor %}
