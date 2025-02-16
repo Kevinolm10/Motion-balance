@@ -58,8 +58,36 @@ aside {
     width: 80%
 }
 
+/* Styling for the 'Sidebar' Button */
+.sidebar-btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    border: 1px solid var(--secondary-color);
+    margin: 5px;
+}
+
+.sidebar-btn:hover {
+    background-color: var(--secondary-color);
+    color: #fff;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--primary-color);
+}
+
 .products {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     height: 50%
 }
 
@@ -85,26 +113,23 @@ aside {
     position: relative;
 }
 
+/* Styling for the 'Wishlist' Icon */
 .wishlist-icon {
     position: absolute;
     bottom: 10px;
     right: 10px;
     font-size: 24px;
     color: #ccc;
-    /* Default color */
     cursor: pointer;
     transition: color 0.3s;
-    /* Smooth transition for color */
 }
 
 .wishlist-icon.added {
     color: #e74c3c;
-    /* Red when added */
 }
 
 .wishlist-icon:hover {
     color: #e74c3c;
-    /* Hover effect for the icon */
 }
 
 
@@ -113,30 +138,81 @@ aside {
     font-weight: 700
 }
 
-.a.cta-button {
-    padding: 15px 30px;
-    margin: 10px;
-    font-size: .8rem
+
+/* Styling for the 'Details' Button */
+.details-btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    border-radius: 30px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    border: 1px solid var(--secondary-color);
 }
+
+.details-btn:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.details-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--primary-color);
+}
+
+.pagination-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.pagination-bottom {
+    font-size: 18px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pagination .page-item {
+    display: inline-block;
+}
+
+.pagination .page-link {
+    padding: 10px 15px;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: #000;
+}
+
+.pagination .page-link:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
 
 @media (max-width:1800px) {
     .products {
         grid-template-columns: repeat(3, 1fr)
-    }
-
-    .cta-button {
-        padding: 10px 20px;
     }
 }
 
 @media (max-width:1024px) {
     .products {
         grid-template-columns: repeat(2, 1fr)
-    }
-
-    .cta-button {
-        padding: 10px 20px;
-        margin: 5px
     }
 }
 
@@ -158,8 +234,9 @@ aside {
         padding: 30px
     }
 
-    .cta-button {
-        font-size: 7px;
+    .details-btn {
+        font-size: 1rem;
+        padding: 10px 20px;
     }
 }
 
@@ -170,10 +247,5 @@ aside {
 
     h3 {
         font-size: 1.5rem
-    }
-
-    .cta-button {
-        padding: 10px 20px;
-        margin: 5px
     }
 }
