@@ -1,5 +1,6 @@
 from .models import Wishlist, WishlistItem
 
+
 def wishlist_context(request):
     if request.user.is_authenticated:
         wishlist = Wishlist.objects.filter(user=request.user).first()

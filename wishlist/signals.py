@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from user_profile.models import UserProfile  # Updated import path
 from .models import Wishlist
 
+
 # Create a wishlist for new users
 @receiver(post_save, sender=UserProfile)
 # Update the function signature to accept the user_profile instance

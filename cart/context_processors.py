@@ -3,6 +3,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from products.models import Product
 
+
 def cart_items(request):
     cart_items = []
     total = Decimal('0.00')
@@ -15,12 +16,12 @@ def cart_items(request):
 
     for item_id, sizes in cart.items():
         try:
-            product = get_object_or_404(Product, pk=int(item_id))  # Ensure item_id is an integer
+            product = get_object_or_404(Product, pk=int(item_id))
 
-            if isinstance(sizes, dict):  # Ensure sizes is a dictionary
+            if isinstance(sizes, dict):
                 for size, quantity in sizes.items():
                     discounted_price = product.discount_price if product.discount_price else product.price
-                    discounted_price = Decimal(str(discounted_price))  # Ensure it's a Decimal
+                    discounted_price = Decimal(str(discounted_price))
                     subtotal = quantity * discounted_price
                     total += subtotal
                     product_count += quantity
@@ -33,16 +34,16 @@ def cart_items(request):
                     # Append product details to the cart_items list
                     cart_items.append({
                         'product_id': item_id,
-                        'size': size,  # Include size in the cart item
+                        'size': size,
                         'quantity': quantity,
                         'product': product,
                         'subtotal': subtotal,
                         'image_url': image_url,
                         'alt_text': alt_text,
                     })
-            else:  # If no sizes, just add the item as a regular product with quantity
+            else:
                 discounted_price = product.discount_price if product.discount_price else product.price
-                discounted_price = Decimal(str(discounted_price))  # Ensure it's a Decimal
+                discounted_price = Decimal(str(discounted_price))
                 subtotal = sizes * discounted_price
                 total += subtotal
                 product_count += sizes
@@ -62,11 +63,11 @@ def cart_items(request):
                 })
 
         except Product.DoesNotExist:
-            continue  # Skip invalid products instead of breaking the entire cart
+            continue
 
     # Fetch settings with default values
-    FREE_DELIVERY_THRESHOLD = Decimal(str(getattr(settings, 'FREE_DELIVERY_THRESHOLD', '50.00')))  # Ensure it's a Decimal
-    STANDARD_DELIVERY_PERCENTAGE = Decimal(str(getattr(settings, 'STANDARD_DELIVERY_PERCENTAGE', '5.00')))  # Ensure it's a Decimal
+    FREE_DELIVERY_THRESHOLD = Decimal(str(getattr(settings, 'FREE_DELIVERY_THRESHOLD', '50.00')))
+    STANDARD_DELIVERY_PERCENTAGE = Decimal(str(getattr(settings, 'STANDARD_DELIVERY_PERCENTAGE', '5.00')))
 
     # Calculate delivery costs based on total
     if total < FREE_DELIVERY_THRESHOLD:
@@ -77,7 +78,7 @@ def cart_items(request):
         free_delivery_delta = Decimal('0.00')
 
     # Calculate grand total
-    grand_total = (delivery + total).quantize(Decimal('0.01'))  # Ensure proper rounding to 2 decimal places
+    grand_total = (delivery + total).quantize(Decimal('0.01'))
 
     # Context to pass to the template
     context = {

@@ -15,7 +15,6 @@ a:hover {
     text-shadow: 0 0 5px var(--secondary-color)
 }
 
-#map-placeholder,
 .cta-content,
 .footer,
 .logo-brand {
@@ -394,13 +393,6 @@ nav {
     font-size: .9rem
 }
 
-#map-placeholder {
-    width: 100%;
-    height: 200px;
-    background-color: #f0f0f0;
-    line-height: 200px
-}
-
 .hamburger i,
 .social-icons {
     background-color: var(--secondary-color);
@@ -408,11 +400,6 @@ nav {
     margin: .5rem;
     color: var(--primary-color);
     cursor: pointer
-}
-
-#map {
-    height: 300px;
-    width: 100%
 }
 
 .social-links ul {
@@ -507,7 +494,6 @@ nav {
         display: flex
     }
 
-    .footer-map,
     .menu {
         display: none
     }

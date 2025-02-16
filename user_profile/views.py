@@ -6,6 +6,7 @@ from checkout.models import Order
 from products.models import ProductFeedback
 from wishlist.models import WishlistItem
 
+
 # Create your views here.
 # User profile view
 def user_profile(request):
@@ -21,7 +22,8 @@ def user_profile(request):
         form = UserProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Your profile has been updated successfully.')
+            messages.success(
+                    request, 'Your profile has been updated successfully.')
             return redirect('user_profile')
     else:
         form = UserProfileForm(instance=profile)
