@@ -32,10 +32,10 @@
             <p>Average Rating: {{ product.average_rating|default:"No ratings yet" }}</p>
 
             <!-- Heart Icon for Wishlist -->
-            <i class="fas fa-heart wishlist-icon {% if product.id in wishlist_product_ids %}added{% endif %}"
-                data-product-id="{{ product.id }}"
-                aria-label="{% if product.id in wishlist_product_ids %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}"
-                role="button" tabindex="0"></i>
+            <div><i class="fas fa-heart wishlist-icon {% if product.id in wishlist_product_ids %}added{% endif %}"
+                    data-product-id="{{ product.id }}"
+                    aria-label="{% if product.id in wishlist_product_ids %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}"
+                    role="button" tabindex="0"></i></div>
 
             <!-- Size Selector -->
             <form class="form" action="{% url 'add_to_cart' product.id %}" method="POST" aria-labelledby="product-name">
@@ -62,10 +62,8 @@
                     <div class="form-actions">
                         <a href="{% url 'all_products' %}" class="btn keep-shopping" role="link"
                             aria-label="Continue shopping">
-                            <span class="icon">
-                                <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="text-uppercase">Keep Shopping</span>
+                            <i class="fas fa-chevron-left icon"></i>
+                            <strong class="text-uppercase">Keep Shopping</strong>
                         </a>
                         <input type="submit" class="btn add-to-bag" value="Add to Bag"
                             aria-label="Add this product to your shopping bag">
@@ -74,6 +72,7 @@
                 </div>
             </form>
         </div>
+
 
         <!-- Customer Feedback Section -->
         <div class="product-feedback" aria-labelledby="feedback-section">
