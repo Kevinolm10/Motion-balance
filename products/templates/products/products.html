@@ -6,54 +6,89 @@
 {% endblock extra_css %}
 
 {% block content %}
-<div class="layout">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <h2>Filters</h2>
-        <form method="get">
-            {{ form.as_p }}
-            <button type="submit" class="cta-button" aria-label="Apply the product filters">Apply Filters</button>
-            <a href="{% url 'all_products' %}" class="cta-button reset-btn" aria-label="Reset the product filters">Reset
-                Filters</a>
-        </form>
-    </aside>
+<section>
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Filters</h2>
+            <form method="get">
+                {{ form.as_p }}
+                <button type="submit" class="sidebar-btn" aria-label="Apply the product filters">Apply
+                    Filters</button>
+                <a href="{% url 'all_products' %}" class="reset-btn sidebar-btn"
+                    aria-label="Reset the product filters">Reset Filters</a>
+            </form>
+        </aside>
 
-    <!-- Products Grid -->
-    <section class="products">
-        {% if products %}
-        {% for product in products %}
-        <div class="product-card">
-            <div class="product-image">
-                {% if product.images.first %}
-                <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}">
-                {% else %}
-                <img src="{% static 'images/default-product.jpg' %}" alt="No Image Available">
-                {% endif %}
+        <!-- Products Grid -->
+        <section class="products">
+            {% if products %}
+            {% for product in products %}
+            <div class="product-card">
+                <div class="product-image">
+                    {% if product.images.first %}
+                    <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}">
+                    {% else %}
+                    <img src="{% static 'images/default-product.jpg' %}" alt="No Image Available">
+                    {% endif %}
 
-                <i class="fas fa-heart wishlist-icon {% if product.id in wishlist_product_ids %}added{% endif %}"
-                    data-product-id="{{ product.id }}"
-                    title="{% if product.id in wishlist_product_ids %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}">
-                </i>
+                    <i class="fas fa-heart wishlist-icon {% if product.id in wishlist_product_ids %}added{% endif %}"
+                        data-product-id="{{ product.id }}"
+                        title="{% if product.id in wishlist_product_ids %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}">
+                    </i>
+                </div>
+                <div class="product-details">
+                    <h3>{{ product.name }}</h3>
+                    <p>Price: ${{ product.price|default:"0.00" }}</p>
+
+                    {% if product.discount_percentage %}
+                    <p class="discount">Discount: {{ product.discount_percentage }}%</p>
+                    <p class="discount">Discounted Price: ${{ product.discount_price|default:product.price }}</p>
+                    {% endif %}
+
+                    <p>Average Rating: {{ product.average_rating|default:"No ratings yet" }}</p>
+                    <a href="{% url 'product_details' product.id %}" class="details-btn"
+                        aria-label="View the product details">View Details</a>
+                </div>
             </div>
-            <div class="product-details">
-                <h3>{{ product.name }}</h3>
-                <p>Price: ${{ product.price|default:"0.00" }}</p>
+            {% endfor %}
+            {% else %}
+            <p class="no-products">No products found matching your filters.</p>
+            {% endif %}
+        </section>
+</section>
+<!-- Pagination Controls -->
+<div class="pagination-container">
+    <!-- Centered page number at the top -->
+    <div class="pagination-bottom">
+        <span>Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+    </div>
 
-                {% if product.discount_percentage %}
-                <p class="discount">Discount: {{ product.discount_percentage }}%</p>
-                <p class="discount">Discounted Price: ${{ product.discount_price|default:product.price }}</p>
-                {% endif %}
-
-                <p>Average Rating: {{ product.average_rating|default:"No ratings yet" }}</p>
-                <a href="{% url 'product_details' product.id %}" class="cta-button"
-                    aria-label="View the product details">View Details</a>
-            </div>
-        </div>
-        {% endfor %}
-        {% else %}
-        <p class="no-products">No products found matching your filters.</p>
+    <ul class="pagination justify-content-center">
+        {% if products.has_previous %}
+        <li class="page-item">
+            <a class="page-link"
+                href="?page=1{% if query %}&q={{ query }}{% endif %}{% if category %}&category_slug={{ category.slug }}{% endif %}">&laquo;
+                First</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link"
+                href="?page={{ products.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category_slug={{ category.slug }}{% endif %}">Previous</a>
+        </li>
         {% endif %}
-    </section>
+
+        {% if products.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+                href="?page={{ products.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category_slug={{ category.slug }}{% endif %}">Next</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link"
+                href="?page={{ products.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category_slug={{ category.slug }}{% endif %}">Last
+                &raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
 </div>
 
 
