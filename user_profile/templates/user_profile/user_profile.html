@@ -130,7 +130,7 @@
                         <td>{{ item.created_at|date:"F j, Y" }}</td>
                         <td>${{ item.product.discounted_price|default:item.product.price }}</td>
                         <td>
-                            <a href="{% url 'product_details' item.product.id %}" class="btn btn-primary">View</a>
+                            <a href="{% url 'product_details' item.product.id %}" class="cta-button">View</a>
                             <form action="{% url 'remove_from_wishlist' item.product.id %}" method="post"
                                 style="display:inline;">
                                 {% csrf_token %}
