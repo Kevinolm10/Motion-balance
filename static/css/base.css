@@ -24,7 +24,7 @@ a:hover {
 .branding .brand,
 .nav-list li a,
 .search-bar button:hover,
-footer h4 {
+footer h3 {
     color: var(--secondary-color)
 }
 
@@ -356,8 +356,37 @@ nav {
     font-size: 10px
 }
 
-#delivery-banner .col {
-    background-color: var(--accent-color)
+/* Delivery Banner Styles */
+header {
+    background-color: #8e9b90;
+    /* Example primary color */
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    width: 100%;
+}
+
+/* Delivery Banner - Full Width */
+#delivery-banner {
+    position: absolute;
+    /* Position relative to header */
+    bottom: 0;
+    /* Stick to the bottom of the header */
+    left: 0;
+    /* Align to the left edge */
+    width: 100%;
+    /* Ensure full width */
+    background-color: #BF4F51;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Styling for text */
+#delivery-banner h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
 }
 
 .message-container {
@@ -447,132 +476,124 @@ nav {
     color: #000
 }
 
-@media (max-width:576px) {
+@media (max-width: 576px) {
     .container {
-        width: 95%
+        width: 95%;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     .logo {
         height: 150px;
-        width: 150px
+        width: 150px;
     }
 
     .branding .brand {
-        font-size: 1.5rem
+        font-size: 1.5rem;
     }
 
     .nav-list {
         flex-direction: column;
-        padding: 5px
+        padding: 5px;
     }
 
     .row {
         flex-direction: column;
-        gap: 10px
+        gap: 10px;
     }
 
     .footer p,
     .footer-links a {
-        font-size: .8rem
+        font-size: 0.8rem;
     }
 
     .search-bar {
-        max-width: 300px
+        max-width: 300px;
     }
 }
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
+    .menu {
+        display: none;
+        padding: 15px;
+        background-color: #8e9b90;
+    }
 
-    .menu,
     .nav-list {
         flex-direction: column;
-        gap: 15px
+        gap: 15px;
     }
 
     .hamburger i,
     .menu.active {
-        display: flex
-    }
-
-    .menu {
-        display: none
-    }
-
-    .menu {
-        padding: 15px;
-        background-color: #8e9b90
+        display: flex;
     }
 
     .profileicons button,
     .search-bar {
-        margin: 0
+        margin: 0;
     }
 
     .product-management {
-        margin-top: 0
+        margin-top: 0;
     }
 
     .hamburger i {
-        position: absolute;
-        top: 1.5rem;
-        left: 1.5rem;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        padding: 10px;
         z-index: 100;
         background-color: #d4cdab;
         color: #8e9b90;
         font-size: 1.2rem;
         width: 2.5rem;
-        height: 2.5rem
+        height: 2.5rem;
     }
 
     .nav-item.open .dropdown-menu {
-        display: block
+        display: block;
     }
 
-    .footer-links {
-        flex-direction: column;
-        gap: 10px
-    }
-
+    .footer-links,
     .social-links ul {
-        display: flex !important;
-        flex-direction: row;
-        justify-content: center;
-        gap: 15px
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
     }
 
     .social-links ul li {
-        display: inline-block
+        display: inline-block;
     }
 }
 
-@media (max-width:992px) {
+@media (max-width: 992px) {
     .container {
-        width: 90%
+        width: 90%;
     }
 
     .logo {
         height: 180px;
-        width: 180px
+        width: 180px;
     }
 
     .branding .brand {
-        font-size: 1.8rem
+        font-size: 1.8rem;
     }
 
     .search-bar {
         max-width: 350px;
-        margin: 0
+        margin: 0;
     }
-
-
 }
 
-@media (max-width:1200px) {
+@media (max-width: 1200px) {
     .nav-list {
-        gap: 1.5rem
+        gap: 1.5rem;
     }
 
     .footer-links a {
-        font-size: .9rem
+        font-size: 0.9rem;
     }
 }
