@@ -6,12 +6,11 @@
 {% endblock extra_css %}
 
 {% block page_header %}
-<h1 class="page-header">Your Shopping Cart</h1>
 {% endblock %}
 
 {% block content %}
 <div class="cart-container">
-    <h2 class="page-header">🛍️ Shopping Bag</h2>
+    <h2 class="page-header">Shopping Cart</h2>
 
     {% if cart_items %}
     <table class="cart-table" role="table" aria-labelledby="cart-summary">
@@ -80,7 +79,7 @@
     <div class="empty-cart-message">
         <p class="text-muted">Your cart is currently empty. Let's fix that! 😊</p>
         <a href="{% url 'all_products' %}" class="cta-button" role="link"
-            aria-label="Continue shopping and view all products">Start Shopping 🛍️</a>
+            aria-label="Continue shopping and view all products">Start Shopping!</a>
     </div>
     {% endif %}
 </div>
