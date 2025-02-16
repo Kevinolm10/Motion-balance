@@ -113,7 +113,7 @@ aside {
     font-weight: 700
 }
 
-.cta-button {
+.a.cta-button {
     padding: 15px 30px;
     margin: 10px;
     font-size: .8rem
@@ -125,7 +125,7 @@ aside {
     }
 
     .cta-button {
-        padding: 10px 20px
+        padding: 10px 20px;
     }
 }
 
@@ -159,8 +159,7 @@ aside {
     }
 
     .cta-button {
-        padding: 10px 20px;
-        margin: 5px
+        font-size: 7px;
     }
 }
 
