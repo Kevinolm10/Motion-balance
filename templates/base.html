@@ -48,6 +48,14 @@
 
     {% block extra_js %}
     {% endblock %}
+
+    <!-- Favicon -->
+    {% comment %} Favicon {% endcomment %}
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon_package/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon_package/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon_package/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon_package/site.webmanifest' %}">
+
     <!-- Title -->
     <title>Motion & Balance {% block extra_title %}{% endblock %}</title>
     <meta name="csrf-token" content="{{ csrf_token }}">
@@ -92,41 +100,46 @@
                         {% if user.is_authenticated %}
                         {% if request.user.is_superuser %}
                         <a href="#" class="{% if request.path == '/profile/' %}active{% endif %}"
-                            aria-label="Product Management">
-                            <button class="product-management">Product Management</button> </a> {% else %} <a
-                            href="{% url 'user_profile' %}"
+                            aria-label="Manage products in the Product Management section">
+                            <button class="product-management" aria-label="Product Management Button">Product
+                                Management</button>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'user_profile' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
-                            aria-label="User Profile">
-                            <button><i class="fa-solid fa-user"></i>
-                            </button>
+                            aria-label="Go to User Profile">
+                            <button aria-label="User Profile Button"><i class="fa-solid fa-user"
+                                    aria-hidden="true"></i></button>
                         </a>
                         {% endif %}
                         <a href="{% url 'account_logout' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Log Out">
-                            <button>
-                                <i class="fa-solid fa-sign-out-alt"></i>
+                            <button aria-label="Log Out Button">
+                                <i class="fa-solid fa-sign-out-alt" aria-hidden="true"></i>
                             </button>
                         </a>
                         {% else %}
                         <a href="{% url 'account_login' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
-                            aria-label="Log In">
-                            <button>
-                                <i class="fas fa-sign-in-alt">
-                                </i></button>
+                            aria-label="Log In to your account">
+                            <button aria-label="Log In Button">
+                                <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+                            </button>
                         </a>
                         <a href="{% url 'account_signup' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
-                            aria-label="Sign Up">
-                            <button><i class="fas fa-user-plus"></i></button>
+                            aria-label="Sign Up for a new account">
+                            <button aria-label="Sign Up Button"><i class="fas fa-user-plus"
+                                    aria-hidden="true"></i></button>
                         </a>
                         {% endif %}
                         <div class="profileicons user {% if request.path == '/cart/' %}{% endif %}">
                             <a href="{% url 'view_cart' %}"
                                 class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %}"
-                                aria-label="View Basket">
-                                <button><i class="fa-solid fa-cart-shopping"></i></button>
+                                aria-label="View your shopping cart">
+                                <button aria-label="View Cart Button"><i class="fa-solid fa-cart-shopping"
+                                        aria-hidden="true"></i></button>
                             </a>
                             <p class="my-0" aria-live="polite">
                                 {% if grand_total %}
@@ -137,16 +150,15 @@
                             </p>
                         </div>
                     </li>
-                </ul>
-            </nav>
-        </div>
 
-        <!-- Delivery Banner -->
-        <div id="delivery-banner" class="row text-center">
-            <div class="col text-white">
-                <h4 class="logo-font my-1">Free shipping, when you order over ${{ free_delivery_threshold }}!</h4>
-            </div>
-        </div>
+
+                    <!-- Delivery Banner -->
+                    <div id="delivery-banner" class="row text-center">
+                        <div class="col text-white">
+                            <h3 class="logo-font my-1">Free shipping, when you order over
+                                ${{ free_delivery_threshold }}!</h3>
+                        </div>
+                    </div>
     </header>
 
 
@@ -193,7 +205,7 @@
             <div class="row">
                 <!-- Store Information Section (Left) -->
                 <div class="col-md-4 footer-store-info">
-                    <h4>Our Store</h4>
+                    <h3>Our Store</h3>
                     <address>
                         Visit us at:<br>
                         123 Store Street, Shopping City, Country<br>
@@ -204,7 +216,7 @@
 
                 <!-- Social Media Section (Center) -->
                 <div class="col-md-4 social-links text-center">
-                    <h4>Visit us on Facebook!</h4>
+                    <h3>Visit us on Facebook!</h3>
                     <ul class="list-inline">
                         <li class="list-inline-item">
                             <a href="https://www.facebook.com/profile.php?id=61573380537511" target="_blank"
