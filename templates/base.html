@@ -101,14 +101,15 @@
                         {% if request.user.is_superuser %}
                         <a href="#" class="{% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Manage products in the Product Management section">
-                            <button class="product-management" aria-label="Product Management Button">Product
+                            <button class="product-management" aria-label="Product Management Button"
+                                title="Product Management">Product
                                 Management</button>
                         </a>
                         {% else %}
                         <a href="{% url 'user_profile' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Go to User Profile">
-                            <button aria-label="User Profile Button"><i class="fa-solid fa-user"
+                            <button aria-label="User Profile Button" title="User profile"><i class="fa-solid fa-user"
                                     aria-hidden="true"></i></button>
                         </a>
                         {% endif %}
@@ -116,7 +117,7 @@
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Log Out">
                             <button aria-label="Log Out Button">
-                                <i class="fa-solid fa-sign-out-alt" aria-hidden="true"></i>
+                                <i class="fa-solid fa-sign-out-alt" aria-hidden="true" title="Log out"></i>
                             </button>
                         </a>
                         {% else %}
@@ -124,14 +125,14 @@
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Log In to your account">
                             <button aria-label="Log In Button">
-                                <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+                                <i class="fas fa-sign-in-alt" aria-hidden="true" title="Log in"></i>
                             </button>
                         </a>
                         <a href="{% url 'account_signup' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Sign Up for a new account">
-                            <button aria-label="Sign Up Button"><i class="fas fa-user-plus"
-                                    aria-hidden="true"></i></button>
+                            <button aria-label="Sign Up Button"><i class="fas fa-user-plus" aria-hidden="true"
+                                    title="Sign up"></i></button>
                         </a>
                         {% endif %}
                         <div class="profileicons user {% if request.path == '/cart/' %}{% endif %}">
@@ -139,7 +140,7 @@
                                 class="{% if grand_total %}text-info font-weight-bold{% else %}text-black{% endif %}"
                                 aria-label="View your shopping cart">
                                 <button aria-label="View Cart Button"><i class="fa-solid fa-cart-shopping"
-                                        aria-hidden="true"></i></button>
+                                        aria-hidden="true" title="Shopping cart"></i></button>
                             </a>
                             <p class="my-0" aria-live="polite">
                                 {% if grand_total %}
@@ -155,7 +156,7 @@
                     <!-- Delivery Banner -->
                     <div id="delivery-banner" class="container-fluid text-center">
                         <div class="delivery-text">
-                            <h3 class="logo-font">🚚 Free shipping when you order over ${{ free_delivery_threshold }}!
+                            <h3 class="logo-font">Free shipping when you order over ${{ free_delivery_threshold }}!
                             </h3>
                         </div>
                     </div>
