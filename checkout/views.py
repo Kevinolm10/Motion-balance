@@ -1,6 +1,6 @@
 import json
 import stripe
-from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.conf import settings
 from django.views.decorators.http import require_POST
@@ -9,11 +9,13 @@ from .forms import OrderForm
 from .models import Order, OrderItem
 from products.models import Product
 from cart.context_processors import cart_items
-import stripe
-import json
+
 
 @require_POST
 def cache_checkout_data(request):
+    """
+    Cache checkout data in the payment intent.
+    """
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -30,32 +32,32 @@ def cache_checkout_data(request):
 
 
 def checkout(request):
+    """
+    Handle the checkout process.
+    """
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
-    # Fetch the cart from session
     cart = request.session.get('cart', {})
     if not cart:
         messages.error(request, "There's nothing in your cart at the moment")
         return redirect(reverse('all_products'))
 
-    # Use the cart_items function to get total price and other details
     current_cart = cart_items(request)
     total = current_cart['grand_total']
-    stripe_total = round(total * 100)  # Stripe expects the amount in cents
+    stripe_total = round(total * 100)
     stripe.api_key = stripe_secret_key
 
     try:
-        # Create a PaymentIntent with the amount and currency
         intent = stripe.PaymentIntent.create(
             amount=stripe_total,
             currency=settings.STRIPE_CURRENCY,
         )
     except stripe.error.StripeError:
-        messages.error(request, "There was an issue with payment. Please try again.")
+        messages.error(request, "There was an issue with payment. \
+            Please try again.")
         return redirect(reverse('checkout'))
 
-    # If the form is submitted with user info, process the order
     if request.method == 'POST':
         form_data = {
             'full_name': request.POST['full_name'],
@@ -71,25 +73,23 @@ def checkout(request):
         if order_form.is_valid():
             order = order_form.save(commit=False)
 
-            # If the user is authenticated, assign user info to the order
             if request.user.is_authenticated:
                 order.user = request.user
             else:
                 guest_user, created = User.objects.get_or_create(
                     username='guest',
                     email=request.POST['email'])
-                order.user = guest_user  # Assign guest user
+                order.user = guest_user
 
             order.stripe_pid = intent.id
             order.original_cart = cart
             order.total_price = total
             order.save()
 
-            # Create order items from the cart
             for item_id, item_data in cart.items():
                 try:
                     product = Product.objects.get(id=item_id)
-                    if isinstance(item_data, int):  # Product without size
+                    if isinstance(item_data, int):
                         order_item = OrderItem(
                             order=order,
                             product=product,
@@ -98,7 +98,7 @@ def checkout(request):
                             quantity=item_data,
                         )
                         order_item.save()
-                    else:  # Product with sizes
+                    else:
                         for size, quantity in item_data.items():
                             order_item = OrderItem(
                                 order=order,
@@ -117,13 +117,14 @@ def checkout(request):
                     order.delete()
                     return redirect(reverse('view_cart'))
 
-            # Save whether the user wants to save their info
             request.session['save_info'] = 'save-info' in request.POST
             return redirect(reverse(
                 'checkout_success', args=[order.order_number]))
         else:
-            messages.error(request,
-            'There was an error with your form. Check your information.')
+            messages.error(
+                request,
+                f'There was an error with your form. Check your information.'
+            )
     else:
         order_form = OrderForm()
 
@@ -139,12 +140,13 @@ def checkout(request):
 
 def checkout_success(request, order_number):
     """
-    Handle successful checkouts
+    Handle successful checkouts.
     """
     save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
     messages.success(
-        request, f'Order successfully processed! Your order number is {order_number}. A confirmation email will be sent to {order.email}.')
+        request, f'Order successfully processed! Your order number is \
+        {order_number}. A confirmation email will be sent to {order.email}.')
 
     if 'cart' in request.session:
         del request.session['cart']
@@ -158,8 +160,9 @@ def checkout_success(request, order_number):
 
 
 def order_detail(request, order_id):
-    # Fetch the order using the provided order ID
+    """
+    Display the details of a specific order.
+    """
     order = get_object_or_404(Order, id=order_id)
 
-    # Pass the order to the template
     return render(request, 'order_detail.html', {'order': order})

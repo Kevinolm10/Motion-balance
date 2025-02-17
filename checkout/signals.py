@@ -19,10 +19,6 @@ def handle_order_created_or_updated(sender, instance, created, **kwargs):
     Handle actions when an order is created or updated.
     """
     if created:
-        # Perform actions when a new order is created
         print(f"New order created: {instance.order_number}")
-        # Example: Send email confirmation, update inventory, etc.
     else:
-        # Perform actions when an existing order is updated
         print(f"Order updated: {instance.order_number}")
-        # Example: Send notification, update order status, etc.

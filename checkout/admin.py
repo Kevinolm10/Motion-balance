@@ -3,43 +3,65 @@ from .models import Order, OrderItem
 
 
 class OrderItemInline(admin.TabularInline):
+    """
+    Inline admin interface for OrderItem model.
+    """
     model = OrderItem
     readonly_fields = (
         'product',
         'product_name',
         'product_price',
         'quantity',
-        'total_price')
+        'total_price'
+    )
     extra = 0
 
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+    """
+    Admin interface for Order model.
+    """
     list_display = (
         'order_number',
-        'user', 'status',
+        'user',
+        'status',
         'created_at',
-        'grand_total')
+        'grand_total'
+    )
     list_filter = ('status', 'created_at', 'updated_at')
-    search_fields = ('order_number', 'user__username', 'full_name', 'email')
+    search_fields = (
+        'order_number',
+        'user__username',
+        'full_name',
+        'email'
+    )
     readonly_fields = (
         'order_number',
         'created_at',
         'updated_at',
-        'grand_total')
+        'grand_total'
+    )
     fieldsets = (
         (None, {
             'fields': (
                 'order_number',
-                'user', 'status',
+                'user',
+                'status',
                 'created_at',
-                'updated_at')
+                'updated_at'
+            )
         }),
         ('Contact Information', {
             'fields': ('full_name', 'email', 'phone_number')
         }),
         ('Shipping Information', {
-            'fields': ('shipping_address', 'city', 'country', 'postcode')
+            'fields': (
+                'shipping_address',
+                'city',
+                'country',
+                'postcode'
+            )
         }),
         ('Order Details', {
             'fields': (
@@ -47,22 +69,27 @@ class OrderAdmin(admin.ModelAdmin):
                 'delivery_cost',
                 'discount_amount',
                 'grand_total',
-                'wishlist')
+                'wishlist'
+            )
         }),
     )
     inlines = [OrderItemInline]
-    ordering = ('-created_at',)  # Orders sorted by most recent first
+    ordering = ('-created_at',)
 
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
+    """
+    Admin interface for OrderItem model.
+    """
     list_display = (
         'order',
         'product',
         'product_name',
         'product_price',
         'quantity',
-        'total_price')
+        'total_price'
+    )
     search_fields = ('order__order_number', 'product__name')
     readonly_fields = (
         'order',
@@ -70,4 +97,5 @@ class OrderItemAdmin(admin.ModelAdmin):
         'product_name',
         'product_price',
         'quantity',
-        'total_price')
+        'total_price'
+    )
