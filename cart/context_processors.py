@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404
 from products.models import Product
 import stripe
 
-
 def cart_items(request):
     """
     Retrieve and process cart items from the session, calculate totals,
