@@ -59,7 +59,6 @@ form.addEventListener('submit', function (ev) {
     $('#loading-overlay').fadeToggle(100);
 
     var saveInfo = Boolean($('#id-save-info').attr('checked'));
-    // From using {% csrf_token %} in the form
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
     var postData = {
         'csrfmiddlewaretoken': csrfToken,
@@ -115,7 +114,18 @@ form.addEventListener('submit', function (ev) {
             }
         });
     }).fail(function () {
-        // just reload the page, the error will be in django messages
-        location.reload();
-    })
+        var errorDiv = document.getElementById('card-errors');
+        var html = `
+            <span class="icon" role="alert">
+                <i class="fas fa-times"></i>
+            </span>
+            <span>There was an error processing your payment. Please try again.</span>`;
+        $(errorDiv).html(html);
+        $('#payment-form').fadeToggle(100);
+        $('#loading-overlay').fadeToggle(100);
+        card.update({
+            'disabled': false
+        });
+        $('#submit-button').attr('disabled', false);
+    });
 });
