@@ -1,6 +1,7 @@
 from .models import Wishlist, WishlistItem
 
 
+""" Context processor to add wishlist items to the context. """
 def wishlist_context(request):
     if request.user.is_authenticated:
         wishlist = Wishlist.objects.filter(user=request.user).first()

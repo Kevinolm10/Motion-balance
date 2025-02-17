@@ -3,7 +3,9 @@ from products.models import Product
 from django.contrib.auth.models import User
 
 
-# Wishlist Model (One per user)
+"""Model for user wishlist."""
+
+
 class Wishlist(models.Model):
     user = models.OneToOneField(
         User,
@@ -13,7 +15,8 @@ class Wishlist(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Wishlist"
 
-# Wishlist Items (Multiple per Wishlist)
+
+"""Model for wishlist item."""
 
 
 class WishlistItem(models.Model):
@@ -27,7 +30,7 @@ class WishlistItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('wishlist', 'product')  # Prevent duplicates
+        unique_together = ('wishlist', 'product')
 
     def __str__(self):
         return f"{self.wishlist.user.username} - {self.product.name}"
