@@ -10,122 +10,123 @@
 {% endblock %}
 
 {% block content %}
-<main>
-    <div class="product-details">
-        <div class="product-image">
-            {% if product.images.first %}
-            <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}" />
-            {% else %}
-            <img src="{% static 'images/default-product.jpg' %}" alt="No Image Available" />
-            {% endif %}
-        </div>
-
-        <div class="product-info">
-            <p>{{ product.description|default:"No description available." }}</p>
-            <p>Price: ${{ product.price|default:"0.00" }}</p>
-
-            {% if product.discount_percentage %}
-            <p class="discount">Discount: {{ product.discount_percentage }}%</p>
-            <p class="discount">Discounted Price: ${{ product.discount_price|default:product.price }}</p>
-            {% endif %}
-
-            <p>Average Rating: {{ product.average_rating|default:"No ratings yet" }}</p>
-
-            <!-- Heart Icon for Wishlist -->
-            <div><i class="fas fa-heart wishlist-icon {% if product.id in wishlist_product_ids %}added{% endif %}"
-                    data-product-id="{{ product.id }}"
-                    aria-label="{% if product.id in wishlist_product_ids %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}"
-                    role="button" tabindex="0"></i></div>
-
-            <!-- Size Selector -->
-            <form class="form" action="{% url 'add_to_cart' product.id %}" method="POST" aria-labelledby="product-name">
-                {% csrf_token %}
-                <div class="form-row">
-                    {% if product.sizes %}
-                    <div class="form-group">
-                        <label for="size"><strong>Size:</strong></label>
-                        <select name="size" id="size" required aria-label="Select product size">
-                            {% for size in product.sizes %}
-                            <option value="{{ size }}">{{ size }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    {% endif %}
-
-                    <div class="form-group">
-                        <label for="id_qty_{{ product.id }}" aria-label="Quantity"><strong>Quantity:</strong></label>
-                        <input class="qty_input" type="number" name="quantity" value="1" min="1" max="99"
-                            data-item_id="{{ product.id }}" id="id_qty_{{ product.id }}"
-                            aria-describedby="quantity-description" required>
-                    </div>
-
-                    <div class="form-actions">
-                        <a href="{% url 'all_products' %}" class="btn keep-shopping" role="link"
-                            aria-label="Continue shopping">
-                            <i class="fas fa-chevron-left icon"></i>
-                            <strong class="text-uppercase">Keep Shopping</strong>
-                        </a>
-                        <input type="submit" class="btn add-to-bag" value="Add to Bag"
-                            aria-label="Add this product to your shopping bag">
-                    </div>
-                    <input type="hidden" name="redirect_url" value="{{ request.path }}">
-                </div>
-            </form>
-        </div>
-
-
-        <!-- Customer Feedback Section -->
-        <div class="product-feedback" aria-labelledby="feedback-section">
-            <h2 id="feedback-section">Customer Feedback</h2>
-            {% for feedback in product.feedback.all %}
-            <div class="feedback" role="article" aria-labelledby="feedback-{{ feedback.id }}">
-                <p><strong>{{ feedback.user.username }}</strong> rated it {{ feedback.rating }} stars</p>
-                <p>{{ feedback.comment }}</p>
-            </div>
-            {% empty %}
-            <p>No feedback available for this product.</p>
-            {% endfor %}
-        </div>
-
-        <!-- Feedback Submission -->
-        {% if user.is_authenticated %}
-        <h2>Leave Feedback</h2>
-
-        {% if not user_order_items %}
-        <p class="alert alert-info">You need to purchase this product to leave a review.</p>
-        {% elif can_leave_feedback %}
-        <form method="POST" action="{% url 'create_feedback' product.id %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <label for="order_item_id">Select Order Item:</label>
-            <select name="order_item_id" id="order_item_id" required>
-                {% for order_item in user_order_items %}
-                <option value="{{ order_item.id }}">
-                    Order #{{ order_item.order.id }} - {{ order_item.product.name }}
-                </option>
-                {% endfor %}
-            </select>
-            <button type="submit">Submit Feedback</button>
-        </form>
-        {% elif existing_feedback %}
-        <h3>Your Existing Feedback</h3>
-        <p>{{ existing_feedback.comment }}</p>
-
-        <form method="POST" action="{% url 'update_feedback' existing_feedback.id %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Update Feedback</button>
-        </form>
-
-        <form method="POST" action="{% url 'delete_feedback' existing_feedback.id %}">
-            {% csrf_token %}
-            <button type="submit">Delete Feedback</button>
-        </form>
-        {% endif %}
+<div class="product-details">
+    <div class="product-image">
+        {% if product.images.first %}
+        <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}">
         {% else %}
-        <p><a href="{% url 'login' %}">Login</a> to leave feedback.</p>
+        <img src="{% static 'images/default-product.jpg' %}" alt="No Image Available">
         {% endif %}
-</main>
+    </div>
+
+    <div class="product-info">
+        <p>{{ product.description|default:"No description available." }}</p>
+        <p>Price: ${{ product.price|default:"0.00" }}</p>
+
+        {% if product.discount_percentage %}
+        <p class="discount">Discount: {{ product.discount_percentage }}%</p>
+        <p class="discount">Discounted Price: ${{ product.discount_price|default:product.price }}</p>
+        {% endif %}
+
+        <p>Average Rating: {{ product.average_rating|default:"No ratings yet" }}</p>
+
+        <!-- Heart Icon for Wishlist -->
+        <div>
+            <i class="fas fa-heart wishlist-icon {% if product.id in wishlist_product_ids %}added{% endif %}"
+                data-product-id="{{ product.id }}"
+                aria-label="{% if product.id in wishlist_product_ids %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}"
+                role="button" tabindex="0"></i>
+        </div>
+
+        <!-- Size Selector -->
+        <form class="form" action="{% url 'add_to_cart' product.id %}" method="POST" aria-labelledby="product-name">
+            {% csrf_token %}
+            <div class="form-row">
+                {% if product.sizes %}
+                <div class="form-group">
+                    <label for="size"><strong>Size:</strong></label>
+                    <select name="size" id="size" required aria-label="Select product size">
+                        <option value="" disabled selected>Select size</option>
+                        {% for size in product.sizes %}
+                        <option value="{{ size }}">{{ size }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="id_qty_{{ product.id }}" aria-label="Quantity"><strong>Quantity:</strong></label>
+                    <input class="qty_input" type="number" name="quantity" value="1" min="1" max="99"
+                        data-item_id="{{ product.id }}" id="id_qty_{{ product.id }}"
+                        aria-describedby="quantity-description" required>
+                </div>
+
+                <div class="form-actions">
+                    <a href="{% url 'all_products' %}" class="btn keep-shopping" role="link"
+                        aria-label="Continue shopping">
+                        <i class="fas fa-chevron-left icon"></i>
+                        <strong class="text-uppercase">Keep Shopping</strong>
+                    </a>
+                    <input type="submit" class="btn add-to-bag" value="Add to Bag"
+                        aria-label="Add this product to your shopping bag">
+                </div>
+                <input type="hidden" name="redirect_url" value="{{ request.path }}">
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Customer Feedback Section -->
+<div class="product-feedback" aria-labelledby="feedback-section">
+    <h2 id="feedback-section">Customer Feedback</h2>
+    {% for feedback in product.feedback.all %}
+    <div class="feedback" role="article" aria-labelledby="feedback-{{ feedback.id }}">
+        <p><strong>{{ feedback.user.username }}</strong> rated it {{ feedback.rating }} stars</p>
+        <p>{{ feedback.comment }}</p>
+    </div>
+    {% empty %}
+    <p>No feedback available for this product.</p>
+    {% endfor %}
+</div>
+
+<!-- Feedback Submission -->
+{% if user.is_authenticated %}
+<h2>Leave Feedback</h2>
+
+{% if not user_order_items %}
+<p class="alert alert-info">You need to purchase this product to leave a review.</p>
+{% elif can_leave_feedback %}
+<form method="POST" action="{% url 'create_feedback' product.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <label for="order_item_id">Select Order Item:</label>
+    <select name="order_item_id" id="order_item_id" required>
+        {% for order_item in user_order_items %}
+        <option value="{{ order_item.id }}">
+            Order #{{ order_item.order.id }} - {{ order_item.product.name }}
+        </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Submit Feedback</button>
+</form>
+{% elif existing_feedback %}
+<h3>Your Existing Feedback</h3>
+<p>{{ existing_feedback.comment }}</p>
+
+<form method="POST" action="{% url 'update_feedback' existing_feedback.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Feedback</button>
+</form>
+
+<form method="POST" action="{% url 'delete_feedback' existing_feedback.id %}">
+    {% csrf_token %}
+    <button type="submit">Delete Feedback</button>
+</form>
+{% endif %}
+{% else %}
+<p><a href="{% url 'login' %}">Login</a> to leave feedback.</p>
+{% endif %}
 {% endblock %}
 
 {% block extra_js %}
