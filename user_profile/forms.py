@@ -2,7 +2,9 @@ from django import forms
 from .models import UserProfile
 
 
-# User Profile Form
+""" Form for updating user profile. """
+
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
