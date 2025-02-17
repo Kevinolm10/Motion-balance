@@ -2,7 +2,7 @@ from django.urls import path
 from .views import view_cart, add_to_cart, delete_from_cart
 
 
-# URL patterns for the cart app
+"""  Cart URLs  """
 urlpatterns = [
     path(
         '',
