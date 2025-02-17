@@ -4,6 +4,9 @@ from django import forms
 from .models import Product
 
 
+""" Form for filtering products. """
+
+
 class ProductFilterForm(forms.Form):
     min_price = forms.DecimalField(
         required=False,

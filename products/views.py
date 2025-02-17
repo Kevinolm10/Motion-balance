@@ -11,14 +11,12 @@ from .forms import ProductFilterForm, FeedbackForm
 from checkout.models import OrderItem
 
 
-# A view to return all products, sorting, and search
 def all_products(request, category_slug=None):
     products = Product.objects.all()
     categories = Category.objects.all()
     query = None
     category = None
 
-    # Initialize the filter form with GET parameters
     form = ProductFilterForm(request.GET)
 
     if category_slug:
@@ -30,7 +28,6 @@ def all_products(request, category_slug=None):
     if request.GET:
         if 'q' in request.GET:
             query = request.GET['q']
-            # If the search bar is empty, display an error message
             if not query:
                 messages.error(request, "No search results found.")
                 return redirect(reverse('all_products'))
@@ -47,8 +44,7 @@ def all_products(request, category_slug=None):
     form = ProductFilterForm(request.GET)
     products = form.filter_products(products)
 
-    # Paginate the products
-    paginator = Paginator(products, 6)  # Show 6 products per page
+    paginator = Paginator(products, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -63,7 +59,6 @@ def all_products(request, category_slug=None):
     return render(request, 'products/products.html', context)
 
 
-# A view to return products by subcategory
 def product_by_subcategory(request, subcategory_slug):
     """ Fetch products by subcategory and apply filters. """
     subcategory = get_object_or_404(Category, slug=subcategory_slug)
@@ -144,7 +139,6 @@ def all_accessories(request):
     )
 
 
-# A view to return a single product and handle feedback
 def product_details(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     user_order_items = OrderItem.objects.filter(
@@ -271,7 +265,9 @@ def remove_from_wishlist(request, product_id):
 
     product = get_object_or_404(Product, pk=product_id)
     wishlist = get_object_or_404(Wishlist, user=request.user)
-    wishlist_item = get_object_or_404(WishlistItem, wishlist=wishlist, product=product)
+    wishlist_item = get_object_or_404(
+        WishlistItem, wishlist=wishlist, product=product
+    )
     wishlist_item.delete()
 
     return redirect(request.META.get('HTTP_REFERER', 'all_products'))

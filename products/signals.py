@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from .models import Category
 
 
-# Create parent categories
+"""Create top-level parent categories if they don't exist"""
 @receiver(post_migrate)
 def create_parent_categories(sender, **kwargs):
     Category.create_parent_categories()

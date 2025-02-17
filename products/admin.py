@@ -2,13 +2,14 @@ from django.contrib import admin
 from .models import Product, Category, Tag, ProductImage, ProductFeedback
 
 
-# Inline for Product Images
+""" Admin interface for Product model. """
+
+
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
 
 
-# Product Admin
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
@@ -30,7 +31,9 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
 
 
-# Category Admin
+""" Admin interface for Category model. """
+
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'parent', 'nav_element')
@@ -38,14 +41,12 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('nav_element',)
 
 
-# Tag Admin
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
 
 
-# Product Feedback Admin
 @admin.register(ProductFeedback)
 class ProductFeedbackAdmin(admin.ModelAdmin):
     list_display = ('user', 'product', 'rating', 'created_at')

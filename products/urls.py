@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 
-    # URL patterns for products app
+"""  Products URLs  """
 urlpatterns = [
         path('', views.all_products, name='all_products'),
         path(

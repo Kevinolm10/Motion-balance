@@ -6,8 +6,10 @@ from django.db.models import Avg
 from decimal import Decimal
 
 
-# Category Model
 class Category(models.Model):
+    """
+    Model representing a category.
+    """
     PARENT_CATEGORY = [
         ('products', 'Products'),
         ('accessories', 'Accessories'),
@@ -45,8 +47,10 @@ class Category(models.Model):
             cls.objects.get_or_create(name=name, slug=slug, parent=None)
 
 
-# Tag Model
 class Tag(models.Model):
+    """
+    Model representing a tag.
+    """
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
@@ -54,6 +58,9 @@ class Tag(models.Model):
 
 
 class Product(models.Model):
+    """
+    Model representing a product.
+    """
     name = models.CharField(max_length=255)
     description = models.TextField()
     sizes = models.CharField(
@@ -98,24 +105,23 @@ class Product(models.Model):
         if self.discount_percentage:
             discount_decimal = Decimal(
                 str(self.discount_percentage)) / Decimal('100')
-            Decimal
             return self.price * (Decimal('1') - discount_decimal)
-        return self.price  # If no discount, return original price
+        return self.price
 
     def save(self, *args, **kwargs):
-        """Link product to subcategory
-        under the selected parent category and calculate discount price."""
+        """
+        Link product to subcategory under the selected parent category
+        and calculate discount price.
+        """
         if not self.subcategory_name:
             raise ValidationError("Subcategory name is required.")
 
-        # Find the parent category based on the parent_category field value
         parent_category = Category.objects.filter(
             nav_element=self.parent_category, parent__isnull=True).first()
         if not parent_category:
             raise ValidationError(
                 f"Parent category '{self.parent_category}' does not exist.")
 
-        # Create or get the subcategory based on the subcategory_name
         subcategory, created = Category.objects.get_or_create(
             name=self.subcategory_name,
             parent=parent_category,
@@ -123,7 +129,6 @@ class Product(models.Model):
         )
         self.category = subcategory
 
-        # Validate size only if the product is not an accessory
         if self.parent_category != 'accessories' and not self.sizes:
             raise ValidationError("Sizes are required for this product.")
 
@@ -146,6 +151,9 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
+    """
+    Model representing an image for a product.
+    """
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
@@ -158,6 +166,9 @@ class ProductImage(models.Model):
 
 
 class ProductFeedback(models.Model):
+    """
+    Model representing feedback for a product.
+    """
     STARS = (
         (1, '1'),
         (2, '2'),
