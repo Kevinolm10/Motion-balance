@@ -3,29 +3,14 @@ document.addEventListener("DOMContentLoaded", function () {
         t = document.querySelector(".menu"),
         n = document.querySelector(".cta-overlay");
     e.addEventListener("click", function () {
-        t.classList.toggle("active"), t.classList.contains("active") ? n.classList.add("menu-open") : n.classList.remove("menu-open")
+        t.classList.toggle("active"), t.classList.contains("active") ? n.classList.add("menu-open") : n.classList.remove("menu-open");
     });
     let a = document.querySelectorAll(".nav-item.dropdown");
     a.forEach(e => {
         e.addEventListener("click", function (t) {
             t.stopPropagation(), e.classList.toggle("open"), a.forEach(t => {
-                t !== e && t.classList.remove("open")
-            })
-        })
-    })
-});
-
-function initMap() {
-    var e = {
-            lat: 40.7128,
-            lng: -74.006
-        },
-        t = new google.maps.Map(document.getElementById("map"), {
-            zoom: 12,
-            center: e
+                t !== e && t.classList.remove("open");
+            });
         });
-    new google.maps.Marker({
-        position: e,
-        map: t
-    })
-}
+    });
+});

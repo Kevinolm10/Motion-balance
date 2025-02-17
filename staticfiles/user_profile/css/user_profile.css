@@ -1,77 +1,221 @@
+/* General Layout */
 .profile-container {
-    max-width: 1200px;
+    max-width: 100%;
+    /* Ensure the profile container is fully contained */
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
+    /* Adjusted padding for small screens */
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100%
+    align-items: flex-start;
+    /* Align to the top of the screen */
+    height: auto;
+    /* Let it flow to fit the content */
+    width: 100%;
+    background-color: #f5f5f5;
 }
 
+/* Profile Grid Layout */
 .profile-grid {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 50px
+    gap: 25px;
+    width: 100%;
 }
 
 .history-section,
-.profile-section {
-    background-color: #f9f9f9;
+.profile-section,
+.feedback-section,
+.wishlist-section {
+    background-color: #ffffff;
     padding: 20px;
-    border-radius: 8px;
-    padding: 50px;
+    /* Reduced padding for smaller screens */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    /* Prevent overflow */
 }
 
-div.alert.alert-success {
-    margin-top: 20px
-}
-
-.profile-form h1 {
+.history-section h2,
+.profile-section h2,
+.feedback-section h2,
+.wishlist-section h2 {
     font-size: 24px;
-    margin-bottom: 20px
+    /* Reduced font size for small screens */
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #333;
 }
 
+/* Profile Form */
+.profile-form h1 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Table Styling */
 .table {
     width: 100%;
-    margin-bottom: 20px
+    margin-bottom: 15px;
+    border-collapse: collapse;
 }
 
 .table td,
 .table th {
     padding: 8px;
-    text-align: left
+    /* Smaller padding for smaller screens */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
-/* Wishlist styling */
+.table th {
+    background-color: #f1f1f1;
+    font-weight: 600;
+}
+
+/* Wishlist Styling */
 .wishlist-item {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .wishlist-item-image {
     width: 50px;
-    height: auto;
-    margin-right: 10px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 12px;
+    border-radius: 8px;
 }
 
-@media (max-width:992px) {
+.cta-button {
+    font-size: 12px;
+    /* Smaller font size */
+    padding: 10px 16px;
+    /* Reduced padding for smaller screens */
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: var(--secondary-color);
+    color: black;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+    .profile-container {
+        padding: 10px;
+    }
+
     .profile-grid {
-        grid-template-columns: 1fr;
-        gap: 20px
+        grid-template-columns: 1fr 2fr;
+        gap: 20px;
+    }
+
+    .history-section,
+    .profile-section,
+    .feedback-section,
+    .wishlist-section {
+        padding: 18px;
+        /* Slightly reduced padding */
+    }
+
+    .wishlist-item-image {
+        width: 45px;
+        height: 45px;
     }
 }
 
-@media (max-width:768px) {
+@media (max-width: 992px) {
     .profile-grid {
         grid-template-columns: 1fr;
-        gap: 15px
+        /* Single column layout for tablets and smaller screens */
+        gap: 15px;
+    }
+
+    .wishlist-item-image {
+        width: 45px;
+        height: 45px;
+    }
+
+    .cta-button {
+        font-size: 14px;
+        padding: 12px 20px;
+        /* Adjust padding */
     }
 }
 
-@media (max-width:576px) {
+@media (max-width: 768px) {
+
+    .profile-container {
+        padding: 10px;
+        /* Reduced padding for smaller screens */
+    }
+
     .profile-grid {
-        grid-template-columns: 1fr;
-        gap: 10px
+        gap: 15px;
+    }
+
+    .history-section,
+    .profile-section,
+    .feedback-section,
+    .wishlist-section {
+        padding: 15px;
+        /* Smaller padding for better fit */
+    }
+
+    .cta-button {
+        font-size: 14px;
+        padding: 12px 18px;
+    }
+
+    .wishlist-item-image {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-container {
+        padding: 5px;
+        /* Further reduced padding */
+        height: auto;
+        /* Allow content to flow naturally for small screens */
+    }
+
+    .profile-grid {
+        gap: 10px;
+    }
+
+    .history-section,
+    .profile-section,
+    .feedback-section,
+    .wishlist-section {
+        padding: 12px;
+        /* Much smaller padding for tiny screens */
+    }
+
+    .cta-button {
+        font-size: 14px;
+        padding: 12px 16px;
+        /* Reduced padding for small touch interaction */
+    }
+
+    .wishlist-item-image {
+        width: 35px;
+        height: 35px;
+    }
+
+    .table td,
+    .table th {
+        padding: 8px;
     }
 }
