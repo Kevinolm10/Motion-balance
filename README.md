@@ -272,17 +272,83 @@ This application is designed to accommodate users with different roles, each hav
 
 The flowchart offers a high-level overview of the user journey across the website, beginning from the user’s first interaction with the platform to navigating the various sections. It highlights the core processes and interactions, ensuring that all users—whether they are visitors, registered users, trainers, or admins—can easily understand how actions are connected within the platform.
 
-- [Flowchart Name](path/to/flowchart.png)
+- ![Flowchart Name](documentation/flowcharts/lucidchart-flowchart.png)
 
 ---
 
 ## Information Architecture
 
 ### Database
-Details about the database used.
+
+- This project uses PostgreSQL as the primary database management system (DBMS) to store and manage application data. The database schema has been designed to model the key entities involved in the system, including users, products, orders, and more.
+
+Below is a high-level overview of the database structure:
+
+1. Users and Profiles:
+
+- The users table stores essential information about each user, such as their username, email, and password.
+
+- The user_profiles table extends the users table by including additional fields like first name, last name, address, and phone number.
+
+
+2. Product Management:
+
+- The products table contains detailed information about the products being sold, including the name, description, price, discount, and category.
+- The product_images table stores images associated with each product.
+- The product_feedbacks table allows users to leave ratings and comments on products they've purchased.
+
+
+3. Orders and Wishlist:
+
+- The orders table records user orders, including shipping details, order status, and totals.
+- The order_items table links specific products to an order, with details about the product quantity, price, and size.
+- The wishlists table allows users to maintain a list of products they wish to purchase, with the wishlist_items table linking specific products to the user's wishlist.
+
+
+4. Categories and Tags:
+
+- The categories table organizes products into a hierarchical structure, where each category can have a parent category.
+- The tags table stores labels or tags that can be associated with products for easier filtering and searching.
+
+
+5. Relationships:
+
+- Foreign key relationships are used throughout the schema to link tables together. For instance:
+- user_profiles.user_id references users.id.
+- order_items.order_id references orders.id.
+- product_feedbacks.product_id references products.id.
+
+
+**PostgreSQL Schema**
+
+The schema is designed to ensure referential integrity and optimized data retrieval, with relationships defined using foreign keys. Here's a simplified view of the schema for key tables and relationships:
+
+- Users have one profile (user_profiles).
+- Users can have multiple orders and wishlists.
+- Orders consist of multiple order_items, and each order_item is linked to a product.
+- Products are categorized in a category, and can have multiple product_images and product_feedbacks.
+
+
+**Database Setup**
+
+To set up the database, follow these steps:
+
+Ensure PostgreSQL is installed and running on your machine or use a cloud PostgreSQL service.
+
+Bash:
+
+Create a new database for the project:
+
+createdb your_database_name
+
+Apply migrations to set up the schema and populate the database with initial data:
+
+python manage.py migrate
+
+Optionally, you can populate the database with some sample data by using Django's fixtures or by manually adding entries through the Django Admin.
 
 ### Data Modeling
-- [ER Diagram](path/to/diagram.png)
+- ![ER Diagram](documentation/database/er-diagram.png)
 
 ---
 
@@ -310,6 +376,7 @@ Please refer to the [DEPLOYMENT.md](DEPLOYMENT.md) file for all deployment and p
 - [Font awesome](https://fontawesome.com/): for the free access to icons.
 - [jQuery](https://jquery.com/): for providing varieties of tools to make standard HTML code look appealing.
 - [Postgresql](https://www.postgresql.org/): for providing a free database.
+- [Dbdiagram](https://www.dbdiagram.io/): for making it possible to visualise my er diagram from text.
 - [Stripe](https://stripe.com/): for providing a free payment gateway.
 - [googlefonts](https://fonts.google.com/): for providing free fonts.
 - [Responsive Viewer](https://chrome.google.com/webstore/detail/responsive-viewer/inmopeiepgfljkpkidclfgbgbmfcennb/related?hl=en): for providing a free platform to test website responsiveness
@@ -320,6 +387,8 @@ Please refer to the [DEPLOYMENT.md](DEPLOYMENT.md) file for all deployment and p
 
 ### Content and Images
 
+- [chrome developer tools](https://developer.chrome.com/extensions/devtools_inspector): for providing a free platform to test website.
+- [FreeImages](https://freeimages.com/): for providing a free products' images.
 
 ---
 
