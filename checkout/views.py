@@ -1,6 +1,6 @@
 import json
 import stripe
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
 from django.contrib import messages
 from django.conf import settings
 from django.views.decorators.http import require_POST
@@ -8,13 +8,11 @@ from django.contrib.auth.models import User
 from .forms import OrderForm
 from .models import Order, OrderItem
 from products.models import Product
+from cart.context_processors import cart_items
 
 
 @require_POST
 def cache_checkout_data(request):
-    """
-    Cache checkout data in the payment intent.
-    """
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -31,9 +29,6 @@ def cache_checkout_data(request):
 
 
 def checkout(request):
-    """
-    Handle the checkout process.
-    """
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
@@ -53,8 +48,9 @@ def checkout(request):
             currency=settings.STRIPE_CURRENCY,
         )
     except stripe.error.StripeError:
-        messages.error(request, "There was an issue with payment. \
-            Please try again.")
+        messages.error(
+            request,
+            "There was an issue with payment. Please try again.")
         return redirect(reverse('checkout'))
 
     if request.method == 'POST':
@@ -72,19 +68,22 @@ def checkout(request):
         if order_form.is_valid():
             order = order_form.save(commit=False)
 
+# Check if the user is authenticated, if not, create or use a guest user
             if request.user.is_authenticated:
                 order.user = request.user
             else:
+                # Use the email provided by the form to create a guest user
                 guest_user, created = User.objects.get_or_create(
                     username='guest',
                     email=request.POST['email'])
-                order.user = guest_user
+                order.user = guest_user  # Assign guest user
 
             order.stripe_pid = intent.id
             order.original_cart = cart
-            order.total_price = total
+            order.total_price = total  # Added total_price here
             order.save()
 
+            # Loop over the cart to create order items
             for item_id, item_data in cart.items():
                 try:
                     product = Product.objects.get(id=item_id)
@@ -97,7 +96,7 @@ def checkout(request):
                             quantity=item_data,
                         )
                         order_item.save()
-                    else:
+                    else:  # Product with sizes
                         for size, quantity in item_data.items():
                             order_item = OrderItem(
                                 order=order,
@@ -120,10 +119,8 @@ def checkout(request):
             return redirect(reverse(
                 'checkout_success', args=[order.order_number]))
         else:
-            messages.error(
-                request,
-                f'There was an error with your form. Check your information.'
-            )
+            messages.error(request,
+            'There was an error with your form. Check your information.')
     else:
         order_form = OrderForm()
 
@@ -139,13 +136,12 @@ def checkout(request):
 
 def checkout_success(request, order_number):
     """
-    Handle successful checkouts.
+    Handle successful checkouts
     """
     save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
     messages.success(
-        request, f'Order successfully processed! Your order number is \
-        {order_number}. A confirmation email will be sent to {order.email}.')
+        request, f'Order successfully processed! Your order number is {order_number}. A confirmation email will be sent to {order.email}.')
 
     if 'cart' in request.session:
         del request.session['cart']
@@ -159,9 +155,8 @@ def checkout_success(request, order_number):
 
 
 def order_detail(request, order_id):
-    """
-    Display the details of a specific order.
-    """
+    # Fetch the order using the provided order ID
     order = get_object_or_404(Order, id=order_id)
 
+    # Pass the order to the template
     return render(request, 'order_detail.html', {'order': order})
