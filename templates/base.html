@@ -34,7 +34,6 @@
     <!-- JS -->
     {% block corejs %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
     </script>
@@ -154,12 +153,12 @@
 
 
                     <!-- Delivery Banner -->
-                    <div id="delivery-banner" class="container-fluid text-center">
+                    <section id="delivery-banner" class="container-fluid text-center">
                         <div class="delivery-text">
                             <h3 class="logo-font">Free shipping when you order over ${{ free_delivery_threshold }}!
                             </h3>
                         </div>
-                    </div>
+                    </section>
 
     </header>
 
@@ -196,13 +195,13 @@
     {% block page_header %}
     {% endblock %}
 
-    <main role="main">
+    <main>
         {% block content %}
         {% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer role="contentinfo" class="footer py-4">
+    <footer class="footer py-4">
         <div class="container">
             <div class="row">
                 <!-- Store Information Section (Left) -->
@@ -256,6 +255,7 @@
                                             class="button btn btn-primary" value="Subscribe">
                                     </div>
                                 </div>
+                            </form>
                         </div>
                         <div id="mce-responses" class="clear foot">
                             <div class="response" id="mce-error-response" style="display: none;"></div>
