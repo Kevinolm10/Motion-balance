@@ -85,7 +85,7 @@
                             aria-label="Search for products">
                             <div class="search-bar">
                                 <label for="search-input" class="sr-only">Search</label>
-                                <input id="search-input" type="search" placeholder="Search for products..." name="q" />
+                                <input id="search-input" type="search" placeholder="Search for products..." name="q">
                                 <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
                             </div>
                         </form>
@@ -150,18 +150,17 @@
                             </p>
                         </div>
                     </li>
+                </ul>
+            </nav>
 
-
-                    <!-- Delivery Banner -->
-                    <section id="delivery-banner" class="container-fluid text-center">
-                        <div class="delivery-text">
-                            <h3 class="logo-font">Free shipping when you order over ${{ free_delivery_threshold }}!
-                            </h3>
-                        </div>
-                    </section>
-
+            <!-- Delivery Banner -->
+            <section id="delivery-banner" class="container-fluid text-center">
+                <div class="delivery-text">
+                    <h3 class="logo-font">Free shipping when you order over ${{ free_delivery_threshold }}!</h3>
+                </div>
+            </section>
+        </div>
     </header>
-
 
     {% if messages %}
     <div class="message-container">
@@ -190,7 +189,6 @@
         {% endfor %}
     </div>
     {% endif %}
-
 
     {% block page_header %}
     {% endblock %}
@@ -242,7 +240,7 @@
                                 <div class="mc-field-group">
                                     <label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label>
                                     <input type="email" name="EMAIL" class="required email form-control" id="mce-EMAIL"
-                                        required="" value="" placeholder="Your Email here">
+                                        required value="" placeholder="Your Email here">
                                 </div>
                                 <div aria-hidden="true" style="position: absolute; left: -5000px;">
                                     <!-- real people should not fill this in and expect good things -->
@@ -261,7 +259,6 @@
                             <div class="response" id="mce-error-response" style="display: none;"></div>
                             <div class="response" id="mce-success-response" style="display: none;"></div>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -273,23 +270,18 @@
                 <p>&copy; 2024 Motion & Balance. All rights reserved.</p>
             </div>
         </div>
-        </div>
     </footer>
 
-
-
     {% block postloadjs %}
-    <script type="text/javascript">
+    <script>
         // Initialize all toasts
         $(document).ready(function () {
             $('.toast').toast('show'); // Show the toast messages
         });
     </script>
 
-
-
-    <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
-    <script type="text/javascript">
+    <script src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+    <script>
         (function ($) {
             window.fnames = new Array();
             window.ftypes = new Array();
