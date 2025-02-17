@@ -123,6 +123,8 @@ Below are the results from our manual testing of key functionalities across the 
 
 - Some of the packages and dependencies followed through to my requirements when migrating to vscode so some stuff needs to be removed
 
+- The all_accessories link does not work instead only the subcategories work. This needs to be addressed from a good ux perspective.
+
 ---
 
 ## Validation

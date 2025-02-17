@@ -130,11 +130,15 @@ Motion & Balance's Facebook page is for marketing purposes to post adverts and e
 
 Product and user management implemented in the web interface with crud functionality is planned. This to provide the store staff with the best ux design and tools to deliver on our brand and products.
 
+#### Image sizing
 
-#### Crud functionality for all pages
+Make the images that are added by the admin more responsive.
 
-Better Crud operations for all pages including, wishlists and order history.
+#### 
 
+#### Better landing page
+
+Make the landing page more informative about why they should shop with us.
 
 #### 
 

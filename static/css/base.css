@@ -280,13 +280,11 @@ footer h3 {
     color: var(--secondary-color)
 }
 
-.cta-button:hover,
 .search-bar button:hover,
 .social-icons:hover {
     box-shadow: 0 0 5px var(--secondary-color)
 }
 
-.cta-button,
 .search-bar button {
     transition: background-color var(--transition-speed);
     cursor: pointer
@@ -297,6 +295,7 @@ footer h3 {
     z-index: 1
 }
 
+/* CTA Section Styling */
 .cta-overlay {
     position: absolute;
     top: 50%;
@@ -307,16 +306,69 @@ footer h3 {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000
+    z-index: 1000;
 }
 
 .cta-content {
     max-width: 80%;
-    padding: 80px;
+    padding: 40px;
     border-radius: 10px;
-    backdrop-filter: blur(7px);
-    background-color: rgba(0, 0, 0, .5);
-    color: #fff
+    backdrop-filter: blur(10px);
+    /* A stronger blur for a modern effect */
+    background-color: rgba(0, 0, 0, .6);
+    /* Slightly darker overlay for better contrast */
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    /* Soft shadow for better focus */
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    /* Increased font size for more impact */
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--background-color);
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+    /* Subtle text shadow for better readability */
+}
+
+.cta-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+    color: var(--background-color);
+}
+
+.cta-why-shop {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: var(--background-color);
+}
+
+.cta-button {
+    padding: 15px 30px;
+    color: var(--hover-bg);
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 30px;
+    background-color: var(--primary-color);
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+    cursor: pointer;
+}
+
+.cta-button:hover {
+    background-color: var(--secondary-color);
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+/* Add hover effect to subtitle text */
+.cta-subtitle:hover {
+    color: var(--hover-accent);
+    text-shadow: 2px 2px 5px var(--hover-accent);
 }
 
 .product-management,
@@ -353,14 +405,6 @@ footer h3 {
     border: none;
     border-radius: 30px
 }
-
-.cta-button:hover {
-    background-color: var(--secondary-color);
-    color: #fff
-}
-
-
-
 
 /* Delivery Banner - Full Width */
 #delivery-banner {
