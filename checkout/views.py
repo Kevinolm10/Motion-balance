@@ -8,7 +8,6 @@ from django.contrib.auth.models import User
 from .forms import OrderForm
 from .models import Order, OrderItem
 from products.models import Product
-from cart.context_processors import cart_items
 
 
 @require_POST
