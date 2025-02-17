@@ -70,16 +70,16 @@
         </p>
         {% endif %}
 
-        <a href="{% url 'all_products' %}" class="cta-button" role="link"
-            aria-label="Continue shopping and view all products">Keep Shopping</a>
-        <a href="{% url 'checkout' %}" class="cta-button" role="link" aria-label="Proceed to checkout">💳 Checkout</a>
+        <a href="{% url 'all_products' %}" class="cta-button" aria-label="Continue shopping and view all products">Keep
+            Shopping</a>
+        <a href="{% url 'checkout' %}" class="cta-button" aria-label="Proceed to checkout">💳 Checkout</a>
     </div>
 
     {% else %}
     <div class="empty-cart-message">
         <p class="text-muted">Your cart is currently empty. Let's fix that! 😊</p>
-        <a href="{% url 'all_products' %}" class="cta-button" role="link"
-            aria-label="Continue shopping and view all products">Start Shopping!</a>
+        <a href="{% url 'all_products' %}" class="cta-button" aria-label="Continue shopping and view all products">Start
+            Shopping!</a>
     </div>
     {% endif %}
 </div>
