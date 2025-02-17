@@ -2,14 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from products.models import Product
 
-
 def view_cart(request):
     """ A view to return the cart page """
     cart = request.session.get('cart', {})
     if not cart:
         messages.info(request, 'Your cart is currently empty.')
     return render(request, 'cart/cart.html')
-
 
 def add_to_cart(request, item_id):
     """ Add a quantity of the specified product to the shopping cart """
@@ -36,7 +34,6 @@ def add_to_cart(request, item_id):
     request.session.modified = True
 
     return redirect(redirect_url)
-
 
 def delete_from_cart(request, item_id, size):
     """ Remove a specific size of the product from the shopping cart """

@@ -2,8 +2,8 @@ from decimal import Decimal
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from products.models import Product
-import stripe
 import logging
+
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -23,6 +23,11 @@ def cart_items(request):
 
     for item_id, sizes in cart.items():
         try:
+            item_id = str(item_id)
+            if not item_id.isdigit():
+                logger.error(f"Invalid product ID in cart: {item_id}")
+                continue  # Skip invalid item_id
+
             product = get_object_or_404(Product, pk=int(item_id))
 
             if isinstance(sizes, dict):
@@ -77,8 +82,8 @@ def cart_items(request):
 
         except Product.DoesNotExist:
             # Log missing product IDs for debugging
-            logger.error(f"Product with ID {item_id} does not exist in the database.")
-            continue  # Continue with the next item in the cart
+            logger.error(f"Product with ID {item_id} does not exist.")
+            continue
 
     FREE_DELIVERY_THRESHOLD = Decimal(
         str(getattr(settings, 'FREE_DELIVERY_THRESHOLD', '50.00'))
