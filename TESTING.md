@@ -121,6 +121,8 @@ Below are the results from our manual testing of key functionalities across the 
 
 - Hamburger menu flexbox bug. The hamburger does not stay where it should and places itself a little bit out of the screen.
 
+- Some of the packages and dependencies followed through to my requirements when migrating to vscode so some stuff needs to be removed
+
 ---
 
 ## Validation
@@ -150,7 +152,7 @@ Below are the results from our manual testing of key functionalities across the 
 
 ### Python Validation:
 
-- No errors were found when the code was passed through Valentin Bryukhanov's [online validation tool](http://pep8online.com/). According to the reports, the code is [Pep 8-compliant](https://legacy.python.org/dev/peps/pep-0008/). This checking was done manually by copying python code and pasting it into the validator.
+- No errors were found when the code was passed through Valentin Bryukhanov's [online validation tool](https://pep8ci.herokuapp.com/#). According to the reports, the code is [Pep 8-compliant](https://legacy.python.org/dev/peps/pep-0008/). This checking was done manually by copying python code and pasting it into the validator.
 
 - [Cart - apps.py](documentation/validation/cart-val-py/cart-app.png)
 - [Cart - context.py](documentation/validation/cart-val-py/cart-context.png)
@@ -215,7 +217,7 @@ Testing was conducted on the following browsers;
 - Chrome;
 - Firefox;
 
-[Compatibility Report](documentation/validation/compatibility.pdf)
+with minimal errors.
 
 ---
 ## Responsiveness
