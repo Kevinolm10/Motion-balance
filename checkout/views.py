@@ -10,6 +10,8 @@ from .models import Order, OrderItem
 from products.models import Product
 from cart.context_processors import cart_items
 
+import uuid
+
 
 @require_POST
 def cache_checkout_data(request):
@@ -23,8 +25,7 @@ def cache_checkout_data(request):
         })
         return HttpResponse(status=200)
     except Exception as e:
-        messages.error(request, 'Sorry, your payment cannot be \
-            processed right now. Please try again later.')
+        messages.error(request, 'Sorry, your payment cannot be processed right now. Please try again later.')
         return HttpResponse(content=e, status=400)
 
 
@@ -48,9 +49,7 @@ def checkout(request):
             currency=settings.STRIPE_CURRENCY,
         )
     except stripe.error.StripeError:
-        messages.error(
-            request,
-            "There was an issue with payment. Please try again.")
+        messages.error(request, "There was an issue with payment. Please try again.")
         return redirect(reverse('checkout'))
 
     if request.method == 'POST':
@@ -68,22 +67,33 @@ def checkout(request):
         if order_form.is_valid():
             order = order_form.save(commit=False)
 
-# Check if the user is authenticated, if not, create or use a guest user
+            # Generate order_number before saving
+            order_number = uuid.uuid4().hex[:8].upper()  # Create a unique order number
+            order.order_number = order_number  # Assign it to the order instance
+
+            # Assign user or create guest user
             if request.user.is_authenticated:
                 order.user = request.user
             else:
-                # Use the email provided by the form to create a guest user
                 guest_user, created = User.objects.get_or_create(
-                    username='guest',
-                    email=request.POST['email'])
-                order.user = guest_user  # Assign guest user
+                    email=request.POST['email'],
+                    defaults={
+                        'username': f'guest_{uuid.uuid4().hex[:8]}',
+                        'email': request.POST['email'],
+                    })
+                order.user = guest_user  
 
             order.stripe_pid = intent.id
             order.original_cart = cart
-            order.total_price = total  # Added total_price here
-            order.save()
+            order.total_price = total  
+            order.save()  # Save order to the database
 
-            # Loop over the cart to create order items
+            # Debug: Ensure order_number exists before redirecting
+            if not order.order_number:
+                messages.error(request, "Error: Order number was not generated.")
+                return redirect(reverse('checkout'))
+
+            # Now that the order has an order number, create order items
             for item_id, item_data in cart.items():
                 try:
                     product = Product.objects.get(id=item_id)
@@ -109,18 +119,17 @@ def checkout(request):
                             order_item.save()
                 except Product.DoesNotExist:
                     messages.error(request, (
-                        "One of the products in your cart wasn't found. "
-                        "Please email us for assistance!"
+                        "One of the products in your cart wasn't found. Please email us for assistance!"
                     ))
                     order.delete()
                     return redirect(reverse('view_cart'))
 
-            request.session['save_info'] = 'save-info' in request.POST
-            return redirect(reverse(
-                'checkout_success', args=[order.order_number]))
+            # Redirect to checkout_success with the correct order_number
+            return redirect(reverse('checkout_success', args=[order.order_number]))
+
         else:
-            messages.error(request,
-            'There was an error with your form. Check your information.')
+            messages.error(request, 'There was an error with your form. Please check your details.')
+
     else:
         order_form = OrderForm()
 
@@ -138,11 +147,15 @@ def checkout_success(request, order_number):
     """
     Handle successful checkouts
     """
-    save_info = request.session.get('save_info')
+    # Retrieve the order using the correct order_number
     order = get_object_or_404(Order, order_number=order_number)
-    messages.success(
-        request, f'Order successfully processed! Your order number is {order_number}. A confirmation email will be sent to {order.email}.')
 
+    messages.success(
+        request, f'Order successfully processed! Your order number is {order_number}. '
+                f'A confirmation email will be sent to {order.email}.'
+    )
+
+    # Clear the cart from session after successful checkout
     if 'cart' in request.session:
         del request.session['cart']
 
