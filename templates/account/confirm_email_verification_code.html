@@ -1,47 +1,59 @@
 {% extends "base.html" %}
 {% load i18n static %}
 {% load allauth account %}
+
 {% block head_title %}
-{% translate "Email Verification" %}
+{% trans "Email Verification" %}
 {% endblock head_title %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock extra_css %}
+
 {% block content %}
-{% element h1 %}
-{% translate "Enter Email Verification Code" %}
-{% endelement %}
-{% setvar email_link %}
-<a href="mailto:{{ email }}">{{ email }}</a>
-{% endsetvar %}
-{% element p %}
-{% blocktranslate %}We’ve sent a code to {{ email_link }}. The code expires shortly, so please enter it
-soon.{% endblocktranslate %}
-{% endelement %}
-{% url 'account_email_verification_sent' as action_url %}
-{% element form form=form method="post" action=action_url tags="entrance,email,verification" %}
-{% slot body %}
-{% csrf_token %}
-{% element fields form=form unlabeled=True %}
-{% endelement %}
-{{ redirect_field }}
-{% endslot %}
-{% slot actions %}
-{% element button type="submit" tags="prominent,confirm" %}
-{% translate "Confirm" %}
-{% endelement %}
-{% if cancel_url %}
-{% element button href=cancel_url tags="link,cancel" %}
-{% translate "Cancel" %}
-{% endelement %}
-{% else %}
-{% element button type="submit" form="logout-from-stage" tags="link,cancel" %}
-{% translate "Cancel" %}
-{% endelement %}
-{% endif %}
-{% endslot %}
-{% endelement %}
-{% if not cancel_url %}
-<form id="logout-from-stage" method="post" action="{% url 'account_logout' %}">
-    <input type="hidden" name="next" value="{% url 'account_login' %}">
-    {% csrf_token %}
-</form>
-{% endif %}
+<section class="main-container">
+    <div class="auth-container">
+        <h1 class="text-center">{% trans "Enter Email Verification Code" %}</h1>
+        {% setvar email_link %}
+        <a href="mailto:{{ email }}">{{ email }}</a>
+        {% endsetvar %}
+        <p class="text-center">
+            {% blocktranslate %}We’ve sent a code to {{ email_link }}. The code expires shortly, so please enter it
+            soon.{% endblocktranslate %}
+        </p>
+        {% url 'account_email_verification_sent' as action_url %}
+        <form method="post" action="{{ action_url }}" class="mt-4">
+            {% csrf_token %}
+            <div class="form-group">
+                {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            {{ redirect_field }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">{% trans "Confirm" %}</button>
+                {% if cancel_url %}
+                <a href="{{ cancel_url }}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+                {% else %}
+                <button type="submit" form="logout-from-stage" class="btn btn-secondary">{% trans "Cancel" %}</button>
+                {% endif %}
+            </div>
+        </form>
+        {% if not cancel_url %}
+        <form id="logout-from-stage" method="post" action="{% url 'account_logout' %}" style="display: none;">
+            <input type="hidden" name="next" value="{% url 'account_login' %}">
+            {% csrf_token %}
+        </form>
+        {% endif %}
+    </div>
+</section>
 {% endblock content %}
