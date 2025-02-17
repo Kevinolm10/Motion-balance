@@ -230,6 +230,12 @@ By using Arial and Poppins, Motion & Balance balances functionality, aesthetics,
 
 ---
 
+#### Agile Methodology
+
+ ![GitHub Project Management](documentation/agile/agile.png)
+
+---
+
 ## Wireframes
 
 #### Desktop
@@ -261,6 +267,10 @@ By using Arial and Poppins, Motion & Balance balances functionality, aesthetics,
 ---
 
 ## Flowcharts
+
+This application is designed to accommodate users with different roles, each having specific expectations and access to distinct functionalities. To provide a clearer picture of how the system operates and how various roles interact with the platform, we’ve created a detailed website functionality flowchart.
+
+The flowchart offers a high-level overview of the user journey across the website, beginning from the user’s first interaction with the platform to navigating the various sections. It highlights the core processes and interactions, ensuring that all users—whether they are visitors, registered users, trainers, or admins—can easily understand how actions are connected within the platform.
 
 - [Flowchart Name](path/to/flowchart.png)
 

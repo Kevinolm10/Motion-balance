@@ -98,12 +98,13 @@
                     <li class="col-sm profile-icons">
                         {% if user.is_authenticated %}
                         {% if request.user.is_superuser %}
-                        <a href="#" class="{% if request.path == '/profile/' %}active{% endif %}"
+                        <a href="/admin/products/product/add/"
+                            class="{% if request.path == '/profile/' %}active{% endif %}"
                             aria-label="Manage products in the Product Management section">
                             <button class="product-management" aria-label="Product Management Button"
-                                title="Product Management">Product
-                                Management</button>
+                                title="Product Management">Product Management</button>
                         </a>
+
                         {% else %}
                         <a href="{% url 'user_profile' %}"
                             class="profileicons user {% if request.path == '/profile/' %}active{% endif %}"
