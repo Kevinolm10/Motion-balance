@@ -9,57 +9,53 @@ from .forms import OrderForm
 from .models import Order, OrderItem
 from products.models import Product
 from cart.context_processors import cart_items
-
+import stripe
+import json
 
 @require_POST
 def cache_checkout_data(request):
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
-        
-        # Get cart data from session
-        cart_data = request.session.get('cart', {})
-        if not cart_data:
-            raise ValueError("No cart data found")
-
-        # Modify the PaymentIntent with cart data
         stripe.PaymentIntent.modify(pid, metadata={
-            'cart_items': json.dumps(cart_data),  # Store cart items in metadata
+            'bag': json.dumps(request.session.get('bag', {})),
             'save_info': request.POST.get('save_info'),
-            'username': request.user.username,  # Ensure username is correctly stored
+            'username': request.user,
         })
-
         return HttpResponse(status=200)
     except Exception as e:
-        messages.error(request, 'Sorry, your payment cannot be processed right now. Please try again later.')
-        return HttpResponse(content=str(e), status=400)
+        messages.error(request, 'Sorry, your payment cannot be \
+            processed right now. Please try again later.')
+        return HttpResponse(content=e, status=400)
 
 
 def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
+    # Fetch the cart from session
     cart = request.session.get('cart', {})
     if not cart:
         messages.error(request, "There's nothing in your cart at the moment")
         return redirect(reverse('all_products'))
 
+    # Use the cart_items function to get total price and other details
     current_cart = cart_items(request)
     total = current_cart['grand_total']
-    stripe_total = round(total * 100)
+    stripe_total = round(total * 100)  # Stripe expects the amount in cents
     stripe.api_key = stripe_secret_key
 
     try:
+        # Create a PaymentIntent with the amount and currency
         intent = stripe.PaymentIntent.create(
             amount=stripe_total,
             currency=settings.STRIPE_CURRENCY,
         )
     except stripe.error.StripeError:
-        messages.error(
-            request,
-            "There was an issue with payment. Please try again.")
+        messages.error(request, "There was an issue with payment. Please try again.")
         return redirect(reverse('checkout'))
 
+    # If the form is submitted with user info, process the order
     if request.method == 'POST':
         form_data = {
             'full_name': request.POST['full_name'],
@@ -75,11 +71,10 @@ def checkout(request):
         if order_form.is_valid():
             order = order_form.save(commit=False)
 
-            # Check if the user is authenticated
+            # If the user is authenticated, assign user info to the order
             if request.user.is_authenticated:
                 order.user = request.user
             else:
-                # If not authenticated, create or get a guest user
                 guest_user, created = User.objects.get_or_create(
                     username='guest',
                     email=request.POST['email'])
@@ -122,6 +117,7 @@ def checkout(request):
                     order.delete()
                     return redirect(reverse('view_cart'))
 
+            # Save whether the user wants to save their info
             request.session['save_info'] = 'save-info' in request.POST
             return redirect(reverse(
                 'checkout_success', args=[order.order_number]))

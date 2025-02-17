@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from products.models import Product
+import stripe
 
 
 def cart_items(request):
@@ -80,6 +81,26 @@ def cart_items(request):
     # Calculate grand total
     grand_total = (delivery + total).quantize(Decimal('0.01'))
 
+    # Generate Stripe line_items for session creation
+    line_items = []
+    for cart_item in cart_items:
+        product = cart_item['product']
+        line_items.append({
+            'price_data': {
+                'currency': 'usd',  # Use the appropriate currency
+                'product_data': {
+                    'name': product.name,
+                },
+                'unit_amount': int(cart_item['subtotal'] * 100),  # Stripe expects the amount in cents
+            },
+            'quantity': cart_item['quantity'],
+        })
+
+    # Prepare metadata for Stripe
+    metadata = {
+        'cart_items': ', '.join([f'{item["product"].name} (x{item["quantity"]})' for item in cart_items])
+    }
+
     # Context to pass to the template
     context = {
         'cart_items': cart_items,
@@ -89,6 +110,8 @@ def cart_items(request):
         'free_delivery_delta': free_delivery_delta,
         'free_delivery_threshold': FREE_DELIVERY_THRESHOLD,
         'grand_total': grand_total,
+        'line_items': line_items,  # This is the list you’ll use for Stripe checkout
+        'metadata': metadata,      # This is the metadata for Stripe checkout
     }
 
     return context

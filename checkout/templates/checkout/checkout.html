@@ -148,14 +148,4 @@
 {{ stripe_public_key|json_script:"id_stripe_public_key" }}
 {{ client_secret|json_script:"id_client_secret" }}
 <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const submitButton = document.getElementById("submit-button");
-
-        submitButton.addEventListener("click", function () {
-            submitButton.disabled = true;
-            submitButton.textContent = "Processing...";
-        });
-    });
-</script>
 {% endblock %}
